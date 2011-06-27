@@ -1,0 +1,6 @@
+context-modules (20110627-1) unstable; urgency=low
+
+  * new package containing the ConTeXt modules from TeX Live
+
+ -- Norbert Preining <preining@debian.org>  Mon, 27 Jun 2011 22:25:12 +0900
+

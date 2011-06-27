@@ -1,0 +1,106 @@
+This package was debianized by Norbert Preining <preining@debian.org> on
+Sun Oct 22 11:53:51 CEST 2006.
+
+The original source was downloaded and merged from TeX Live 2011
+pretest archive (see http://www.tug.org/texlive/pretest.html)
+	http://<pretest-mirror>/archive/context-$name.tar.xz
+	http://<pretest-mirror>/archive/context-$name.doc.tar.xz
+	http://<pretest-mirror>/archive/context-$name.source.tar.xz
+for $name in the following list:
+	account, algorithmic, bnf, chromato, construction-plan, degrade, filter,
+	fixme, french, fullpage, games, letter, lettrine, lilypond,
+	mathsets, rst, ruby, simplefonts, simpleslides,
+	typearea, typescripts, vim
+
+Debian adaptations for this Package are licensed under the GNU General
+Public License, version 2, and are under Copyright by:
+
+	Norbert Preining <preining@debian.org> 2011
+
+The license statements for the contained modules are:
+
+account, algorithmic, fixme, games, ruby
+%D         author=Wolfgang Schuster,
+%D      copyright=Wolfgang Schuster,
+%D          email=schuster.wolfgang@googlemail.com,
+%D        license=Public Domain]
+
+bnf:
+%D          author={Nikolai Weibull},
+%D            date=\currentdate,
+%D       copyright={Nikolai Weibull}]
+%C
+%C This module is NOT part of the \CONTEXT\ macro||package.
+%C This module is free software; you can redistribute it and/or modify
+%C it under the terms of the GNU General Public License as published by
+%C the Free Software Foundation; either version 2 of the License, or
+%C (at your option) any later version.
+
+chromato, construction-plan, degrade, french, typearea
+%C This module is copyrighted by Peter Münster.
+%C Please send any comments to pmrb at free.fr.
+
+% This program is free software; you can redistribute it and/or
+% modify it under the terms of the GNU General Public License
+% as published by the Free Software Foundation; either version 2
+% of the License, or (at your option) any later version.
+
+
+filter, mathsets, vim
+%D       author=Aditya Mahajan,
+%D         date=\currentdate,
+%D    copyright=Aditya Mahajan,
+%D        email=adityam <at> umich <dot> edu,
+%D      license=Simplified BSD License]
+
+
+fullpage, simple-fonts, typescripts
+%C Copyright (C) 2010  Wolfgang Schuster
+%C
+%C This program is free software: you can redistribute it and/or modify
+%C it under the terms of the GNU General Public License as published by
+%C the Free Software Foundation, either version 3 of the License, or
+%C any later version.
+
+letter:
+Letter module for ConTeXt.
+
+The module and all included files are copyright of Wolfgang
+Schuster and published under public domain.
+
+lettrine:
+%D         author=Taco Hoekwater,
+%D      copyright=Public Domain]
+%C
+%C Donated to the public domain.
+
+lilypond:
+%D             author={Christopher Creutzig, H. Ramm et al.}, % , Mojca Miklavec, Wolfgang Schuster
+%D                 maintainer={Henning Hraban Ramm, hraban@fiee.net},
+%D          copyright=the authors]
+%C
+%C This module is licensed under the GNU GPL.
+
+notes-zh-cn:
+these files are distributed together with the source in TeX Live, and
+since TeX Live upstream distributes only DFSG free things (save GFDL
+with invariant sections) these documents seem to be free.
+
+rst:
+%D       author=Philipp Gesang,
+%D    copyright=Philipp Gesang,
+%D      license=2-clause BSD,
+
+simpleslides:
+%D       subtitle=Presentation Module simpleslides,
+%D         author=Aditya Mahajan and Thomas A. Schmitz,
+%D      copyright={Aditya Mahajan and Thomas A. Schmitz}]
+%C
+%C Copyright 2007 Aditya Mahajan and Thomas A. Schmitz
+%C This file may be distributed under the GNU General Public License v. 2.0.
+
+
+On Debian systems the text of the GNU General Public License can be found
+in /usr/share/common-licenses/GPL (and GPL-2), and the GNU Free Documentation
+License, Version 1.2, in /usr/share/common-licenses/GFDL-1.2
+
