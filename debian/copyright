@@ -9,7 +9,7 @@ pretest archive (see http://www.tug.org/texlive/pretest.html)
 for $name in the following list:
 	account, algorithmic, bnf, chromato, construction-plan, degrade, filter,
 	fixme, french, fullpage, games, letter, lettrine, lilypond,
-	mathsets, rst, ruby, simplefonts, simpleslides,
+	mathsets, notes-zh-cn, rst, ruby, simplefonts, simpleslides,
 	typearea, typescripts, vim
 
 Debian adaptations for this Package are licensed under the GNU General
@@ -82,9 +82,11 @@ lilypond:
 %C This module is licensed under the GNU GPL.
 
 notes-zh-cn:
-these files are distributed together with the source in TeX Live, and
-since TeX Live upstream distributes only DFSG free things (save GFDL
-with invariant sections) these documents seem to be free.
+This is an introductory tutorial on ConTeXt in Chinese written by Yanrui Li.
+
+ConTeXt installation, fonts, layout design, cross-reference, project structure, metafun are covered in this tutorial.
+
+This package is licensed in GFDL (GNU Free Documentation License).
 
 rst:
 %D       author=Philipp Gesang,

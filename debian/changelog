@@ -1,11 +1,12 @@
 context-modules (20110701-1) unstable; urgency=low
 
   * new upstream release:
-    - reinclude notes-zh-cn, license statement added
+    - reinclude notes-zh-cn, license statement added, update
+      debian/copyright
     - update context-vim and context-filter
   * add script debian/make-origtar for creating new .orig.tar.gz
 
- -- Norbert Preining <preining@debian.org>  Fri, 01 Jul 2011 08:01:21 +0900
+ -- Norbert Preining <preining@debian.org>  Fri, 01 Jul 2011 08:04:06 +0900
 
 context-modules (20110627-1) unstable; urgency=low
 
