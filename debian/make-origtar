@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# create .orig.tar.gz for context-modules package
+#
+
+tlnetloc=/var/www/norbert/tlpretest/archive
+package=context-modules
+vers=`date +'%Y%m%d'`
+basedir=${package}-$vers
+if [ -r $basedir ] ; then
+  echo $basedir exists, exiting.
+  exit 1
+fi
+mkdir $basedir
+for i in `cat debian/included-ctx-modules`; do
+  if [ -r $tlnetloc/context-$i.tar.xz ] ; then
+    echo context-$i.tar.xz
+    tar -C $basedir -xf $tlnetloc/context-$i.tar.xz
+  else
+    echo "WARNING: missing $tlnetloc/context-$i.tar.xz!"
+  fi
+  if [ -r $tlnetloc/context-$i.source.tar.xz ] ; then
+    echo context-$i.source.tar.xz
+    tar -C $basedir -xf $tlnetloc/context-$i.source.tar.xz
+  fi
+  if [ -r $tlnetloc/context-$i.doc.tar.xz ] ; then
+    echo context-$i.doc.tar.xz
+    tar -C $basedir -xf $tlnetloc/context-$i.doc.tar.xz
+  fi
+done
+if [ -r ${package}_$vers.orig.tar.gz ] ; then
+  echo "${package}_$vers.orig.tar.gz present, not creating new one"
+  echo "be aware that there might be conflicts between packaged versions"
+  exit 1
+fi
+tar -czf ${package}_$vers.orig.tar.gz $basedir
+
+

@@ -21,6 +21,7 @@ binary-indep: build-indep
 	dh_clean
 	dh_installdirs usr/share/texmf usr/share/doc/$(package)
 	cp -a tex $(instbase)/usr/share/texmf
+	cp -a source $(instbase)/usr/share/texmf
 	cp -a doc/context/third/* $(instbase)/usr/share/doc/$(package)
 	dh_installtex
 	dh_installdocs
