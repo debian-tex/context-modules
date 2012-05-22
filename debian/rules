@@ -23,6 +23,8 @@ binary-indep: build-indep
 	cp -a tex $(instbase)/usr/share/texmf
 	cp -a source $(instbase)/usr/share/texmf
 	cp -a doc/context/third/* $(instbase)/usr/share/doc/$(package)
+	# remove unnecessary stuff
+	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
 	dh_installtex
 	dh_installdocs
 	dh_installchangelogs
