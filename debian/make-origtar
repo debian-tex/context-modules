@@ -13,6 +13,11 @@ if [ -r $basedir ] ; then
 fi
 mkdir $basedir
 for i in `cat debian/included-ctx-modules`; do
+  if [ $i = gnuplot ] ; then
+    echo "GNUPLOT SHOULD NOT BE INCLUDED!!!!"
+    echo "EXITING"
+    exit 1
+  fi
   if [ -r $tlnetloc/context-$i.tar.xz ] ; then
     echo context-$i.tar.xz
     tar -C $basedir -xf $tlnetloc/context-$i.tar.xz
