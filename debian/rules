@@ -3,8 +3,8 @@
 package        := context-modules
 instbase       := debian/$(package)
 
-build: build-indep
-
+build: build-indep build-arch
+build-arch: build-indep-stamp
 build-indep: build-indep-stamp
 
 build-indep-stamp:
