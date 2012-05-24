@@ -1,4 +1,4 @@
-context-modules (20120522-1) unstable; urgency=low
+context-modules (20120524-1) unstable; urgency=low
 
   * new upstream release based on TL2012, add context-gantt
   * depend on recent context from TL2012
@@ -6,7 +6,7 @@ context-modules (20120522-1) unstable; urgency=low
   * add build-arch target to make lintian happy
   * update copyright for gantt
 
- -- Norbert Preining <preining@debian.org>  Tue, 22 May 2012 10:02:29 +0900
+ -- Norbert Preining <preining@debian.org>  Thu, 24 May 2012 18:26:43 +0900
 
 context-modules (20110701-1) unstable; urgency=low
 
