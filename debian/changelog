@@ -1,9 +1,8 @@
-context-modules (20120610-1) unstable; urgency=low
+context-modules (20120611-1) unstable; urgency=low
 
-  * new upstream released check out from TL, based on the
-    release of TeX Live 2012
+  * new upstream released check out from TL (TL2012 release)
 
- -- Norbert Preining <preining@debian.org>  Sun, 10 Jun 2012 00:12:31 +0900
+ -- Norbert Preining <preining@debian.org>  Mon, 11 Jun 2012 12:11:48 +0900
 
 context-modules (20120524-1) unstable; urgency=low
 
