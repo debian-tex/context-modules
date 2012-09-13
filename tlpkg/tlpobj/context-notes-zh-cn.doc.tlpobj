@@ -1,0 +1,27 @@
+name context-notes-zh-cn.doc
+category Package
+revision 23171
+shortdesc doc files of context-notes-zh-cn
+relocated 1
+docfiles size=252
+ RELOC/doc/context/third/context-notes-zh-cn/README
+ RELOC/doc/context/third/context-notes-zh-cn/ctxnotes.pdf
+ RELOC/doc/context/third/context-notes-zh-cn/src/Makefile
+ RELOC/doc/context/third/context-notes-zh-cn/src/basis.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/bibl-lyr.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/bibliography.bib
+ RELOC/doc/context/third/context-notes-zh-cn/src/ctxnotes.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/doc-env.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/figures/bookmark.png
+ RELOC/doc/context/third/context-notes-zh-cn/src/figures/cow.pdf
+ RELOC/doc/context/third/context-notes-zh-cn/src/figures/gardeninglion.jpg
+ RELOC/doc/context/third/context-notes-zh-cn/src/figures/header.png
+ RELOC/doc/context/third/context-notes-zh-cn/src/fonts.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/layout.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/metafun.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/project.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/references.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/t-layout.tex
+ RELOC/doc/context/third/context-notes-zh-cn/src/t-zhfonts.lua
+ RELOC/doc/context/third/context-notes-zh-cn/src/t-zhfonts.mkiv
+ RELOC/doc/context/third/context-notes-zh-cn/src/t-zhspuncs.lua

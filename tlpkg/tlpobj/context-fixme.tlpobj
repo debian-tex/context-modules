@@ -1,0 +1,13 @@
+name context-fixme
+category ConTeXt
+revision 23167
+shortdesc Make editorial marks on a document.
+relocated 1
+longdesc The module will create a variety of marks, and produce
+longdesc summaries by mark type.
+depend context
+runfiles size=2
+ RELOC/tex/context/third/fixme/t-fixme.tex
+catalogue-ctan /macros/context/contrib/context-fixme
+catalogue-date 2009-11-09 14:23:31 +0100
+catalogue-license pd

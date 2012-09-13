@@ -1,0 +1,8 @@
+name context-typearea.doc
+category ConTeXt
+revision 23167
+shortdesc doc files of context-typearea
+relocated 1
+docfiles size=21
+ RELOC/doc/context/third/typearea/typearea-demo.pdf
+ RELOC/doc/context/third/typearea/typearea-doc.pdf

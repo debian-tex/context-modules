@@ -1,0 +1,23 @@
+name context-rst
+category ConTeXt
+revision 24199
+shortdesc Process reStructuredText with ConTeXt.
+relocated 1
+longdesc The package provides a converter and module for typesetting
+longdesc reStructuredText with ConTeXt. The module uses several lua
+longdesc scripts in doing its work. Documentation is supplied in rst,
+longdesc which seems to be readable as text, but...
+depend context
+runfiles size=40
+ RELOC/scripts/context/lua/third/rst/mtx-t-rst.lua
+ RELOC/tex/context/interface/third/t-rst.xml
+ RELOC/tex/context/third/rst/rst_context.lua
+ RELOC/tex/context/third/rst/rst_directives.lua
+ RELOC/tex/context/third/rst/rst_helpers.lua
+ RELOC/tex/context/third/rst/rst_parser.lua
+ RELOC/tex/context/third/rst/rst_setups.lua
+ RELOC/tex/context/third/rst/t-rst.mkiv
+catalogue-ctan /macros/context/contrib/context-rst
+catalogue-date 2011-10-03 11:06:20 +0200
+catalogue-license other-free
+catalogue-version 0.4

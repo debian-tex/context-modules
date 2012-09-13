@@ -1,0 +1,12 @@
+name context-algorithmic
+category ConTeXt
+revision 23167
+shortdesc Algorithm handling.
+relocated 1
+longdesc Support for typesetting algorithms.
+depend context
+runfiles size=2
+ RELOC/tex/context/third/algorithmic/t-algorithmic.tex
+catalogue-ctan /macros/context/contrib/context-algorithmic
+catalogue-date 2009-11-09 14:30:19 +0100
+catalogue-license pd

@@ -1,0 +1,12 @@
+name context-construction-plan
+category ConTeXt
+revision 23167
+shortdesc Construction plans in ConTeXt.
+relocated 1
+longdesc Generate a page with a figure at a well-defined scale.
+depend context
+runfiles size=2
+ RELOC/tex/context/third/construction-plan/t-construction-plan.tex
+catalogue-ctan /macros/context/contrib/context-construction-plan
+catalogue-date 2008-08-18 23:54:09 +0200
+catalogue-license gpl

@@ -1,0 +1,16 @@
+name context-gantt
+category ConTeXt
+revision 25712
+shortdesc GANTT module for ConTeXt.
+relocated 1
+longdesc Gantt is a module for drawing Gantt charts via metapost or
+longdesc pgf/tikz.
+depend context
+depend hatching
+runfiles size=8
+ RELOC/tex/context/third/gantt/gantt-s-mp.tex
+ RELOC/tex/context/third/gantt/gantt-s-tikz.tex
+ RELOC/tex/context/third/gantt/t-gantt.tex
+catalogue-ctan /macros/context/contrib/context-gantt
+catalogue-date 2012-03-20 08:48:23 +0100
+catalogue-license pd

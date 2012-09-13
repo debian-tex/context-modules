@@ -1,0 +1,7 @@
+name context-typescripts.doc
+category ConTeXt
+revision 25411
+shortdesc doc files of context-typescripts
+relocated 1
+docfiles size=1
+ RELOC/doc/context/third/typescripts/README

@@ -1,0 +1,45 @@
+name context-simpleslides
+category ConTeXt
+revision 25389
+shortdesc A module for preparing presentations.
+relocated 1
+longdesc This Context module provides an easy-to-use interface for
+longdesc creating presentations for use with a digital projector. The
+longdesc presentations are not interactive (no buttons, hyperlinks or
+longdesc navigational tools such as tables of contents). Graphics may be
+longdesc mixed with the text of slides. The module provides several
+longdesc predefined styles, designed for academic presentation. Most
+longdesc styles are configurable, and it is easy to design new styles.
+depend context
+runfiles size=62
+ RELOC/scripts/context/lua/third/simpleslides/mtx-simpleslides.lua
+ RELOC/tex/context/interface/third/t-simpleslides.xml
+ RELOC/tex/context/third/simpleslides/simpleslides-c-default.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-f-default.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-BigNumber.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-BottomSquares.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Boxed.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-BoxedTitle.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Ellipse.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Embossed.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Framed.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-FramedTitle.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-HorizontalStripes.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-NarrowStripes.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-PlainCounter.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-RainbowStripe.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Rounded.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Shaded.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-SideSquares.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-SideToc.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Split.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Sunrise.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-Swoosh.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-ThickStripes.tex
+ RELOC/tex/context/third/simpleslides/simpleslides-s-default.tex
+ RELOC/tex/context/third/simpleslides/t-simpleslides.mkii
+ RELOC/tex/context/third/simpleslides/t-simpleslides.mkiv
+ RELOC/tex/context/third/simpleslides/t-simpleslides.tex
+catalogue-ctan /macros/context/contrib/context-simpleslides
+catalogue-date 2012-02-13 08:38:17 +0100
+catalogue-license gpl

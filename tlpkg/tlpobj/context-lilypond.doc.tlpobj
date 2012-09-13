@@ -1,0 +1,8 @@
+name context-lilypond.doc
+category ConTeXt
+revision 23167
+shortdesc doc files of context-lilypond
+relocated 1
+docfiles size=50
+ RELOC/doc/context/third/lilypond/demo.pdf
+ RELOC/doc/context/third/lilypond/t-lilypond.pdf

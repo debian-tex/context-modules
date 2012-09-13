@@ -1,0 +1,8 @@
+name context-french.doc
+category ConTeXt
+revision 24582
+shortdesc doc files of context-french
+relocated 1
+docfiles size=112
+ RELOC/doc/context/third/french/french-demo.pdf
+ RELOC/doc/context/third/french/french-doc.pdf
