@@ -1,0 +1,86 @@
+\usemodule[bib]
+
+\setuppapersize[A5][A5]
+
+\setupcombinedlist[content][interaction=all,focus=standard]
+
+\setupindenting[yes,next,medium] % -> lead to the glue node error in mkiv
+
+\setuphead[chapter]   [style={\rm\sc},before={\blank[line,force]},after={\blank[2*line,force]}]
+\setuphead[section]   [style={\rm\it},before={\blank[line]}      ,after={\blank[line]}]
+\setuphead[subsection][style={\rm},before={\blank[line]}         ,after={\blank[line]}]
+
+\setupheads[indentnext=yes]
+\setupfloats[indentnext=yes]
+
+\setupbodyfont[10pt]
+
+% title page
+\startbuffer[frontpage]
+\startstandardmakeup
+\raggedcenter
+\vfill
+{\setupbodyfont[,19pt]
+{\em Typesetting}
+\blank [2*big]
+{\tfc {\em re}{\ss Structured}{\em \kern-6ptText}}
+\blank [2*big]
+{\em with \CONTEXT}
+\blank [5*big]
+{\tfa A Manual for {\em rst}{\kern1pt\CONTEXT}}
+}
+\vfill
+\stopstandardmakeup
+\stopbuffer
+
+% additional information
+\startbuffer[author]
+\startstandardmakeup
+\vfill
+\framed [align=right,frame=off,topframe=on] {%
+\tfxx\ss\setupinterlinespace[small]
+Copyright 2010--2011 by Philipp Gesang, Dossenheim.\par
+Mail any patches or suggestions to\par
+\type{string.format("%s@%s.com", "megas.kapaneus", "gmail")}\par
+or pay a visit to \goto{my BitBucket home}[url(http://bitbucket.org/phg/)].\par
+}
+\stopstandardmakeup
+\stopbuffer
+
+
+% table of contents
+\startbuffer[toc]
+\setuppagenumbering[state=start,alternative=doublesided,location=]
+\setupheadertexts
+  [{\tfx\sc\getmarking[chapter]}]   [{\tfx\bf \pagenumber}]
+  [{\tfx\bf \pagenumber}]           [{\tfx{\em rst}{\kern.5pt\CONTEXT}}]
+\completecontent
+\stopbuffer
+
+% something radically changed in mkiv
+\startluacode
+jobvariables = jobvariables or {}
+jobvariables.tobesaved = jobvariables.tobesaved or {}
+\stopluacode
+
+% list of publications
+\startbuffer[pubs]
+\setuplayout[grid=no]
+\setuptolerance[verytolerant]
+\setuptolerance[vertical,verytolerant]
+
+\completepublications
+\stopbuffer
+
+\appendtoks  \getbuffer[frontpage] \to \everystarttext
+\appendtoks  \getbuffer[author]    \to \everystarttext
+\appendtoks  \getbuffer[toc]       \to \everystarttext
+
+%\prependtoks \getbuffer[pubs]      \to \everystoptext
+
+\setupwhitespace[none]
+\setuplayout[grid=verystrict]
+\setuptolerance[tolerant]
+\language[en]
+\setuppagenumbering[state=stop,location=]
+\input doc.tex

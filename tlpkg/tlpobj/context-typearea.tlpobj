@@ -1,0 +1,13 @@
+name context-typearea
+category ConTeXt
+revision 23167
+shortdesc Something like Koma-Script typearea.
+relocated 1
+longdesc The module provides a command that calculates the page layout
+longdesc as the LaTeX package typearea does.
+depend context
+runfiles size=1
+ RELOC/tex/context/third/typearea/t-typearea.tex
+catalogue-ctan /macros/context/contrib/context-typearea
+catalogue-date 2008-08-18 23:54:09 +0200
+catalogue-license gpl

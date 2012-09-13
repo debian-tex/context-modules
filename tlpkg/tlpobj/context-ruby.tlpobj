@@ -1,0 +1,17 @@
+name context-ruby
+category ConTeXt
+revision 23167
+shortdesc Ruby annotations in ConTeXt.
+relocated 1
+longdesc Ruby markup (aka furigana in Japan) are inline annotations
+longdesc above or below a word to indicate the reading of ideographic
+longdesc characters. The module implements the specification for simple
+longdesc ruby described by the W3C in ConTeXt. The position and layout
+longdesc of the base text and the ruby text can becontrolled by
+longdesc parameters.
+depend context
+runfiles size=3
+ RELOC/tex/context/third/ruby/t-ruby.tex
+catalogue-ctan /macros/context/contrib/context-ruby
+catalogue-date 2010-01-28 13:16:16 +0100
+catalogue-license pd

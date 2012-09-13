@@ -1,0 +1,8 @@
+name context-account.doc
+category ConTeXt
+revision 23167
+shortdesc doc files of context-account
+relocated 1
+docfiles size=30
+ RELOC/doc/context/third/account/README
+ RELOC/doc/context/third/account/account-doc.pdf

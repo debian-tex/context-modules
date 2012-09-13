@@ -1,0 +1,7 @@
+name context-fixme.source
+category ConTeXt
+revision 23167
+shortdesc source files of context-fixme
+relocated 1
+srcfiles size=1
+ RELOC/source/context/third/fixme/doc/fixme.tex

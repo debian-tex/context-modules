@@ -1,0 +1,12 @@
+name context-chromato
+category ConTeXt
+revision 23167
+shortdesc ConTeXt macros for chromatograms.
+relocated 1
+longdesc The module provides macros for drawing chromatograms.
+depend context
+runfiles size=2
+ RELOC/tex/context/third/chromato/t-chromato.tex
+catalogue-ctan /macros/context/contrib/context-chromato
+catalogue-date 2006-08-27 16:41:02 +0100
+catalogue-license gpl

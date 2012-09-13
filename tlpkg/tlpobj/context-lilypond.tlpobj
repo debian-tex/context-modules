@@ -1,0 +1,13 @@
+name context-lilypond
+category ConTeXt
+revision 23167
+shortdesc Lilypond code in ConTeXt.
+relocated 1
+longdesc Includes lilypond music definitions direct in a ConTeXt
+longdesc document.
+depend context
+runfiles size=4
+ RELOC/tex/context/third/lilypond/t-lilypond.tex
+catalogue-ctan /macros/context/contrib/context-lilypond
+catalogue-date 2010-03-12 17:25:27 +0100
+catalogue-license gpl

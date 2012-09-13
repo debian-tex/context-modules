@@ -1,0 +1,15 @@
+\usemodule[fixme]
+
+\starttext
+
+\startprocesscommalist[text,margin,footnote,left,right,inner,outer]
+
+\section{Fixme test with location \quotation{#1}}
+
+\input knuth
+\fixme[#1]{This is a short note.}
+\input knuth
+
+\stopprocesscommalist
+
+\stoptext

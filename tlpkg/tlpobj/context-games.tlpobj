@@ -1,0 +1,13 @@
+name context-games
+category ConTeXt
+revision 23167
+relocated 1
+depend skaknew
+depend context
+runfiles size=14
+ RELOC/tex/context/third/games/games-go.lua
+ RELOC/tex/context/third/games/games-go.tex
+ RELOC/tex/context/third/games/games-hex.lua
+ RELOC/tex/context/third/games/games-hex.tex
+ RELOC/tex/context/third/games/holz280.jpg
+ RELOC/tex/context/third/games/t-games.tex

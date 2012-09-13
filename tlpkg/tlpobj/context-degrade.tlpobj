@@ -1,0 +1,11 @@
+name context-degrade
+category ConTeXt
+revision 23167
+shortdesc Degrading JPEG images in ConTeXt.
+relocated 1
+depend context
+runfiles size=2
+ RELOC/tex/context/third/degrade/t-degrade.tex
+catalogue-ctan /macros/context/contrib/context-degrade
+catalogue-date 2008-08-18 23:54:09 +0200
+catalogue-license gpl
