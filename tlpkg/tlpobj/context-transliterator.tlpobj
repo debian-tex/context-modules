@@ -1,0 +1,36 @@
+name context-transliterator
+category ConTeXt
+revision 29801
+shortdesc Transliterate text from 'other' alphabets.
+relocated 1
+longdesc The package will read text in one alphabet, and provide a
+longdesc transliterated version in another; this is useful for readers
+longdesc who cannot read the original alphabet. The package can make
+longdesc allowance for hyphenation.
+depend context
+runfiles size=112
+ RELOC/tex/context/interface/third/t-transliterator.xml
+ RELOC/tex/context/third/transliterator/t-transliterator.ctl
+ RELOC/tex/context/third/transliterator/t-transliterator.log
+ RELOC/tex/context/third/transliterator/t-transliterator.mkii
+ RELOC/tex/context/third/transliterator/t-transliterator.mkiv
+ RELOC/tex/context/third/transliterator/t-transliterator.mkiv.prep
+ RELOC/tex/context/third/transliterator/t-transliterator.pdf
+ RELOC/tex/context/third/transliterator/t-transliterator.run
+ RELOC/tex/context/third/transliterator/t-transliterator.tex
+ RELOC/tex/context/third/transliterator/t-transliterator.tuc
+ RELOC/tex/context/third/transliterator/trans_tables_bg.lua
+ RELOC/tex/context/third/transliterator/trans_tables_glag.lua
+ RELOC/tex/context/third/transliterator/trans_tables_gr.lua
+ RELOC/tex/context/third/transliterator/trans_tables_iso9.lua
+ RELOC/tex/context/third/transliterator/trans_tables_scntfc.lua
+ RELOC/tex/context/third/transliterator/trans_tables_sr.lua
+ RELOC/tex/context/third/transliterator/trans_tables_trsc.lua
+ RELOC/tex/context/third/transliterator/transliterator.ctl
+ RELOC/tex/context/third/transliterator/transliterator.log
+ RELOC/tex/context/third/transliterator/transliterator.lua
+ RELOC/tex/context/third/transliterator/transliterator.run
+ RELOC/tex/context/third/transliterator/transliterator.tuc
+catalogue-ctan /macros/context/contrib/context-transliterator
+catalogue-date 2013-04-09 13:56:04 +0200
+catalogue-license bsd

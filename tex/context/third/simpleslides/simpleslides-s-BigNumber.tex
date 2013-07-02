@@ -114,8 +114,7 @@
 
 \unexpanded\def\TaspresentSometxtRight#1%
   {\getvalue{simpleslides:framed:small}
-                       {\color[simpleslides:backgroundcolor]
-                       {\NumberFont #1}}}
+                       {\NumberFont \color[simpleslides:backgroundcolor]{#1}}}
 
 %D Now we define a \METAPOST| graphic that draws the number. The exact
 %D dimensions have been found by trial and error.
@@ -125,14 +124,15 @@ StartPage ;
 save Left, Right ;
 picture Left, Right ;
 
-Left  := \sometxt [simpleslides:sometxt:left]{\folio} ysized 6cm; 
-Right := \sometxt[simpleslides:sometxt:right]{\folio} ysized 6cm; 
+Left  := textext("\NumberFont \color[simpleslides:contrastcolor]{\folio}") ysized 4cm ;
+Right := textext("\NumberFont \color[simpleslides:backgroundcolor]{\folio}") ysized 4cm ;
 
 save LeftBox, RightBox ;
 path LeftBox, RightBox ;
 
 save split ; numeric split ;
-split := if PageNumber < 10 : 1/2 else : 2/3 fi  ;
+split := if PageNumber < 10 : 1/2 else : 3/4 fi  ;
+%split := 1/2 ;
 
 LeftBox := llcorner Left -- split[llcorner Left, lrcorner Left]
            -- split[ulcorner Left, urcorner Left] -- ulcorner Left --cycle ;
@@ -140,15 +140,17 @@ LeftBox := llcorner Left -- split[llcorner Left, lrcorner Left]
 RightBox := lrcorner Right -- split[lrcorner Right, llcorner Right]
            -- split[urcorner Right, ulcorner Right] -- urcorner Right --cycle ;
 
+save shft ; numeric shft ;
+shft = arclength(llcorner Right -- lrcorner Right) ;
 if PageNumber >= 10 :
-RightBox := RightBox shifted  split[lrcorner Right, llcorner Right] ;
+  RightBox := RightBox shifted  (shft/2, 0) ;
 fi;
 
 clip Left  to LeftBox  ;
 clip Right to RightBox ;
 
 save corner; pair corner ;
-corner := lrcorner Field[Text][Text] shifted (.2cm,-1cm) ; % same as x2
+corner := lrcorner Field[Text][Text] shifted (.2cm,0.3cm) ; % same as x2
 
 labeloffset := 0bp;
 

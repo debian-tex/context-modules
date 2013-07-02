@@ -480,8 +480,8 @@
             \doglobal\increment\simplefonts!handwritingfont
             \simplefonts@scripttypescript{\simplefontparameter\c!style}{\v!handwritingfont :\simplefonts!handwritingfont}
         \else\ifx\currentsimplefont\v!calligraphicfont
-            \simplefonts@scripttypescript{\simplefontparameter\c!style}{\v!calligraphicfont:\simplefonts!handwritingfont}
             \doglobal\increment\simplefonts!calligraphicfont
+            \simplefonts@scripttypescript{\simplefontparameter\c!style}{\v!calligraphicfont:\simplefonts!calligraphicfont}
         \fi\fi
 
         % don't create a typeface and set bodyfont when the module is loaded

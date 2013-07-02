@@ -3,16 +3,18 @@
 --         FILE:  rst_helpers.lua
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
---       AUTHOR:  Philipp Gesang (Phg), <megas.kapaneus@gmail.com>
---      CHANGED:  2011-08-28 13:47:07+0200
+--       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
+--      CHANGED:  2013-03-26 23:55:04+0100
 --------------------------------------------------------------------------------
 --
 
-local P, R, S, V, match 
+local P, R, S, V, lpegmatch
     = lpeg.P, lpeg.R, lpeg.S, lpeg.V, lpeg.match
 
-local C, Carg, Cb, Cc, Cg, Cmt, Cp, Cs, Ct 
-    = lpeg.C, lpeg.Carg, lpeg.Cb, lpeg.Cc, lpeg.Cg, lpeg.Cmt, lpeg.Cp, lpeg.Cs, lpeg.Ct
+local C,   Carg, Cb, Cc, Cg,
+      Cmt, Cp,   Cs, Ct 
+    = lpeg.C,   lpeg.Carg, lpeg.Cb, lpeg.Cc, lpeg.Cg,
+      lpeg.Cmt, lpeg.Cp,   lpeg.Cs, lpeg.Ct
 
 local helpers
 helpers       = thirddata.rst_helpers
@@ -22,12 +24,12 @@ helpers.cell  = {}
 local utf    = unicode.utf8
 local utflen = utf.len
 
-local stringstrip = string.strip
-local fmt         = string.format
+local stringstrip  = string.strip
+local stringformat = string.format
 
 function helpers.dbg_writef(...)
     if helpers.rst_debug then
-        io.write(fmt(...))
+        io.write(stringformat(...))
     end
 end
 
@@ -56,8 +58,8 @@ do
 
     p.col_start = Cp() * p.dash_or_equals^1
     p.col_stop  = p.dash_or_equals^1 * Cp()
-    p.column_starts = p.col_start * ( p.space^1 * p.col_start)^1
-    p.column_stops  = p.col_stop  * ( p.space^1 * p.col_stop)^1
+    p.column_starts = Ct(p.col_start * ( p.space^1 * p.col_start)^1)
+    p.column_stops  = Ct(p.col_stop  * ( p.space^1 * p.col_stop)^1)
 
     p.st_headsep = p.equals^1 * (p.space^1 * p.equals^1)^1
     p.st_colspan = p.dash^1 * (p.space^1 * p.dash^1)^0 * p.space^0 * p.last
@@ -69,14 +71,14 @@ do
         [1] = "cells",
         cells = p.celldelim 
               * (C(V"in_cell")
-               * (V"matchwidth" * C(V"in_cell")) ^1),
+               * (V"matchwidth" * C(V"in_cell"))^1),
 
         in_cell = p.cellcontent^1
                 + (p.dash - p.cellcontent)^1,
 
         matchwidth = Cmt(C(p.celldelim) * Carg(1), function(s,i,del, layout)
                          local pos = 1
-                         local lw = layout.widths
+                         local lw  = layout.widths
                          for n=1, #lw do
                              pos = pos + lw[n] + 1
                              if (i - 1) == pos then return true end
@@ -157,7 +159,9 @@ local function set_layout (line)
 
     layout.widths = {}
     layout.slices = {}
-    for n, elm in ipairs(slice:match(line)) do
+    local elms = lpegmatch(slice, line)
+    for n=1, #elms do
+        local elm = elms[n]
         layout.widths[n] = #elm
         layout.slices[n] =  elm
     end
@@ -166,14 +170,14 @@ end
 
 function helpers.table.create(raw)
     local newtab = {}
-    newtab.rows = {}
+    newtab.rows  = {}
     newtab.layout = set_layout(raw[1])
 
     local p = helpers.patterns
 
     newtab.resolve_parent = function(row, col, array)
         local array = array or newtab.rows
-        local cell = array[row][col]
+        local cell  = array[row][col]
         local par_row, par_col = row, col
         if cell.parent then
             par_row, par_col = newtab.resolve_parent(cell.parent.y, cell.parent.x)
@@ -185,7 +189,8 @@ function helpers.table.create(raw)
         local hc = helpers.cell
         local rowcount = 0
         local newtablayout = newtab.layout
-        for nr, row in ipairs(raw) do
+        for nr=1, #raw do
+            local row = raw[nr]
             newtab.rows[nr] = {}
             local this_row = newtab.rows[nr]
             this_row.sepline = p.sep_line:match(row)
@@ -242,11 +247,13 @@ function helpers.table.create(raw)
 
         local oldrows = newtab.rows
         local newrows = oldrows
-        for nc, width in ipairs(newtablayout.widths) do
+        for nc=1, #newtablayout.widths do
+            local width = newtablayout.widths[nc]
             -- this is gonna be extremely slow but at least it's readable
             local newrow
             local currentrow = 1
-            for nr, row in ipairs(newrows) do
+            for nr=1, #newrows do
+                local row = newrows[nr]
                 local cell = row[nc]
                 dbg_write("nc: %s, nr:%2s | %9s | ", nc, nr,cell.variant)
                 if  row.sepline or row.sephead
@@ -298,18 +305,22 @@ function helpers.table.create(raw)
 
     newtab.__init()
 
-    --newtab.__draw_debug = function()
-        --for nr, row in ipairs(newtab.rows) do
-            --for nc, cell in ipairs(row) do
-                --local field = cell.variant:sub(1,7)
-                --if cell.parent then
-                    --field = field .. string.format(" %s,%2s",cell.parent.x, cell.parent.y)
-                --end
-                --dbg_write("%12s | ", field)
-            --end
-            --dbg_write("\n")
-        --end
-    --end
+--[[
+    newtab.__draw_debug = function()
+        for nr=1, #newtab.rows do
+            local row = newtab.rows[nr]
+            for nc=1, #row do
+                local cell = row[nc]
+                local field = cell.variant:sub(1,7)
+                if cell.parent then
+                    field = field .. string.format(" %s,%2s",cell.parent.x, cell.parent.y)
+                end
+                dbg_write("%12s | ", field)
+            end
+            dbg_write("\n")
+        end
+    end
+--]]
 
     return newtab
 end
@@ -328,13 +339,20 @@ end
 
 -- Check the column boundaries of a simple table.
 function helpers.get_st_boundaries (str)
-    local p = helpers.patterns
-    local starts, stops, slices = {}, {}, {}
-    for n, elm in ipairs({ p.column_starts:match(str) }) do
+    local p_column_starts = helpers.patterns.column_starts
+    local p_column_stops  = helpers.patterns.column_stops
+    local starts, stops, slices, elms = { }, { }, { }, nil
+
+    elms = lpegmatch(p_column_starts, str)
+    for n=1, #elms do
+        local elm = elms[n]
         slices[n] = { start = elm }
         starts[elm] = true
     end
-    for n, elm in ipairs({ p.column_stops :match(str) }) do
+
+    elms = lpegmatch(p_column_stops, str)
+    for n=1, #elms do
+        local elm = elms[n]
         slices[n]["stop"]  = elm
         stops[elm] = true
     end
@@ -347,9 +365,9 @@ function helpers.table.simple(raw)
     local bounds = helpers.get_st_boundaries(raw[1])
     local p = helpers.patterns
 
-    for nr, row in ipairs(raw) do
+    for nr=1, #raw do
+        local row = raw[nr]
         local newrow = {}
-        local nc = 1
         if not p.st_headsep:match(row) and
            not p.st_colspan:match(row) then
             local starts, stops = {}, {}
@@ -359,13 +377,15 @@ function helpers.table.simple(raw)
                 stops  = p.st_span_stops :match(raw[nr+1])
                 check_span = true
             else
-                for colnr, slice in ipairs(bounds.slices) do
-                    starts[colnr] = slice.start
-                    stops [colnr] = slice.stop
+                for ncol=1, #bounds.slices do
+                    local slice = bounds.slices[ncol]
+                    starts[ncol] = slice.start
+                    stops [ncol] = slice.stop
                 end
             end
 
-            for nc, start in ipairs(starts) do
+            for nc=1, #starts do
+                local start = starts[nc]
                 -- last column can exceed layout width
                 local stop = nc ~= #starts and stops[nc] or #row
                 local cell = {
@@ -375,18 +395,19 @@ function helpers.table.simple(raw)
                 cell.content = stringstrip(row:sub(start, stop))
                 if check_span then
                     local start_at, stop_at
-                    for colnr, slice in ipairs(bounds.slices) do
+                    for ncol=1, #bounds.slices do
+                        local slice = bounds.slices[ncol]
                         if slice.start == start then
-                            start_at = colnr
+                            start_at = ncol
                         end
                         if start_at and
-                           not (colnr == #bounds.slices) then
+                           not (ncol == #bounds.slices) then
                             if slice.stop == stop then
-                                stop_at = colnr
+                                stop_at = ncol
                                 break
                             end
                         else -- last column, width doesn't matter
-                            stop_at = colnr
+                            stop_at = ncol
                         end
                     end
                     cell.span.x = 1 + stop_at - start_at
@@ -406,10 +427,12 @@ function helpers.table.simple(raw)
         rows[nr] = newrow
     end
 
-    for nr, row in ipairs(rows) do
+    for nr=1, #rows do
+        local row = rows[nr]
         if not row.ignore and row[1].content == "" then
             row.ignore = true
-            for nc, cell in ipairs(row) do
+            for nc=1, #row do
+                local cell = row[nc]
                 local par_row, par_col = helpers.table.resolve_parent(nr - 1, nc, rows)
                 parent = rows[par_row][par_col]
                 parent.content = parent.content .. " " .. cell.content
@@ -513,7 +536,7 @@ do
                 return false
             end
 
-            local trc = state.roman_cache
+            local trc = thirddata.rst.state.roman_cache
             n_str = trc[str] or nil
             n_old = trc[old] or nil
             if not n_str then
@@ -547,7 +570,7 @@ do
             end
 
 
-            local trc = state.roman_cache
+            local trc = thirddata.rst.state.roman_cache
             n_str = trc[str] or nil
             n_old = trc[old] or nil
             if not n_str then
@@ -576,7 +599,7 @@ do
                 return false
             end
 
-            local trc = state.roman_cache
+            local trc = thirddata.rst.state.roman_cache
             n_str = trc[str] or nil
             if not n_str then
                 n_str = roman_to_arab(str:lower())
@@ -592,9 +615,9 @@ end
 helpers.string = {}
 
 do
-    -- This grammar inside the function is slightly faster than the same as an upvalue
-    -- with the value of “width” repeatedly given via lpeg.Carg(). This holds
-    -- for repeated calls as well.
+    --- This grammar inside the function is slightly faster than the
+    --- same as an upvalue with the value of “width” repeatedly given
+    --- via lpeg.Carg(). This holds for repeated calls as well.
     local ulen = utflen
     function helpers.string.wrapat (str, width)
         local width = width or 65
@@ -608,11 +631,11 @@ do
             typing        = P[[\\type{]]  * (1 - P"}")^0 * P"}",
             typingenv     = P[[\\starttyping]] * (1 - P[[\\stoptyping]])^0 * P[[\\stoptyping]],
             ignore        = V"typing" + V"typingenv",
-            -- the initial whitespace of the “other” pattern must not be
-            -- enforced (“^1”) as it will break the exceptions (“ignore”
-            -- pattern)! In general it is better to have the wrapper ignore some
-            -- valid breaks than to not have it matching some valid strings at
-            -- all.
+            --- the initial whitespace of the “other” pattern must not
+            --- be enforced (“^1”) as it will break the exceptions
+            --- (“ignore” pattern)! In general it is better to have the
+            --- wrapper ignore some valid breaks than to not have it
+            --- matching some valid strings at all.
             other         = Cmt(V"whitespace"^0 * (V"ignore" + (1 - V"whitespace")^1), function(s,i,w)
                                    linelength = linelength + ulen(w)
                                    return true

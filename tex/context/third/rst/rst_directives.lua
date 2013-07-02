@@ -3,8 +3,8 @@
 --         FILE:  rst_directives.lua
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
---       AUTHOR:  Philipp Gesang (Phg), <megas.kapaneus@gmail.com>
---      CHANGED:  2011-08-28 13:47:00+0200
+--       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
+--      CHANGED:  2013-03-26 22:45:45+0100
 --------------------------------------------------------------------------------
 --
 
@@ -18,10 +18,14 @@ local rst_directives     = { }
 thirddata.rst_directives = rst_directives
 local rst_context        = thirddata.rst
 
-local stringstrip = string.strip
-local fmt         = string.format
+local lpegmatch      = lpeg.match
+local stringformat   = string.format
+local stringstrip    = string.strip
+local tableconcat    = table.concat
+local tableflattened = table.flattened
+local type           = type
 
-rst_directives.anonymous = 0
+--rst_directives.anonymous     = 0
 rst_directives.images        = {}
 rst_directives.images.done   = {}
 rst_directives.images.values = {}
@@ -50,13 +54,14 @@ rst_directives.images.values.width = {
 }
 
 -- we won't allow passing arbitrary setups to context
-rst_directives.images.permitted_setups = {
-    "width", "scale"
+local permitted_setups = {
+    "width",
+    "scale"
 }
 
 local function img_setup (properties)
     local result = ""
-    for _, prop in next, rst_directives.images.permitted_setups do
+    for _, prop in next, permitted_setups do
         if properties[prop] then
             result = result .. prop .. "=" .. properties[prop] .. ","
         end
@@ -67,122 +72,110 @@ local function img_setup (properties)
     return result
 end
 
-rst_directives.image = function(name, data)
+rst_directives.image = function(data)
     local inline_parser = rst_context.inline_parser
-    local properties = {}
-    local anon = false
-    local rd = rst_directives
-    if not data then -- this makes the “name” argument optional
-        data = name
-        rd.anonymous = rd.anonymous + 1
-        anon = true -- indicates a nameless picture
-        name = "anonymous" .. rd.anonymous
-    end
-    properties.caption = name
-    --properties.width = "\\local"
+    local properties    = {}
+    local anon          = false
+    local rdi           = rst_directives.images
+    local hp            = helpers.patterns
 
-    local processed = "" -- stub; TODO do something useful with optional dimension specifications
-    if type(data) == "table" then -- should always be true
-        local p = helpers.patterns
-        for _, str in ipairs(data) do
-            local key, val
-            key, val = p.colon_keyval:match(str)
-            local rdi = rst_directives.images
-            if key and val then
-                key = rdi.keys[key] -- sanitize key expression
-                if     type(rdi.values[key]) == "table" then
-                    val = rdi.values[key][val]
-                elseif type(rdi.values[key]) == "function" then
-                    val = rdi.values[key](val)
-                end
-                properties[key] = val
-            else
-                processed = processed .. (str and str ~= "" and stringstrip(str))
+    local name = stringstrip(data.name)
+
+    --rd.anonymous = rd.anonymous + 1
+    --anon = true -- indicates a nameless picture
+    --name = "anonymous" .. rd.anonymous
+
+    properties.caption = name
+    data               = tableflattened(data)
+
+    for i=1, #data do
+        local str = data[i]
+        local key, val = lpegmatch(hp.colon_keyval, str)
+        if key and val then
+            key = rdi.keys[key] -- sanitize key expression
+            local valtype = type(rdi.values[key])
+            if valtype == "table" then
+                val = rdi.values[key][val]
+            elseif valtype == "function" then
+                val = rdi.values[key](val)
             end
+            properties[key] = val
         end
     end
     properties.setup = img_setup(properties) or ""
-    data = processed
-    processed = nil
     local img = ""
-    local images_done = rd.images.done
-    if not anon then
-        if not images_done[name] then
-            img = img .. fmt([[
-
-\useexternalfigure[%s][%s][]
-]], name, data)
-        images_done[name] = true
-        end
-        img = img .. fmt([[
-\def\RSTsubstitution%s{%%
-  \placefigure[here]{%s}{\externalfigure[%s]%s}
-}
-]], name, rst_context.escape(inline_parser:match(properties.caption)), name, properties.setup)
-    else -- image won't be referenced but used instantly
-        img = img .. fmt([[
+--    local images_done = rdi.done
+--    if not anon then -- TODO: implement?
+--        if not images_done[name] then
+--            img = img .. stringformat([[
+--
+--\useexternalfigure[%s][%s][]%%
+--]], name, data)
+--        images_done[name] = true
+--        end
+--        img = img .. stringformat([[
+--\def\RSTsubstitution%s{%%
+--  \placefigure[here]{%s}{\externalfigure[%s]%s}%%
+--}
+--]], name, rst_context.escape(lpegmatch(inline_parser, properties.caption)), name, properties.setup)
+--    else -- image won't be referenced but used instantly
+    img = stringformat([[
 
 \placefigure[here]{%s}{\externalfigure[%s]%s}
-]], rst_context.escape(inline_parser:match(properties.caption)), data, properties.setup)
-    end
+]],     rst_context.escape(lpegmatch(inline_parser, properties.caption)),
+        name,
+        properties.setup)
+--    end
     return img
 end
 
-rst_directives.caution = function(raw)
+rst_directives.caution = function(data)
     local inline_parser = rst_context.inline_parser
     rst_context.addsetups("dbend")
     rst_context.addsetups("caution")
-    local text 
-    local first = true
-    for _, line in ipairs(raw) do
-        if not helpers.patterns.spacesonly:match(line) then
-            if first then
-                text =  line
-                first = false
-            else
-                text = text .. " " .. line
-            end
-        end
+    local text = { }
+    for i=1, #data do -- paragraphs
+        local current = tableconcat(data[i], "\n")
+        current = lpegmatch(inline_parser, current)
+        current = rst_context.escape(current)
+        text[i] = current
     end
-    text = rst_context.escape(helpers.string.wrapat(inline_parser:match(text))) 
-    return fmt([[
+    return stringformat([[
 \startRSTcaution
 %s
 \stopRSTcaution
-]], text)
+]], tableconcat(text, "\n\n"))
 end
 
-rst_directives.danger = function(raw)
+rst_directives.danger = function(data)
     local inline_parser = rst_context.inline_parser
     rst_context.addsetups("dbend")
     rst_context.addsetups("danger")
-    local text 
-    local first = true
-    for _, line in ipairs(raw) do
-        if not helpers.patterns.spacesonly:match(line) then
-            if first then
-                text =  line
-                first = false
-            else
-                text = text .. " " .. line
-            end
-        end
+    local text = { }
+    for i=1, #data do -- paragraphs
+        local current = tableconcat(data[i], "\n")
+        current = lpegmatch(inline_parser, current)
+        current = rst_context.escape(current)
+        text[i] = current
     end
-    text = rst_context.escape(helpers.string.wrapat(inline_parser:match(text))) 
-    return fmt([[
+    return stringformat([[
 \startRSTdanger
 %s
 \stopRSTdanger
-]], text)
+]], tableconcat(text, "\n\n"))
 end
 
 -- http://docutils.sourceforge.net/docs/ref/rst/directives.html
-rst_directives.DANGER = function(addendum)
-    local result = ""
-    for _,str in ipairs(addendum) do
-        result = result .. (stringstrip(str))
+rst_directives.DANGER = function(data)
+    local inline_parser = rst_context.inline_parser
+    local text = { }
+    for i=1, #data do -- paragraphs
+        local current = tableconcat(data[i], "\n")
+        current = lpegmatch(inline_parser, current)
+        current = rst_context.escape(current)
+        text[i] = current
     end
-    return fmt([[
+    return stringformat([[
 
 %% The Rabbit of Caerbannog
 \startlinecorrection
@@ -209,16 +202,16 @@ rst_directives.DANGER = function(addendum)
 }
 \blank[force,big]
 \stoplinecorrection
-]], result)
+]], tableconcat(text, "\n\n"))
 end
 
 rst_directives.mp = function(name, data)
-    local mpcode = fmt([[
+    local mpcode = stringformat([[
 \startreusableMPgraphic{%s}
 %s
 \stopreusableMPgraphic
 ]], name, data)
-    mpcode = mpcode .. fmt([[
+    mpcode = mpcode .. stringformat([[
 \def\RSTsubstitution%s{%%
   \reuseMPgraphic{%s}%%
 }
@@ -226,20 +219,23 @@ rst_directives.mp = function(name, data)
     return mpcode
 end
 
+--- There’s an issue with buffers leaving trailing spaces due to their
+--- implementation.
+--- http://archive.contextgarden.net/message/20111108.175913.1d994624.en.html
 rst_directives.ctx = function(name, data)
-    local ctx = fmt([[
+    local ctx = stringformat([[
 
 \startbuffer[%s]
 %s\stopbuffer
 \def\RSTsubstitution%s{%%
-  \getbuffer[%s]%%
+  \getbuffer[%s]\removeunwantedspaces%%
 }
 ]], name, data, name, name)
     return ctx
 end
 
 rst_directives.lua = function(name, data)
-    local luacode = fmt([[
+    local luacode = stringformat([[
 
 \startbuffer[%s]
 \startluacode
@@ -247,7 +243,7 @@ rst_directives.lua = function(name, data)
 \stopluacode
 \stopbuffer
 \def\RSTsubstitution%s{%%
-  \getbuffer[%s]%%
+  \getbuffer[%s]\removeunwantedspaces%%
 }
 ]], name, data, name, name)
     return luacode
@@ -261,7 +257,7 @@ rst_directives.math = function (name, data)
     data = data or name
     local formula
     if type(data) == "table" then
-        local last, i = table.maxn(data), 1
+        local last, i = #data, 1
         while i <= last do
             local line = stringstrip(data[i])
             if line and line ~= "" then
@@ -270,7 +266,7 @@ rst_directives.math = function (name, data)
             i = i + 1
         end
     end
-    return fmt([[
+    return stringformat([[
 \startformula
 %s
 \stopformula
@@ -282,9 +278,46 @@ end
 --------------------------------------------------------------------------------
 
 rst_directives.replace = function(name, data)
-    return fmt([[
+    return stringformat([[
 
 \def\RSTsubstitution%s{%s}
 ]], name, data)
 end
+
+--------------------------------------------------------------------------------
+--- Containers.
+--------------------------------------------------------------------------------
+
+--- *data*:
+---     { [1]  -> directive name,
+---       [>1] -> paragraphs }
+
+rst_directives.container = function(data)
+    local inline_parser = rst_context.inline_parser
+    local tmp = { }
+    for i=1, #data do -- paragraphs
+        local current = tableconcat(data[i], "\n")
+        current = lpegmatch(inline_parser, current)
+        current = rst_context.escape(current)
+        tmp[i] = current
+    end
+    local content = tableconcat(tmp, "\n\n")
+    local name = data.name
+    if name and name ~= "" then
+        name = stringstrip(data.name)
+        return stringformat([[
+\start[%s]%%
+%s%%
+\stop
+]], name, content)
+    else
+        return stringformat([[
+\begingroup%%
+%s%%
+\endgroup
+]], content)
+    end
+end
+
+-- vim:ft=lua:sw=4:ts=4:expandtab
 

@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-ruby,
-%D      version=2010.01.26,
+%D      version=2010.10.10,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Ruby Markup,
 %D       author=Wolfgang Schuster,
@@ -42,7 +42,7 @@
 %D </ruby>
 %D \stoptyping
 
-%D Constants
+%D Constants/variables
 
 \startinterface all
   \setinterfaceconstant {basestyle} {basestyle}
@@ -69,43 +69,6 @@
 \newcount \!!rubycount
 \newtoks  \!!rubybase
 \newtoks  \!!rubytext
-
-%D Helpers
-
-\newif\ifideograph
-
-\long\def\doifelseideograph#1%
-  {\global\ideographtrue
-   \handletokens#1\with\checkideograph
-   \ifideograph
-     \expandafter\firstoftwoarguments
-   \else
-     \expandafter\secondoftwoarguments
-   \fi}
-
-\def\doifinrangeelse#1#2#3%
-  {\unless\ifnum#1<#2
-     \unless\ifnum#1>#3
-       \expandafter\expandafter\expandafter\firstoftwoarguments
-     \else
-       \expandafter\expandafter\expandafter\secondoftwoarguments
-     \fi
-   \else
-     \expandafter\secondoftwoarguments
-   \fi}
-
-\def\checkideograph#1%
-  {\doifinrangeelse{`#1}{"3040}{"309F}\donothing
-     {\doifinrangeelse{`#1}{"30A0}{"30FF}\donothing
-        {\doifinrangeelse{`#1}{"31F0}{"31FF}\donothing
-           {\doifinrangeelse{`#1}{"3400}{"4DFF}\donothing
-              {\doifinrangeelse{`#1}{"4E00}{"9FFF}\donothing
-                 {\doifinrangeelse{`#1}{"AC00}{"D7A3}\donothing
-                    {\doifinrangeelse{`#1}{"F900}{"FAFF}\donothing
-                       {\doifinrangeelse{`#1}{"FF00}{"FFEF}\donothing
-                          {\doifinrangeelse{`#1}{"20000}{"2A6DF}\donothing
-                             {\doifinrangeelse{`#1}{"2F800}{"2FA1F}\donothing
-                                {\ideographfalse}}}}}}}}}}}
 
 %D \macros
 %D   {setupruby}
@@ -162,8 +125,8 @@
 
 %D Alignment
 
-\def\RUBYdistributespace #1{\doifelseideograph{#1}{\processtokens{\hss  }{\hss\hss}{\hss  }{\hss\hss}{#1}}{\hss#1\hss}}
-\def\RUBYdistributeletter#1{\doifelseideograph{#1}{\processtokens{\relax}{\hss    }{\relax}{\hss\hss}{#1}}{\hss#1\hss}}
+\def\RUBYdistributespace #1{\processtokens{\hss  }{\hss\hss}{\hss  }{\hss\hss}{#1}}
+\def\RUBYdistributeletter#1{\processtokens{\relax}{\hss    }{\relax}{\hss\hss}{#1}}
 
 \setvalue{\????rb:\c!align:\v!space}%
   {\!!rubyleftmargin \zeropoint
@@ -302,7 +265,7 @@
 %D   {ruby}
 
 \def\ruby
-  {\dosingleempty\doruby}
+  {\dontleavehmode\dosingleempty\doruby}
 
 \def\doruby[#1]#2#3%
   {\dobRUBY[#1]\bRB#2\eRB\bRT#3\eRT\eRUBY}

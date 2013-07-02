@@ -141,6 +141,37 @@ The above `\defineexternalfilter` macro defines:
 The [wiki](https://github.com/adityam/filter/wiki) page on Github gives the
 setup for common usecases (pandoc, R, etc.)
 
+Inheriting setup from other commands
+-------------------------------------
+
+It is also possible to inherit the settings from another filter. For example, 
+
+    \defineexternalfilter
+      [filterstyle]
+      [color=red,
+       style=bold]
+
+    \defineexternalfilter 
+      [markdown]
+      [filterstyle]
+      [filter={pandoc -w context -o \externalfilteroutputfile },
+       style=italic]
+
+Notice the three arguments to `\defineexternalfilter`. The first argument
+(`markdown`) is the name of the new filter; the second argument (`filterstyle`)
+is the name of the filter whose settings we want to inherit, and the third
+argument (`filter=...`) are the new settings for `markdown` filter. The above
+definition is same as:
+
+    \defineexternalfilter
+      [filter={pandoc -w context -o \externalfilteroutputfile },
+       style=italic,
+       color=red]
+
+Note that if a setting (like `style` above) is defined both in the new filter
+and the parent filter, then the value of the new filter (`style=italic` above)
+is used.
+
 Dealing with slow filters
 -------------------------
 
@@ -357,7 +388,10 @@ Standard options
 
 - `spacebefore` and `spaceafter` to specify the blank space to be used 
    before and after the environment. 
-- `before` and `after`: to enclose the output in a frame, etc. 
+- `before` and `after`: to enclose the output in a frame, etc. (only if
+  `location` is `paragraph`)
+- `left` and `right`: same as `before` and `after` but used when `location` is
+  not `paragraph`.
 - `style` and `color`: to set the color and style of the output.
 - `align`: to set the alignment of the output (only if
   `location` is `paragraph`).
@@ -369,13 +403,14 @@ Standard options
 The order in which these options are executed are:
 
 1. `\blank[spacebefore]`
-2. `before`
-3. `style` and `color`
-4. `setups`
-5. `readcommand`
-6. `after`
-7. `\blank[afterspace]`
-8. check `indentnext`
+2. `before/left
+3. `align` (if `location=paragraph`)
+4. `style` and `color`
+5. `setups`
+6. `readcommand`
+7. `after/right
+8. `\blank[afterspace]`
+9. check `indentnext`
 
 Options to a specific environment
 ---------------------------------
@@ -493,10 +528,15 @@ file. To use such markdown files in ConTeXt, I can just use
 
     \processmarkdownfile{filename.md}
 
+By default, the file is searched the current directory and in the directories
+specified by `\usepath`. In addition, in MkIV, the parent and grand-parent
+directories are also searched. If the file is not in one of these locations,
+specify a full or a relative path to the file.
+
 The general macro is `\process<filter>file{...}`, which takes the name of a file
-**or a url** as an argument and uses that file as the input file for the filter. The rest of
-the processing is the same as with `\start<filter>` ... `\stop<filter>`
-environment. 
+**or a url (MkIV only)** as an argument and uses that file as the input file for
+the filter. The rest of the processing is the same as with `\start<filter>` ...
+`\stop<filter>` environment. 
 
 The `\process<filter>file` macro also takes an optional argument for setup
 options:
@@ -538,7 +578,6 @@ or use
     context --trackers=resolvers.schemes <filename>
 
 to compile the file.
-
 
 Processing existing buffers
 ---------------------------
@@ -647,6 +686,72 @@ Then you can use
       \inlinechess{1.e4 e5 2. Nf3 Nc6 3.Bb5}
 
 to get a chess board.
+
+Special use case:  `\write18` with caching
+------------------------------------------
+
+Although the raison d'être of the externalfilter module is to process the
+content of an evironment or a macro through an external program, it may also be
+used to simply exectute an external program without processing any content.
+
+For example, suppose we want to include an image with a swirl gradient in our
+document. ImageMagick can generate such an image using:
+
+     convert -size 100x100 gradient: -swirl 180 <output file>
+
+Notice that in this case, the external program does not need any input file. We
+just need to pass the size of the image to the external program. 
+
+In such cases, we still want to cache the result, i.e., rerun the external
+program only when the `size` of the image has changed. The `write=no` option
+covers this use case. The basic usage is:
+
+    \defineexternalfilter
+        [...]
+        [
+          ...
+          write=no,
+          cacheoption=....,
+          ...
+        ]
+
+Out of the four macros (see [Basic Usage]) created by `\defineexternalfilter`,
+only `\inline<externalfilter>` makes sense with `write=no`. The usage of this
+macro is
+
+    \inline<externalfilter>[....]
+
+Unlike the default case, this version does not take an argument! (That is
+because, it does not write anything to a file). 
+
+When `write=no` is set, `\externalfilterbasefile` is equal to
+`\jobname-temp-<filter>-<cacheoption>` where `<cacheoption>` is the value of the
+`cacheoption` key. 
+
+For example, to generate swirl backgrounds described above, define:
+
+    \defineexternalfilter
+        [swirl]
+        [
+          write=no,
+          cacheoptions={\externalfilterparameter{size}},
+          cache=yes,
+          size={1000x1000},
+          output=\externalfilterbasefile.png,
+          filtercommand={convert -size \externalfilterparameter{size} gradient: -swirl 180 \externalfilteroutputfile},
+          readcommand=\ReadFigure,
+        ]
+
+    \def\ReadFigure#1%
+        {\externalfigure[#1]}
+
+
+This creates a macro `\inlineswirl` that uses ImageMagick to generate a file
+`\jobname-temp-swirl-1000x1000.png`. 
+
+The result is cached and the external program is rerun only if the value of
+cacheoption changes, that is, only if the value of `size` key changes. 
+
 
 Dealing with expansion
 ----------------------
@@ -851,3 +956,9 @@ Version History
     - Added `location`, `spacebefore` and `spaceafter` keys.
 - **2012.05.01**
     - Added `align` key.
+- **2012.06.20**
+    - Support for `\usepath`
+- **2012.01.13**
+    - Support for `write=no` and `cacheoption=...`.
+- **2013.03.31**
+    - Support for `left` and `right`

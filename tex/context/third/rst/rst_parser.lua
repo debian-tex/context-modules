@@ -3,9 +3,9 @@
 --         FILE:  rst_parser.lua
 --        USAGE:  refer to doc/documentation.rst
 --  DESCRIPTION:  https://bitbucket.org/phg/context-rst/overview
---       AUTHOR:  Philipp Gesang (Phg), <megas.kapaneus@gmail.com>
---      VERSION:  0.5
---      CHANGED:  2011-08-28 22:29:33+0200
+--       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
+--      VERSION:  0.6
+--      CHANGED:  2013-03-26 22:45:59+0100
 --------------------------------------------------------------------------------
 --
 
@@ -23,18 +23,19 @@ local rst             = thirddata.rst
 local helpers         = thirddata.rst_helpers
 local optional_setups = thirddata.rst_setups
 
-rst.strip_BOM     = false
-rst.expandtab     = false
+rst.strip_BOM     = true
+rst.expandtab     = true
 rst.shiftwidth    = 4
 rst.crlf          = true
 helpers.rst_debug = false
 
-local iowrite     = io.write
-local fmt         = string.format
-local stringlen   = string.len
-local stringstrip = string.strip
-local utf         = unicode.utf8
-local utflen      = utf.len
+local iowrite      = io.write
+local ioopen       = io.open
+local stringformat = string.format
+local stringlen    = string.len
+local stringstrip  = string.strip
+local utf          = unicode.utf8
+local utflen       = utf.len
 
 local warn
 do
@@ -44,8 +45,10 @@ do
         ndebug = ndebug + 1
         local slen = #str + 3
         --str = "*["..str.."]"
-        str = fmt("*[%4d][%s]", ndebug, str)
-        for i,j in ipairs({...}) do
+        str = stringformat("*[%4d][%s]", ndebug, str)
+        local arglst = { ... }
+        for i=1, #arglst do
+            local current = arglst[i]
             if 80 - i * 8 - slen < 0 then
                 local indent = ""
                 for i=1, slen do
@@ -53,22 +56,26 @@ do
                 end
                 str = str .. "\n" .. indent
             end
-            str = str .. fmt(" |%6s", stringstrip(tostring(j)))
+            str = str .. stringformat(" |%6s", stringstrip(tostring(current)))
         end
         iowrite(str .. " |\n")
         return 0
     end
 end
 
-local C, Cb, Cc, Cg, Cmt, Cp, Cs, Ct 
-    = lpeg.C, lpeg.Cb, lpeg.Cc, lpeg.Cg, lpeg.Cmt, lpeg.Cp, lpeg.Cs, lpeg.Ct
+local C,   Cb, Cc, Cg,
+      Cmt, Cp, Cs, Ct 
+    = lpeg.C,   lpeg.Cb, lpeg.Cc, lpeg.Cg,
+      lpeg.Cmt, lpeg.Cp, lpeg.Cs, lpeg.Ct
 
 local P, R, S, V, match 
     = lpeg.P, lpeg.R, lpeg.S, lpeg.V, lpeg.match
 
 local utf = unicode.utf8
 
-state                = {}
+local state          = {}
+thirddata.rst.state  = state
+
 state.depth          = 0
 state.bullets        = {}  -- mapping bullet forms to depth
 state.bullets.max    = 0
@@ -177,17 +184,20 @@ local parser = P{
                     ,
 
     directive = V"explicit_markup_start"
-              * C(((V"escaped_colon" + (1 - V"colon" - V"eol")) - V"substitution_text")^1)
+              * C(((V"escaped_colon" + (1 - V"colon" - V"eol"))
+                 - V"substitution_text")^1) --> directive name
               * V"double_colon"
-              * (V"directive_block_multi" + V"directive_block_single")
+              * Ct(V"directive_block_multi" + V"directive_block_single") --> content
               / rst.directive
               ,
 
-    directive_block_multi = C((1 - V"eol")^0) * V"eol"
+    directive_block_multi = Cg((1 - V"eol")^0, "name") -- name
+                          * V"eol"
+                          * V"blank_line"^0 -- how many empty lines are permitted?
                           * V"directive_indented_lines"
                           ,
 
-    directive_block_single = C((1 - V"eol")^1) * V"eol",
+    directive_block_single = Ct(C((1 - V"eol")^1)) * V"eol",
 
 --------------------------------------------------------------------------------
 -- Substitution definition block
@@ -207,18 +217,19 @@ local parser = P{
                       * C((1 - V"bar" - V"eol")^1)
                       * V"bar"
                       ,
-                     
-    data_directive_block = V"data_directive_block_long"
-                         + V"data_directive_block_short"
+
+    data_directive_block = V"data_directive_block_multi"
+                         + V"data_directive_block_single"
                          ,
-    data_directive_block_short = C((1 - V"eol")^0) * V"eol",
+    data_directive_block_single = Ct(C((1 - V"eol")^0)) * V"eol",
 
-    data_directive_block_long  = C((1 - V"eol")^0) * V"eol"
-                               * V"directive_indented_lines"
-                               ,
+    data_directive_block_multi  = Cg((1 - V"eol")^0, "first") * V"eol"
+                                * V"directive_indented_lines"
+                                ,
 
-    directive_indented_lines = V"directive_indented_first"
-                             * V"directive_indented_other"^0
+    directive_indented_lines = Ct(V"directive_indented_first"
+                                * V"directive_indented_other"^0)
+                             * (V"blank_line"^1 * Ct(V"directive_indented_other"^1))^0
                              ,
 
 
@@ -231,7 +242,11 @@ local parser = P{
                              ,
 
     directive_indented_other = Cmt(V"space"^1, function(s,i,indent)
-                                    warn("sub-m", #state.currentindent <= #indent, #indent, #state.currentindent, i)
+                                    warn("sub-m",
+                                      #state.currentindent <= #indent,
+                                      #indent,
+                                      #state.currentindent,
+                                      i)
                                     return #state.currentindent <= #indent
                                 end)
                              * C((1 - V"eol")^1) * V"eol"
@@ -284,7 +299,7 @@ local parser = P{
                     end)
                   * (1 - V"eol")^1 * V"eol"
                   ,
-    
+
     fn_matchindent = Cmt(V"space"^1, function(s, i, indent)
                         local tc = state.currentindent
                         warn("fn-ma", tc == indent, #tc, #indent, i)
@@ -330,7 +345,7 @@ local parser = P{
 
     st_first_row = V"st_setindent"
                  * C(V"st_setlayout")
-                 * V"space"^0 
+                 * V"space"^0
                  * V"eol"
                  ,
 
@@ -1269,19 +1284,19 @@ local parser = P{
 
 
     punctuation = V"apostrophe"
-                + V"colon" 
-                + V"comma" 
+                + V"colon"
+                + V"comma"
                 + V"dashes"
-                + V"dot" 
+                + V"dot"
                 + V"ellipsis"
                 + V"exclamationmark"
                 + V"guillemets"
                 + V"hyphen"
                 + V"interpunct"
                 + V"interrobang"
-                + V"questionmark" 
+                + V"questionmark"
                 + V"quotationmarks"
-                + V"semicolon" 
+                + V"semicolon"
                 + V"slash"
                 + V"solidus"
                 + V"underscore"
@@ -1291,7 +1306,7 @@ local parser = P{
 
     letter       = R"az" + R"AZ",
     digit        = R"09",
-                 
+
     space        = P" ",
     spaces       = V"space"^1,
     whitespace   = (P" " + Cs(P"\t") / "        " + Cs(S"\v") / " "),
@@ -1374,7 +1389,7 @@ function file_helpers.crlf (raw)
 end
 
 local function load_file (name)
-    f = assert(io.open(name, "r"), "Not a file!")
+    f = assert(ioopen(name, "r"), "Not a file!")
     if not f then return 1 end
     local tmp = f:read("*all")
     f:close()
@@ -1387,13 +1402,13 @@ local function load_file (name)
         tmp = fh.crlf(tmp)
     end
     if thirddata.rst.expandtab then
-        tmp = fh.expandtab(tmp) 
+        tmp = fh.expandtab(tmp)
     end
     return fh.insert_blank(tmp)
 end
 
 local function save_file (name, data)
-    f = assert(io.open(name, "w"), "Could not open file "..name.." for writing! Check its permissions")
+    f = assert(ioopen(name, "w"), "Could not open file "..name.." for writing! Check its permissions")
     if not f then return 1 end
     f:write(data)
     f:close()
@@ -1401,24 +1416,23 @@ local function save_file (name, data)
 end
 
 local function get_setups (inline)
-    local optional_setups = optional_setups -- might expect lots of calls
+    local optional_setups = optional_setups
     local setups = ""
     if not inline then
         setups = setups .. [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
-%{                           Setups                            }%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%+-------------------------------------------------------------+%
+%|                           Setups                            |%
+%+-------------------------------------------------------------+%
 % General                                                       %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 ]]
     end
 
     setups = setups .. [[
 \setupcolors[state=start]
-\setupinteraction[state=start,focus=standard,color=darkgreen,contrastcolor=darkgreen]
+%% Interaction is supposed to be handled manually.
+%%\setupinteraction[state=start,focus=standard,color=darkgreen,contrastcolor=darkgreen]
 \setupbodyfontenvironment [default]  [em=italic]
 \sethyphenatedurlnormal{:=?&}
 \sethyphenatedurlbefore{?&}
@@ -1439,11 +1453,9 @@ local function get_setups (inline)
         setups = setups .. [[
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
-%{                           Main                              }%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%+-------------------------------------------------------------+%
+%|                            Main                             |%
+%+-------------------------------------------------------------+%
 
 \starttext
 ]]
@@ -1462,11 +1474,9 @@ function thirddata.rst.standalone (infile, outfile)
 
 \stoptext
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
-%{                        End of Document                      }%
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%+-------------------------------------------------------------+%
+%|                       End of Document                       |%
+%+-------------------------------------------------------------+%
 
 % vim:ft=context:tw=65:shiftwidth=2:tabstop=2:set expandtab
 ]]
@@ -1481,7 +1491,7 @@ end
 
 do
     local Cs, P = lpeg.Cs, lpeg.P
-    local percent = P"\%"
+    local percent = P"%"
     local eol     = P"\n"
     local comment = percent * (1 - eol)^0 * eol / "\n"
     strip_comments = Cs((comment + 1)^0)
@@ -1510,7 +1520,7 @@ function thirddata.rst.do_rst_inclusion (iname, fname)
     local setups     = get_setups(true)
 
     local incnr    = #rst_incsetups  + 1
-    local tmp_file = tex.jobname .. fmt("–rst_inclusion-%d.tex.tmp", incnr)
+    local tmp_file = tex.jobname .. stringformat("–rst_inclusion-%d.tex.tmp", incnr)
 
     if processed then
         processed = strip_comments:match(processed)
@@ -1532,7 +1542,7 @@ function thirddata.rst.get_rst_inclusion (iname)
     if rst_inclusions[iname] then
         context.input(rst_inclusions[iname])
     else
-        context(fmt("{\\bf File for inclusion “%s” not found.}\par ", iname))
+        context(stringformat([[{\bf File for inclusion “%s” not found.}\par ]], iname))
     end
 end
 
