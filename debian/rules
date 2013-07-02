@@ -21,7 +21,6 @@ binary-indep: build-indep
 	dh_clean
 	dh_installdirs usr/share/texmf usr/share/doc/$(package)
 	cp -a tex $(instbase)/usr/share/texmf
-	cp -a source $(instbase)/usr/share/texmf
 	cp -a doc/context/third/* $(instbase)/usr/share/doc/$(package)
 	# remove unnecessary stuff
 	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING

@@ -2,8 +2,9 @@ context-modules (20130702-1) unstable; urgency=low
 
   * update list of included modules and make-origtar
   * Imported Upstream version 20130702
+  * fix rules file, no source dirs anymore
 
- -- Norbert Preining <preining@debian.org>  Tue, 02 Jul 2013 11:25:51 +0900
+ -- Norbert Preining <preining@debian.org>  Tue, 02 Jul 2013 11:27:39 +0900
 
 context-modules (20120611-1) unstable; urgency=low
 
