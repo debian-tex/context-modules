@@ -3,6 +3,7 @@ algorithmic
 bnf
 chromato
 construction-plan
+cyrillicnumbers
 degrade
 filter
 fixme
@@ -19,6 +20,7 @@ rst
 ruby
 simplefonts
 simpleslides
+transliterator
 typearea
 typescripts
 vim
