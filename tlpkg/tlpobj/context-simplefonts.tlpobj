@@ -1,14 +1,15 @@
 name context-simplefonts
 category ConTeXt
-revision 25094
+revision 29229
 shortdesc Simplified font usage for ConTeXt.
 relocated 1
 longdesc The package defines a set of commands for loading and using
 longdesc fonts in ConTeXt.
 depend context
-runfiles size=12
+runfiles size=16
  RELOC/tex/context/third/simplefonts/t-simplefonts.lua
- RELOC/tex/context/third/simplefonts/t-simplefonts.tex
+ RELOC/tex/context/third/simplefonts/t-simplefonts.mkii
+ RELOC/tex/context/third/simplefonts/t-simplefonts.mkiv
 catalogue-ctan /macros/context/contrib/context-simplefonts
-catalogue-date 2011-12-28 10:22:06 +0100
+catalogue-date 2012-08-13 18:29:21 +0200
 catalogue-license gpl

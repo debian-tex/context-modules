@@ -3,31 +3,38 @@
 --         FILE:  rst_context.lua
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
---       AUTHOR:  Philipp Gesang (Phg), <megas.kapaneus@gmail.com>
---      CHANGED:  2011-08-28 13:46:46+0200
+--       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
+--      CHANGED:  2013-03-26 22:46:17+0100
 --------------------------------------------------------------------------------
 --
 --- TODO
--- - Find an appropriate way to handle generic tables irrespective of the grid
---   settings. The problem is:
---   http://archive.contextgarden.net/message/20100912.112605.8a1aaf13.en.html
---   Seems we'll have to choose either the grid or split tables as default. Not
---   good.
+---   Find an appropriate way to handle generic tables irrespective of the grid
+---   settings. The problem is:
+---   http://archive.contextgarden.net/message/20100912.112605.8a1aaf13.en.html
+---   Seems we'll have to choose either the grid or split tables as default. Not
+---   good.
 
 
 local helpers        = helpers        or thirddata and thirddata.rst_helpers
 local rst_directives = rst_directives or thirddata and thirddata.rst_directives
 
-local utf      = unicode.utf8
-local utflen   = utf.len
-local utflower = utf.lower
-local utfupper = utf.upper
-local iowrite  = io.write
+local utf         = unicode.utf8
+local utflen      = utf.len
+local utflower    = utf.lower
+local utfupper    = utf.upper
+local iowrite     = io.write
+local tableconcat = table.concat
+
+local stringmatch  = string.match
+local stringgmatch = string.gmatch
+local stringgsub   = string.gsub
 
 local dbg_write = helpers.dbg_writef
 
-local C, Cb, Cc, Cg, Cmt, Cp, Cs, Ct, P, R, S, V, match =
-        lpeg.C, lpeg.Cb, lpeg.Cc, lpeg.Cg, lpeg.Cmt, lpeg.Cp, lpeg.Cs, lpeg.Ct, lpeg.P, lpeg.R, lpeg.S, lpeg.V, lpeg.match
+local C,  Cb, Cc, Cg, Cmt, Cp,
+      Cs, Ct, P,  R,  S,   V,  lpegmatch
+      = lpeg.C,  lpeg.Cb, lpeg.Cc, lpeg.Cg, lpeg.Cmt, lpeg.Cp,
+        lpeg.Cs, lpeg.Ct, lpeg.P,  lpeg.R,  lpeg.S,   lpeg.V,  lpeg.match
 
 -- This one should ignore escaped spaces.
 do
@@ -39,11 +46,11 @@ do
         escaped  = P"\\" * V"space"
     }
     function string.strip(str)
-        return stripper:match(str) or ""
-    end 
+        return lpegmatch(stripper, str) or ""
+    end
 end
-local stringstrip = string.strip
-local fmt         = string.format
+local stringstrip  = string.strip
+local stringformat = string.format
 
 local err = function(str)
     if str then
@@ -70,13 +77,14 @@ rst_context.current_footnote_number   = 0
 rst_context.current_symbolnote_number = 0
 
 function rst_context.addsetups(item)
+    local state = thirddata.rst.state
     state.addme[item] = state.addme[item] or true
     return 0
 end
 
 function rst_context.footnote_reference (label)
-    local tf = state.footnotes
-    if label:match("^%d+$") then -- all digits
+    local tf = thirddata.rst.state.footnotes
+    if stringmatch(label, "^%d+$") then -- all digits
         local c = tonumber(label)
         return [[\\footnote{\\getbuffer[__footnote_number_]].. c .."]}"
     elseif label == "#" then --autonumber
@@ -84,8 +92,8 @@ function rst_context.footnote_reference (label)
         rc = rc + 1
         rst_context.current_footnote_number = rc
         return [[\\footnote{\\getbuffer[__footnote_number_]].. rc .."]}"
-    elseif label:match("^#.+$") then
-        local thelabel = label:match("^#(.+)$")
+    elseif stringmatch(label, "^#.+$") then
+        local thelabel = stringmatch(label, "^#(.+)$")
         return [[\\footnote{\\getbuffer[__footnote_label_]].. thelabel .."]}"
     elseif label == "*" then
         local rc = rst_context.current_symbolnote_number
@@ -102,12 +110,12 @@ do
     local w = S" \v\t\n" / "_"
     local wp = Cs((w + 1)^1)
     function rst_context.whitespace_to_underscore(str)
-        return  str and wp:match(str) or ""
+        return  str and lpegmatch(wp, str) or ""
     end
 end
 
--- So we can use crefs[n][2] to refer to the place where the reference was
--- created.
+--- So we can use crefs[n][2] to refer to the place where the reference was
+--- created.
 local function get_context_reference (str)
     local crefs = rst_context.context_references
     local srefs = rst_context.structure_references
@@ -161,12 +169,12 @@ end
 
 rst_context.roles.color = function(color, str)
     local p = helpers.patterns
-    local definition = color:match("^color_(.+)$")
-    if definition:match("^rgb_") then -- assume rgb
-        local rgb = p.rgbvalues:match(definition)
-        definition = fmt([[r=%s,g=%s,b=%s]], rgb[1], rgb[2], rgb[3])
+    local definition = stringmatch(color, "^color_(.+)$")
+    if stringmatch(definition, "^rgb_") then -- assume rgb
+        local rgb = lpegmatch(p.rgbvalues, definition)
+        definition = stringformat([[r=%s,g=%s,b=%s]], rgb[1], rgb[2], rgb[3])
     end
-    return fmt([[\\colored[%s]{%s}]], definition, str)
+    return stringformat([[\\colored[%s]{%s}]], definition, str)
 end
 
 --------------------------------------------------------------------------------
@@ -195,7 +203,7 @@ end
 -- wrong if you can! Or go tell those digital publishers and their willing
 -- subordinates, the authors, who think they can save a few pennys,
 -- substituting the typesetter and editor by some fancy software. Keep in mind
--- that zapf.tex is not just random dummy text. Now, where was I?
+-- that zapf.tex is not just random dummy text. </rant>
 
 function rst_context.roles.ctsh(str) -- shorthand
     rst_context.addsetups("citator")
@@ -252,14 +260,14 @@ end
 function rst_context.interpreted_text (...)
     local tab = { ... }
     local role, str
-    role = tab[1]:match("^:(.*):$") or tab[3]:match("^:(.*):$")
+    role = stringmatch(tab[1], "^:(.*):$") or stringmatch(tab[3], "^:(.*):$")
     str  = tab[2]
 
     if not role then -- implicit role
         role = "emphasis"
     end
 
-    if role:match("^color_") then
+    if stringmatch(role, "^color_") then
         return rst_context.roles.color(role, str)
     end
 
@@ -273,17 +281,17 @@ end
 
 function rst_context.reference (str)
     rst_context.addsetups("references")
-    str = str:match("^`?([^`]+)`?_$") -- LPEG could render this gibberish legible but not time
+    str = stringmatch(str, "^`?([^`]+)`?_$")
     return [[\\RSTchoosegoto{__target_]] .. rst_context.whitespace_to_underscore(str) .. "}{"
             .. str .. "}"
 end
 
 function rst_context.anon_reference (str)
     rst_context.addsetups("references")
-    str = str:match("^`?([^`]+)`?__$")
+    str = stringmatch(str, "^`?([^`]+)`?__$")
     rst_context.anonymous_links[#rst_context.anonymous_links+1] = str
     link = "__target_anon_" .. #rst_context.anonymous_links
-    return fmt([[\\RSTchoosegoto{%s}{%s}]], link, str)
+    return stringformat([[\\RSTchoosegoto{%s}{%s}]], link, str)
 end
 
 local whitespace = S" \n\t\v"
@@ -316,7 +324,11 @@ function rst_context.target (tab)
                 local anon = create_anonymous()
                 id, arefs[anon[1]] = anon[1], anon[2]
             else
-                id = tab[i]:gsub("\\:",":"):match("`?([^`]+)`?") -- deescaping
+                local tmp = tab[i]
+                tmp = stringgsub(tmp, "\\:",":")
+                tmp = stringmatch(tmp, "`?([^`]+)`?")
+                id = tmp
+                --id = tab[i]:gsub("\\:",":"):match("`?([^`]+)`?") -- deescaping
             end
             if id then
                 refs[id] = refs[id] or target
@@ -368,17 +380,17 @@ do
         skip2    = P"\\type" * V"balanced",
         skip3    = P"\\mathematics" * V"balanced",
         skip     = V"skip1" + V"skip2" + V"skip3",
-        --literal  = Cs(P"\\" / "") * 1 
+        --literal  = Cs(P"\\" / "") * 1
     }
 
     function rst_context.escape (str)
-        str = str:gsub("\\(.)", "%1")
-        return p_escape:match(str)
+        str = stringgsub(str, "\\(.)", "%1")
+        return lpegmatch(p_escape, str)
     end
 end
 
 function rst_context.joinindented (tab)
-    return table.concat (tab, "")
+    return tableconcat (tab, "")
 end
 
 local corresponding = {
@@ -393,13 +405,13 @@ local corresponding = {
 local inline_parser = P{
     [1] = "block",
 
-    block = Cs(V"inline_as_first"^-1 * (V"except" + V"inline_element" + 1)^0),
+    block = Cs(V"inline_as_first"^-1 * (V"except" + V"inline_element" + V"normal_char")^0),
 
     inline_element = V"precede_inline"
-                    * Cs(V"inline_do_elements")
-                    * #V"succede_inline"
-                    + V"footnote_reference"
-                    ,
+                   * Cs(V"inline_do_elements")
+                   * #V"succede_inline"
+                   + V"footnote_reference"
+                   ,
 
     -- Ugly but needed in case the first element of a paragraph is inline
     -- formatted.
@@ -410,15 +422,15 @@ local inline_parser = P{
            ,
 
     inline_do_elements = V"strong_emphasis"
-                     + V"substitution_reference"
-                     + V"anon_reference"
-                     + V"inline_literal"
-                     + V"reference"
-                     + V"emphasis"
-                     + V"interpreted_text"
-                     + V"inline_internal_target"
-                     + V"link_standalone"
-                     ,
+                       + V"substitution_reference"
+                       + V"anon_reference"
+                       + V"inline_literal"
+                       + V"reference"
+                       + V"emphasis"
+                       + V"interpreted_text"
+                       + V"inline_internal_target"
+                       + V"link_standalone"
+                       ,
 
     precede_inline = V"spacing"
                    + V"eol"
@@ -489,14 +501,18 @@ local inline_parser = P{
 
     lparenthesis = P"(",
     rparenthesis = P")",
-    lsquare = P"[",
-    rsquare = P"]",
-    lbrace = P"{",
-    rbrace = P"}",
+    lsquare = P"[" / [[{\\letterleftbracket}]],
+    rsquare = P"]" / [[{\\letterrightbracket}]],
+    lbrace  = P"{" / [[{\\letterleftbrace}]],
+    rbrace  = P"}" / [[{\\letterrightbrace}]],
     less    = P"<",
     greater = P">",
     leftpar  = V"lparenthesis" + V"lsquare" + V"lbrace" + V"less",
     rightpar = V"rparenthesis" + V"rsquare" + V"rbrace" + V"greater",
+
+    normal_char = V"lbrace" + V"rbrace" + V"lsquare" + V"rsquare" -- escape those if in input
+                + 1
+                ,
 
     --groupchars = S"()[]{}",
     groupchars = V"leftpar" + V"rightpar",
@@ -512,47 +528,47 @@ local inline_parser = P{
     letter = R"az" + R"AZ",
 
     punctuation = V"apostrophe"
-                + V"colon" 
-                + V"comma" 
+                + V"colon"
+                + V"comma"
                 + V"dashes"
-                + V"dot" 
+                + V"dot"
                 + V"ellipsis"
                 + V"exclamationmark"
                 + V"guillemets"
                 + V"hyphen"
                 + V"interpunct"
                 + V"interrobang"
-                + V"questionmark" 
+                + V"questionmark"
                 + V"quotationmarks"
-                + V"semicolon" 
+                + V"semicolon"
                 + V"slash"
                 + V"solidus"
                 + V"underscore"
                 ,
 
-    emphasis        = (V"asterisk" - V"double_asterisk") 
-                    * Cs((1 - V"spacing" - V"eol" - V"asterisk")
-                       * ((1 - (1 * V"asterisk"))^0 
-                        * (1 - V"spacing" - V"eol" - V"asterisk"))^-1) 
-                    * V"asterisk" 
+    emphasis        = (V"asterisk" - V"double_asterisk")
+                    * Cs((V"normal_char" - V"spacing" - V"eol" - V"asterisk")
+                       * ((V"normal_char" - (V"normal_char" * V"asterisk"))^0
+                        * (V"normal_char" - V"spacing" - V"eol" - V"asterisk"))^-1)
+                    * V"asterisk"
                     / rst_context.emphasis,
 
-    strong_emphasis = V"double_asterisk" 
-                    * Cs((1 - V"spacing" - V"eol" - V"asterisk")
-                       * ((1 - (1 * V"double_asterisk"))^0 
-                        * (1 - V"spacing" - V"eol" - V"asterisk"))^-1) 
-                    * V"double_asterisk"  
+    strong_emphasis = V"double_asterisk"
+                    * Cs((V"normal_char" - V"spacing" - V"eol" - V"asterisk")
+                       * ((V"normal_char" - (V"normal_char" * V"double_asterisk"))^0
+                        * (V"normal_char" - V"spacing" - V"eol" - V"asterisk"))^-1)
+                    * V"double_asterisk"
                     / rst_context.strong_emphasis,
 
     inline_literal  = V"double_bareia"
                     * C ((V"escaped_bareia" - V"spacing" - V"eol" - V"bareia")
-                       * ((V"escaped_bareia" - (1 * V"double_bareia"))^0
+                       * ((V"escaped_bareia" - (V"normal_char" * V"double_bareia"))^0
                         * (V"escaped_bareia" - V"spacing" - V"eol" - V"bareia"))^-1)
                     * V"double_bareia"
                     / rst_context.literal,
 
-    interpreted_single_char = (1 - V"spacing" - V"eol" - V"bareia") * #V"bareia",
-    interpreted_multi_char  = (1 - V"spacing" - V"eol" - V"bareia") * (1 - (1 * V"bareia"))^0 * (1 - V"spacing" - V"eol" - V"bareia"),
+    interpreted_single_char = (V"normal_char" - V"spacing" - V"eol" - V"bareia") * #V"bareia",
+    interpreted_multi_char  = (V"normal_char" - V"spacing" - V"eol" - V"bareia") * (V"normal_char" - (1 * V"bareia"))^0 * (1 - V"spacing" - V"eol" - V"bareia"),
 
     interpreted_text = C(V"role_marker"^-1)
                      * (V"bareia" - V"double_bareia")
@@ -586,9 +602,9 @@ local inline_parser = P{
                      * V"bareia" * V"underscore"
                      ,
 
-    footnote_reference = V"lsquare" 
-                       * Cs(V"footnote_label" + V"citation_reference_label") 
-                       * V"rsquare" 
+    footnote_reference = V"lsquare"
+                       * Cs(V"footnote_label" + V"citation_reference_label")
+                       * V"rsquare"
                        * V"underscore"
                        / rst_context.footnote_reference
                        ,
@@ -633,12 +649,19 @@ function rst_context.paragraph (data)
     if not data then
         return ""
     elseif type(data) == "table" then
-        str = #data > 1 and  helpers.string.wrapat(inline_parser:match(table.concat(data, " ")), 65) 
-                        or   inline_parser:match(data[1])
+--        str = #data > 1 and  helpers.string.wrapat(lpegmatch(inline_parser, tableconcat(data, " ")), 65) 
+--                        or   inline_parser:match(data[1])
+        if #data > 1 then
+            str = helpers.string.wrapat(
+                lpegmatch(inline_parser, tableconcat(data, " "))
+                , 65)
+        else
+            str = lpegmatch(inline_parser, data[1])
+        end
     else
         str = data
     end
-    return fmt([[
+    return stringformat([[
 
 \\startparagraph
 %s
@@ -666,12 +689,10 @@ function rst_context.section (...)  -- TODO general cleanup; move validity
     if #tab == 3 then -- TODO use unicode length with ConTeXt
         adornchar = tab[1]:sub(1,1)
         section = ulen(tab[1]) >= ulen(tab[2])
-        --section = get_line_pattern(adornchar):match(tab[1]) ~= nil and section
         str = stringstrip(tab[2])
     else -- no overline
         adornchar = tab[2]:sub(1,1)
         section = ulen(tab[1]) <= ulen(tab[2])
-        --section = get_line_pattern(adornchar):match(tab[2]) ~= nil and section
         str = tab[1]
     end
 
@@ -688,7 +709,7 @@ function rst_context.section (...)  -- TODO general cleanup; move validity
 
         ref = get_context_reference (str)
 
-        str = fmt("\n\\\\%s[%s]{%s}\n", sectionlevels[level], ref, str)
+        str = stringformat("\n\\\\%s[%s]{%s}\n", sectionlevels[level], ref, str)
     else
         return [[{\\bf fix your sectioning!}\\endgraf}]]
     end
@@ -717,7 +738,7 @@ do
         nospace  = V"escaped" + (1 - V"space"),
     }
     function stringstrip(str)
-        return stripper:match(str) or ""
+        return lpegmatch(stripper, str) or ""
     end 
 end
 
@@ -745,26 +766,25 @@ local itemstripper = stripme^0 * C(dontstrip^1) * stripme^0
 local function parse_itemstring(str)
     local offset = nil
     local setup = ",fit][itemalign=flushright,"
-    -- string.match is slightly faster than string.find
-    if str:match("^%(") then
+    if stringmatch(str, "^%(") then
         setup = setup .. [[left=(,]]
     end
-    if str:match("%)$") then
+    if stringmatch(str, "%)$") then
         setup = setup .. [[right=)]]
     end
-    if str:match("%.$") then
+    if stringmatch(str, "%.$") then
         setup = setup .. [[stopper={.\\space}]]
     end
-    local num = str:match("^%d")
+    local num = stringmatch(str, "^%d")
     if num then
         -- http://thread.gmane.org/gmane.comp.tex.context/61728/focus=61729
         setup = setup .. ",start=" .. num
         str = "n"
     end
 
-    str = itemstripper:match(str)
+    str = lpegmatch(itemstripper, str)
     str = enumeration_types[str] or str
-    return {setup = setup, str = str}
+    return { setup = setup, str = str }
 end
 
 function rst_context.startitemize(str)
@@ -811,7 +831,7 @@ function rst_context.bullet_item (tab)
             -- just leave it alone
         elseif helpers.list.greater(itemtype, li[current_itemdepth]) then
             local itemnum = tonumber(stringstrip(itemtype)) or helpers.list.get_decimal(itemtype)
-            result = result .. fmt([[
+            result = result .. stringformat([[
 \\setnumber[itemgroup:itemize]{%s}
 ]], itemnum)
         end
@@ -820,7 +840,7 @@ function rst_context.bullet_item (tab)
 
     return result .. [[
 
-\\item ]] .. inline_parser:match(content) .. [[
+\\item ]] .. lpegmatch(inline_parser, content) .. [[
 
 ]]
 end
@@ -836,7 +856,8 @@ function rst_context.deflist (list)
     local deflist = [[
 \\startRSTdefinitionlist
 ]] 
-    for nd, item in ipairs(list) do
+    for nd=1, #list do
+        local item = list[nd]
         local term = item[1]
         local nc = 2
         local tmp = [[
@@ -854,10 +875,12 @@ function rst_context.deflist (list)
 
   \\RSTdeflistdefinition{%
 ]]
-        for np, par in ipairs(item[#item]) do -- definitions, multi-paragraph
+        local final = item[#item]
+        for np=1, #final do
+            local par = final[np]
             tmp = tmp .. [[
     \\RSTdeflistparagraph{%
-]] .. inline_parser:match(par) .. "}\n"
+]] .. lpegmatch(inline_parser, par) .. "}\n"
         end
         tmp = tmp .. "  }"
         deflist = deflist .. tmp
@@ -889,16 +912,16 @@ function rst_context.field_name (str)
 end
 
 function rst_context.field_body (str)
-    return [[\\fieldbody{]] .. inline_parser:match(str) .. [[}]]
+    return [[\\fieldbody{]] .. lpegmatch(inline_parser, str) .. [[}]]
 end
 
 function rst_context.field (tab)
     local name, body = tab[1], tab[2]
-    return fmt([[
+    return stringformat([[
 
     \\RSTfieldname{%s}
     \\RSTfieldbody{%s}
-]], name, inline_parser:match(body))
+]], name, lpegmatch(inline_parser, body))
 end
 
 function rst_context.line_comment (str)
@@ -906,7 +929,7 @@ function rst_context.line_comment (str)
 end
 
 function rst_context.block_comment (str)
-    return fmt([[
+    return stringformat([[
 
 \iffalse %% start block comment
 %s\fi %% stop block comment
@@ -926,7 +949,7 @@ function rst_context.option_list (str)
 \\eTR
 \\eTABLEhead
 \\bTABLEbody
-]] .. inline_parser:match(str) .. [[
+]] .. lpegmatch(inline_parser, str) .. [[
 
 \\eTABLEbody
 \\eTABLE
@@ -934,7 +957,7 @@ function rst_context.option_list (str)
 end
 
 function rst_context.option_item (tab)
-    return fmt([[\\bTR\\bTC %s \\eTC\\bTC %s \\eTC\\eTR
+    return stringformat([[\\bTR\\bTC %s \\eTC\\bTC %s \\eTC\\eTR
 ]], tab[1], tab[2])
 end
 
@@ -944,11 +967,10 @@ end
 
 function rst_context.literal_block (str, included)
     local indent = P" "^1
-    --local stripme = indent:match(str) or 0
     local stripme = #str
-    for line in str:gmatch("[^\n]+") do
+    for line in stringgmatch(str, "[^\n]+") do
         -- setting to the lowest indend of all lines
-        local idt = indent:match(line)
+        local idt = lpegmatch(indent, line)
         if line and idt then
             stripme = idt < stripme and idt or stripme
         end
@@ -965,7 +987,7 @@ function rst_context.literal_block (str, included)
         end,
     }
 
-    str = strip:match(str)
+    str = lpegmatch(strip, str)
     str = [[
 
 \starttyping[lines=hyphenated]
@@ -988,7 +1010,7 @@ function rst_context.line_block (str)
     return [[
 
 \\startlines
-]] .. inline_parser:match(str) .. [[\\stoplines
+]] .. lpegmatch(inline_parser, str) .. [[\\stoplines
 ]]
 end
 
@@ -1007,7 +1029,7 @@ function rst_context.block_quote (tab)
 \\startlinecorrection
 \\blank[small]
 \\startblockquote
-]] .. inline_parser:match(tab[1]) .. [[
+]] .. lpegmatch(inline_parser, tab[1]) .. [[
 
 \\stopblockquote
 ]]
@@ -1015,7 +1037,7 @@ function rst_context.block_quote (tab)
     return tab[2] and str .. [[
 \\blank[small]
 \\startattribution
-]] .. inline_parser:match(tab[2]) .. [[
+]] .. lpegmatch(inline_parser, tab[2]) .. [[
 \\stopattribution
 \\blank[small]
 \\stoplinecorrection
@@ -1048,9 +1070,9 @@ function rst_context.grid_table (tab)
 ]]
         while nr <= tab.head_end do
             local r = tab.rows[nr]
-        --for i,r in ipairs(tab.rows) do
             local isempty = true
-            for n, cell in ipairs(r) do
+            for n=1, #r do
+                local cell = r[n]
                 if cell.variant == "normal" then
                     isempty = false
                     break
@@ -1059,10 +1081,11 @@ function rst_context.grid_table (tab)
 
             if not isempty then
                 local row = [[\\bTR]]
-                for n,c in ipairs(r) do
+                for n=1, #r do
+                    local c = r[n]
                     if not (c.parent or
                             c.variant == "separator") then
-                        local celltext = inline_parser:match(c.stripped)
+                        local celltext = lpegmatch(inline_parser, c.stripped)
                         if c.span.x or c.span.y then
                             local span_exp = "["
                             if c.span.x then
@@ -1097,9 +1120,9 @@ function rst_context.grid_table (tab)
     end
     while nr <= #tab.rows do
         local r = tab.rows[nr]
-    --for i,r in ipairs(tab.rows) do
         local isempty = true
-        for n, cell in ipairs(r) do
+        for n=1, #r do
+            local cell = r[n]
             if cell.variant == "normal" then
                 isempty = false
                 break
@@ -1108,10 +1131,11 @@ function rst_context.grid_table (tab)
 
         if not isempty then
             local row = [[\\bTR]]
-            for n,c in ipairs(r) do
+            for n=1, #r do
+                local c = r[n]
                 if not (c.parent or
                         c.variant == "separator") then
-                    local celltext = inline_parser:match(c.stripped)
+                    local celltext = lpegmatch(inline_parser, c.stripped)
                     if c.span.x or c.span.y then
                         local span_exp = "["
                         if c.span.x then
@@ -1156,11 +1180,12 @@ function rst_context.simple_table(tab)
             if not row.ignore then
                 dbg_write(">hr>" .. #row)
                 head = head .. [[\\bTR]]
-                for nc,cell in ipairs(row) do
+                for nc=1, #row do
+                    local cell = row[nc]
                     dbg_write("%7s | ", cell.content)
-                    local celltext = inline_parser:match(cell.content)
+                    local celltext = lpegmatch(inline_parser, cell.content)
                     if cell.span then
-                        head = head .. fmt([=[\\bTH[nc=%s]%s\\eTH]=], cell.span.x, celltext or "")
+                        head = head .. stringformat([=[\\bTH[nc=%s]%s\\eTH]=], cell.span.x, celltext or "")
                     else
                         head = head .. [[\\bTH ]] .. celltext .. [[\\eTH]]
                     end
@@ -1195,11 +1220,12 @@ function rst_context.simple_table(tab)
         if not row.ignore then
             dbg_write(">tr>" .. #row)
             body = body .. [[\\bTR]]
-            for nc,cell in ipairs(row) do
+            for nc=1, #row do
+                local cell = row[nc]
                 dbg_write("%7s | ", cell.content)
-                local celltext = inline_parser:match(cell.content)
+                local celltext = lpegmatch(inline_parser, cell.content)
                 if cell.span then
-                    body = body .. fmt([=[\\bTC[nc=%s]%s\\eTC]=], cell.span.x, celltext or "")
+                    body = body .. stringformat([=[\\bTC[nc=%s]%s\\eTC]=], cell.span.x, celltext or "")
                 else
                     body = body .. [[\\bTC ]] .. celltext .. [[\\eTC]]
                 end
@@ -1213,45 +1239,65 @@ function rst_context.simple_table(tab)
 end
 
 function rst_context.footnote (label, content)
-    local tf = state.footnotes
+    local tf = thirddata.rst.state.footnotes
     rst_context.addsetups("footnotes")
-    if label:match("^%d+$") then -- all digits
-        tf.numbered[tonumber(label)] = rst_context.escape(inline_parser:match(content))
+    if stringmatch(label, "^%d+$") then -- all digits
+        tf.numbered[tonumber(label)] =
+            rst_context.escape(lpegmatch(inline_parser, content))
     elseif label == "#" then --autonumber
         repeat -- until next unrequested number
             tf.autonumber = tf.autonumber + 1
         until tf.numbered[tf.autonumber] == nil
-        tf.numbered[tf.autonumber] = rst_context.escape(inline_parser:match(content))
-    elseif label:match("^#.+$") then
-        local thelabel = label:match("^#(.+)$")
-        tf.autolabel[thelabel] = rst_context.escape(inline_parser:match(content))
+        tf.numbered[tf.autonumber] =
+            rst_context.escape(lpegmatch(inline_parser, content))
+    elseif stringmatch(label, "^#.+$") then
+        local thelabel = stringmatch(label, "^#(.+)$")
+        tf.autolabel[thelabel] =
+            rst_context.escape(lpegmatch(inline_parser, content))
     elseif label == "*" then
         rst_context.addsetups("footnote_symbol")
-        tf.symbol[#tf.symbol+1] = rst_context.escape(inline_parser:match(content))
+        tf.symbol[#tf.symbol+1] =
+            rst_context.escape(lpegmatch(inline_parser, content))
     else -- “citation reference” treated like ordinary footnote
         repeat -- until next unrequested number
             tf.autonumber = tf.autonumber + 1
         until tf.numbered[tf.autonumber] == nil
-        tf.numbered[tf.autonumber] = rst_context.escape(inline_parser:match(content))
+        tf.numbered[tf.autonumber] =
+            rst_context.escape(lpegmatch(inline_parser, content))
     end
     return ""
 end
 
 function rst_context.substitution_definition (subtext, directive, data)
-    data = table.concat(data, "\n")
-    local rs = rst_context.substitutions
-    rs[subtext] = { directive = directive, data = data }
+    local tmp
+    if data.first ~= "" then
+        tmp = { data.first }
+    else
+        tmp = { }
+    end
+    data.first = nil
+    for i=1, #data do -- paragraphs
+        local current = tableconcat(data[i], "\n")
+        --current = lpegmatch(inline_parser, current)
+        --current = rst_context.escape(current)
+        tmp[#tmp+1] = current
+    end
+    data = tableconcat(tmp, "\n\n")
+    rst_context.substitutions[subtext] = { directive = directive,
+                                           data      = data }
     return ""
 end
 
 -- not to be confused with the directive definition table rst_directives
-function rst_context.directive(directive, ...)
-    local rd = rst_directives
-    rst_context.addsetups("directive")
-    local data = {...}
-    local result = ""
-    if rd[directive] then
-        result = rd[directive](data)
+function rst_context.directive(directive, data)
+    local fun  = rst_directives[directive]
+    if fun then
+        rst_context.addsetups("directive")
+        local result = ""
+        result = fun(data)
+        return result
     end
-    return result
+    return ""
 end
+
+-- vim:ft=lua:sw=4:ts=4:expandtab

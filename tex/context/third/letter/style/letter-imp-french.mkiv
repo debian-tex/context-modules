@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=letter-imp-french,
-%D      version=2011.10.29,
+%D      version=2013.06.21,
 %D        title=\CONTEXT\ Letter Style,
 %D     subtitle=French style,
 %D       author=Wolfgang Schuster,
@@ -13,7 +13,7 @@
 %C This program is free software: you can redistribute it and/or modify
 %C it under the terms of the GNU General Public License as published by
 %C the Free Software Foundation, either version 3 of the License, or
-%C any later version.
+%C (at your option) any later version.
 %C
 %C This program is distributed in the hope that it will be useful,
 %C but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -59,7 +59,8 @@
 \setupletterlayer
   [\v!location]
   [\c!x=107mm,
-   \c!y=30mm]
+   \c!y=30mm,
+   \c!alternative=\v!french]
 
 \setupletterlayer
   [\v!reference]
@@ -84,7 +85,7 @@
   [\c!spaceafter={\v!samepage,2*\v!line}]
 
 \setuplettersection
-  [\v!location,\v!opening,\v!closing]
+  [\v!opening,\v!closing]
   [\c!alternative=\v!french]
 
 \setupletteroptions

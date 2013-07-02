@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=s-cor-01,
-%D      version=2012.05.25,
+%D      version=2013.01.02,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Letters,
 %D       author=Wolfgang Schuster,
@@ -13,7 +13,7 @@
 %C This program is free software: you can redistribute it and/or modify
 %C it under the terms of the GNU General Public License as published by
 %C the Free Software Foundation, either version 3 of the License, or
-%C any later version.
+%C (at your option) any later version.
 %C
 %C This program is distributed in the hope that it will be useful,
 %C but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -25,9 +25,9 @@
 
 \unprotect
 
-\usemodule[cor-00]
+\startmodule[letter]
 
-\startmodule[\v!letter]
+\usemodule[cor-00]
 
 \setupmodule
   [\c!style=dinb]
@@ -41,7 +41,7 @@
 \def\defineletterdescription {\dodoubleargument\definecorrespondencedescription [\v!letter]}
 
 \def\defineletterelements    {\dotripleargument\definecorrespondenceelements    [\v!letter]}
-\def\setupletterelements     {\dotripleargument\setupcorrespondenceelements     [\v!letter]}
+\def\setupletterelements     {\dotripleargument\definecorrespondenceelements    [\v!letter]}
 
 \def\setupletterstyle        {\dotripleargument\setupcorrespondencestyle        [\v!letter]}
 \def\setupletterlayer        {\dotripleargument\setupcorrespondencelayer        [\v!letter]}
@@ -119,11 +119,12 @@
    \correspondenceparameter\c!fromaddress}
 
 \defineletterelement[\v!layer][\v!head][\v!left]
-  {\framed[\c!frame=\v!off,\c!align=\c!flushleft,\c!width=\v!broad,\c!offset=\zeropoint]\bgroup
+  {\framed[\c!frame=\v!off,\c!align=\v!flushleft,\c!width=\v!broad,\c!offset=\zeropoint]\bgroup
      \def\currentcorrespondencestyle{\v!letter:\c!fromname}%
      \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}\c!style\c!color
        \correspondenceparameter\c!fromname
      \dostopattributes
+     \\
      \def\currentcorrespondencestyle{\v!letter:\c!fromaddress}%
      \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}\c!style\c!color
        \correspondenceparameter\c!fromaddress
@@ -135,11 +136,12 @@
    \egroup}
 
 \defineletterelement[\v!layer][\v!head][\v!middle]
-  {\framed[\c!frame=\v!off,\c!align=\c!middle,\c!width=\v!broad,\c!offset=\zeropoint]\bgroup
+  {\framed[\c!frame=\v!off,\c!align=\v!middle,\c!width=\v!broad,\c!offset=\zeropoint]\bgroup
      \def\currentcorrespondencestyle{\v!letter:\c!fromname}%
      \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}\c!style\c!color
        \correspondenceparameter\c!fromname
      \dostopattributes
+     \\
      \def\currentcorrespondencestyle{\v!letter:\c!fromaddress}%
      \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}\c!style\c!color
        \correspondenceparameter\c!fromaddress
@@ -151,11 +153,12 @@
    \egroup}
 
 \defineletterelement[\v!layer][\v!head][\v!right]
-  {\framed[\c!frame=\v!off,\c!align=\c!flushright,\c!width=\v!broad,\c!offset=\zeropoint]\bgroup
+  {\framed[\c!frame=\v!off,\c!align=\v!flushright,\c!width=\v!broad,\c!offset=\zeropoint]\bgroup
      \def\currentcorrespondencestyle{\v!letter:\c!fromname}%
      \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}\c!style\c!color
        \correspondenceparameter\c!fromname
      \dostopattributes
+     \\
      \def\currentcorrespondencestyle{\v!letter:\c!fromaddress}%
      \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}\c!style\c!color
        \correspondenceparameter\c!fromaddress
@@ -196,7 +199,7 @@
        {\correspondenceparameter\c!toname    \\
         \correspondenceparameter\c!date      \\
         \correspondenceparameter\c!reference \\
-        \lettertext\v!page\subpagenumber}}}
+        \lettertext\c!page\subpagenumber}}}
 
 \defineletterelement[\v!layer][\v!nexthead][\v!semiblock]
   {\maxaligned
@@ -214,7 +217,7 @@
   {\maxaligned
      {\rlap{\correspondenceparameter\c!toname}%
       \midaligned{\currentdate}%
-      \llap{\lettertext\v!page\subpagenumber}}}
+      \llap{\lettertext\c!page\subpagenumber}}}
 
 \defineletterelement[\v!layer][\v!nexthead][\v!setups]
   {\directsetup{\v!letter:\v!layer:\v!nexthead}}
@@ -234,10 +237,10 @@
 \defineletterelement[\v!layer][\v!foot][\v!gbrief]
   {\bTABLE[\c!frame=\v!off,\c!width=.25\hsize,\c!offset=\zeropoint]
      \bTR[\c!style=\bfxx,\c!topframe=\v!on]
-       \bTD \lettertext\v!address \eTD
-       \bTD \lettertext\v!phone   \eTD
-       \bTD \lettertext\v!email   \eTD
-       \bTD \lettertext\v!bank    \eTD
+       \bTD \lettertext\c!address \eTD
+       \bTD \lettertext\c!phone   \eTD
+       \bTD \lettertext\c!email   \eTD
+       \bTD \lettertext\c!bank    \eTD
      \eTR
      \bTR
        \bTD \correspondenceparameter\c!street  \\\correspondenceparameter\c!city                                                 \eTD
@@ -382,8 +385,9 @@
              \noexpand\NC
                \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}{\c!titlestyle}{\c!titlecolor}%
                \lettertext\currentcorrespondencevalue
+               \correspondencestyleparameter\c!separator
                \dostopattributes
-             \noexpand\EQ
+             \noexpand\NC
                \dostartattributes{\????correspondencestyle\currentcorrespondencestyle}{\c!textstyle }{\c!textcolor }%
                \correspondenceparameter\currentcorrespondencevalue
                \dostopattributes
@@ -512,7 +516,7 @@
   {\def\\{\correspondencesectionparameter\c!separator}%
    \doifsomethingelse{\correspondenceparameter\c!title}
      {\correspondenceparameter\c!title}
-     {\lettertext\v!attention\correspondenceparameter\c!attention}}
+     {\lettertext\c!attention\correspondenceparameter\c!attention}}
 
 \defineletterelement[\v!section][\v!title][\v!setups]
   {\directsetup{\v!letter:\v!section:\v!title}}
@@ -521,7 +525,7 @@
 
 \defineletterelement[\v!section][\v!subject][\s!default]
   {\def\\{\correspondencesectionparameter\c!separator}%
-   \lettertext\v!subject\correspondenceparameter\c!subject}
+   \lettertext\c!subject\correspondenceparameter\c!subject}
 
 \defineletterelement[\v!section][\v!subject][\v!setups]
   {\directsetup{\v!letter:\v!section:\v!subject}}
@@ -638,268 +642,270 @@
      \processcommalist[#1]\dodosetuplettertext
    \fi}
 
-\def\lettertext#1{\labeltext{\????lettertext#1}}
+\def\lettertext     #1{\labeltext     {\????lettertext#1}}
+\def\leftlettertext #1{\leftlabeltext {\????lettertext#1}}
+\def\rightlettertext#1{\rightlabeltext{\????lettertext#1}}
 
 % name:
 
-\setuplettertext[\s!en][\v!name=Name]
-\setuplettertext[\s!nl][\v!name=]
-\setuplettertext[\s!de][\v!name=Name]
-\setuplettertext[\s!fr][\v!name=Nom]
-\setuplettertext[\s!it][\v!name=]
-\setuplettertext[\s!es][\v!name=]
+\setuplettertext[\s!en][\c!name=Name]
+\setuplettertext[\s!nl][\c!name=]
+\setuplettertext[\s!de][\c!name=Name]
+\setuplettertext[\s!fr][\c!name=Nom]
+\setuplettertext[\s!it][\c!name=]
+\setuplettertext[\s!es][\c!name=]
 
 % room:
 
-\setuplettertext[\s!en][\v!room=Room]
-\setuplettertext[\s!nl][\v!room=]
-\setuplettertext[\s!de][\v!room=Zimmer]
-\setuplettertext[\s!fr][\v!room=Salle] % Salle or Pièce
-\setuplettertext[\s!it][\v!room=]
-\setuplettertext[\s!es][\v!room=]
+\setuplettertext[\s!en][\c!room=Room]
+\setuplettertext[\s!nl][\c!room=]
+\setuplettertext[\s!de][\c!room=Zimmer]
+\setuplettertext[\s!fr][\c!room=Salle] % Salle or Pièce
+\setuplettertext[\s!it][\c!room=]
+\setuplettertext[\s!es][\c!room=]
 
 % yourref:
 
-\setuplettertext[\s!en][\v!yourref=Your ref.]
-\setuplettertext[\s!nl][\v!yourref=Uw kenmerk]
-\setuplettertext[\s!de][\v!yourref=Ihr Zeichen]
-\setuplettertext[\s!fr][\v!yourref=Vos r\eacute f\eacute rences]
-\setuplettertext[\s!it][\v!yourref=Vs./Rif.]
-\setuplettertext[\s!es][\v!yourref=Su ref.]
+\setuplettertext[\s!en][\c!yourref=Your ref.]
+\setuplettertext[\s!nl][\c!yourref=Uw kenmerk]
+\setuplettertext[\s!de][\c!yourref=Ihr Zeichen]
+\setuplettertext[\s!fr][\c!yourref=Vos r\eacute f\eacute rences]
+\setuplettertext[\s!it][\c!yourref=Vs./Rif.]
+\setuplettertext[\s!es][\c!yourref=Su ref.]
 
 % yourmail:
 
-\setuplettertext[\s!en][\v!yourmail=Your letter of]
-\setuplettertext[\s!nl][\v!yourmail=Uw brief van]
-\setuplettertext[\s!de][\v!yourmail=Ihre Nachricht vom]
-\setuplettertext[\s!fr][\v!yourmail=Votre lettre du]
-\setuplettertext[\s!it][\v!yourmail=Vs.~lettera del]
-\setuplettertext[\s!es][\v!yourmail=Su carta de]
+\setuplettertext[\s!en][\c!yourmail=Your letter of]
+\setuplettertext[\s!nl][\c!yourmail=Uw brief van]
+\setuplettertext[\s!de][\c!yourmail=Ihre Nachricht vom]
+\setuplettertext[\s!fr][\c!yourmail=Votre lettre du]
+\setuplettertext[\s!it][\c!yourmail=Vs.~lettera del]
+\setuplettertext[\s!es][\c!yourmail=Su carta de]
 
 % myref:
 
-\setuplettertext[\s!en][\v!myref=Our ref.]
-\setuplettertext[\s!nl][\v!myref=Ons kenmerk]
-\setuplettertext[\s!de][\v!myref=Unser Zeichen]
-\setuplettertext[\s!fr][\v!myref=Nos r\eacute f\eacute rences]
-\setuplettertext[\s!it][\v!myref=Ns./Rif.]
-\setuplettertext[\s!es][\v!myref=Nuestra ref.]
+\setuplettertext[\s!en][\c!myref=Our ref.]
+\setuplettertext[\s!nl][\c!myref=Ons kenmerk]
+\setuplettertext[\s!de][\c!myref=Unser Zeichen]
+\setuplettertext[\s!fr][\c!myref=Nos r\eacute f\eacute rences]
+\setuplettertext[\s!it][\c!myref=Ns./Rif.]
+\setuplettertext[\s!es][\c!myref=Nuestra ref.]
 
 % mymail:
 
-\setuplettertext[\s!en][\v!mymail=Our letter of]
-\setuplettertext[\s!nl][\v!mymail=Ons brief van]
-\setuplettertext[\s!de][\v!mymail=Unsere Nachricht vom]
-\setuplettertext[\s!fr][\v!mymail=Notre lettre du]
-\setuplettertext[\s!it][\v!mymail=]
-\setuplettertext[\s!es][\v!mymail=]
+\setuplettertext[\s!en][\c!mymail=Our letter of]
+\setuplettertext[\s!nl][\c!mymail=Ons brief van]
+\setuplettertext[\s!de][\c!mymail=Unsere Nachricht vom]
+\setuplettertext[\s!fr][\c!mymail=Notre lettre du]
+\setuplettertext[\s!it][\c!mymail=]
+\setuplettertext[\s!es][\c!mymail=]
 
 % customer:
 
-\setuplettertext[\s!en][\v!customer=Customer no.]
-\setuplettertext[\s!nl][\v!customer=Klant No.]
-\setuplettertext[\s!de][\v!customer=Kundennummer]
-\setuplettertext[\s!fr][\v!customer=Num\eacute ro de client]
-\setuplettertext[\s!it][\v!customer=Nr.~cliente]
-\setuplettertext[\s!es][\v!customer=No. de cliente]
+\setuplettertext[\s!en][\c!customer=Customer no.]
+\setuplettertext[\s!nl][\c!customer=Klant No.]
+\setuplettertext[\s!de][\c!customer=Kundennummer]
+\setuplettertext[\s!fr][\c!customer=Num\eacute ro de client]
+\setuplettertext[\s!it][\c!customer=Nr.~cliente]
+\setuplettertext[\s!es][\c!customer=No. de cliente]
 
 % invoice:
 
-\setuplettertext[\s!en][\v!invoice=Invoice no.]
-\setuplettertext[\s!nl][\v!invoice=Rekening No.]
-\setuplettertext[\s!de][\v!invoice=Rechnungsnummer]
-\setuplettertext[\s!fr][\v!invoice=Num\eacute ro de facture]
-\setuplettertext[\s!it][\v!invoice=Nr.~fattura]
-\setuplettertext[\s!es][\v!invoice=No. de factura]
+\setuplettertext[\s!en][\c!invoice=Invoice no.]
+\setuplettertext[\s!nl][\c!invoice=Rekening No.]
+\setuplettertext[\s!de][\c!invoice=Rechnungsnummer]
+\setuplettertext[\s!fr][\c!invoice=Num\eacute ro de facture]
+\setuplettertext[\s!it][\c!invoice=Nr.~fattura]
+\setuplettertext[\s!es][\c!invoice=No. de factura]
 
 % attention:
 
-\setuplettertext[\s!en][\v!attention=] % Attention
-\setuplettertext[\s!nl][\v!attention=]
-\setuplettertext[\s!de][\v!attention=]
-\setuplettertext[\s!fr][\v!attention=]
-\setuplettertext[\s!it][\v!attention=]
-\setuplettertext[\s!es][\v!attention=]
+\setuplettertext[\s!en][\c!attention=] % Attention
+\setuplettertext[\s!nl][\c!attention=]
+\setuplettertext[\s!de][\c!attention=]
+\setuplettertext[\s!fr][\c!attention=]
+\setuplettertext[\s!it][\c!attention=]
+\setuplettertext[\s!es][\c!attention=]
 
 % subject:
 
-\setuplettertext[\s!en][\v!subject=] % Subject
-\setuplettertext[\s!nl][\v!subject=] % Onderwerp
-\setuplettertext[\s!de][\v!subject=] % Betrifft
-\setuplettertext[\s!fr][\v!subject=] % Concernant or Sujet
-\setuplettertext[\s!it][\v!subject=] % Oggetto
-\setuplettertext[\s!es][\v!subject=] % Asunto
+\setuplettertext[\s!en][\c!subject=] % Subject
+\setuplettertext[\s!nl][\c!subject=] % Onderwerp
+\setuplettertext[\s!de][\c!subject=] % Betrifft
+\setuplettertext[\s!fr][\c!subject=] % Concernant or Sujet
+\setuplettertext[\s!it][\c!subject=] % Oggetto
+\setuplettertext[\s!es][\c!subject=] % Asunto
 
 % cc:
 
-\setuplettertext[\s!en][\v!copy=cc]
-\setuplettertext[\s!nl][\v!copy=Kopie aan]
-\setuplettertext[\s!de][\v!copy=Kopien an]
-\setuplettertext[\s!fr][\v!copy=Copie\agrave]
-\setuplettertext[\s!it][\v!copy=Per conoscenza]
-\setuplettertext[\s!es][\v!copy=Copias]
+\setuplettertext[\s!en][\c!copy=cc]
+\setuplettertext[\s!nl][\c!copy=Kopie aan]
+\setuplettertext[\s!de][\c!copy=Kopien an]
+\setuplettertext[\s!fr][\c!copy=Copie\agrave]
+\setuplettertext[\s!it][\c!copy=Per conoscenza]
+\setuplettertext[\s!es][\c!copy=Copias]
 
 % enclosure:
 
-\setuplettertext[\s!en][\v!enclosure=encl]
-\setuplettertext[\s!nl][\v!enclosure=Bijlage(n)]
-\setuplettertext[\s!de][\v!enclosure=Anlagen]
-\setuplettertext[\s!fr][\v!enclosure=Annexes]
-\setuplettertext[\s!it][\v!enclosure=Allegato]
-\setuplettertext[\s!es][\v!enclosure=Adjunto]
+\setuplettertext[\s!en][\c!enclosure=encl]
+\setuplettertext[\s!nl][\c!enclosure=Bijlage(n)]
+\setuplettertext[\s!de][\c!enclosure=Anlagen]
+\setuplettertext[\s!fr][\c!enclosure=Annexes]
+\setuplettertext[\s!it][\c!enclosure=Allegato]
+\setuplettertext[\s!es][\c!enclosure=Adjunto]
 
 % to:
 
-\setuplettertext[\s!en][\v!to=To]
-\setuplettertext[\s!nl][\v!to=Aan]
-\setuplettertext[\s!de][\v!to=An]
-\setuplettertext[\s!fr][\v!to=\Agrave]
-\setuplettertext[\s!it][\v!to=A]
-\setuplettertext[\s!es][\v!to=A]
+\setuplettertext[\s!en][\c!to=To]
+\setuplettertext[\s!nl][\c!to=Aan]
+\setuplettertext[\s!de][\c!to=An]
+\setuplettertext[\s!fr][\c!to=\Agrave]
+\setuplettertext[\s!it][\c!to=A]
+\setuplettertext[\s!es][\c!to=A]
 
 % toname:
 
-\setuplettertext[\s!en][\v!toname=To]
-\setuplettertext[\s!nl][\v!toname=Aan]
-\setuplettertext[\s!de][\v!toname=An]
-\setuplettertext[\s!fr][\v!toname=\Agrave]
-\setuplettertext[\s!it][\v!toname=A]
-\setuplettertext[\s!es][\v!toname=A]
+\setuplettertext[\s!en][\c!toname=To]
+\setuplettertext[\s!nl][\c!toname=Aan]
+\setuplettertext[\s!de][\c!toname=An]
+\setuplettertext[\s!fr][\c!toname=\Agrave]
+\setuplettertext[\s!it][\c!toname=A]
+\setuplettertext[\s!es][\c!toname=A]
 
 % from:
 
-\setuplettertext[\s!en][\v!from=From]
-\setuplettertext[\s!nl][\v!from=Van]
-\setuplettertext[\s!de][\v!from=Von]
-\setuplettertext[\s!fr][\v!from=De]
-\setuplettertext[\s!it][\v!from=Da]
-\setuplettertext[\s!es][\v!from=De]
+\setuplettertext[\s!en][\c!from=From]
+\setuplettertext[\s!nl][\c!from=Van]
+\setuplettertext[\s!de][\c!from=Von]
+\setuplettertext[\s!fr][\c!from=De]
+\setuplettertext[\s!it][\c!from=Da]
+\setuplettertext[\s!es][\c!from=De]
 
 % fromname:
 
-\setuplettertext[\s!en][\v!fromname=From]
-\setuplettertext[\s!nl][\v!fromname=Van]
-\setuplettertext[\s!de][\v!fromname=Von]
-\setuplettertext[\s!fr][\v!fromname=De]
-\setuplettertext[\s!it][\v!fromname=Da]
-\setuplettertext[\s!es][\v!fromname=De]
+\setuplettertext[\s!en][\c!fromname=From]
+\setuplettertext[\s!nl][\c!fromname=Van]
+\setuplettertext[\s!de][\c!fromname=Von]
+\setuplettertext[\s!fr][\c!fromname=De]
+\setuplettertext[\s!it][\c!fromname=Da]
+\setuplettertext[\s!es][\c!fromname=De]
 
 % date:
 
-\setuplettertext[\s!en][\v!date=Date]
-\setuplettertext[\s!nl][\v!date=Datum]
-\setuplettertext[\s!de][\v!date=Datum]
-\setuplettertext[\s!fr][\v!date=Date]
-\setuplettertext[\s!it][\v!date=Data]
-\setuplettertext[\s!es][\v!date=Fecha]
+\setuplettertext[\s!en][\c!date=Date]
+\setuplettertext[\s!nl][\c!date=Datum]
+\setuplettertext[\s!de][\c!date=Datum]
+\setuplettertext[\s!fr][\c!date=Date]
+\setuplettertext[\s!it][\c!date=Data]
+\setuplettertext[\s!es][\c!date=Fecha]
 
 % phone:
 
-\setuplettertext[\s!en][\v!phone=Phone]
-\setuplettertext[\s!nl][\v!phone=Telefoon]
-\setuplettertext[\s!de][\v!phone=Telefon]
-\setuplettertext[\s!fr][\v!phone=T\eacute l\eacute phone]
-\setuplettertext[\s!it][\v!phone=Telefono]
-\setuplettertext[\s!es][\v!phone=Tel\eacute fono]
+\setuplettertext[\s!en][\c!phone=Phone]
+\setuplettertext[\s!nl][\c!phone=Telefoon]
+\setuplettertext[\s!de][\c!phone=Telefon]
+\setuplettertext[\s!fr][\c!phone=T\eacute l\eacute phone]
+\setuplettertext[\s!it][\c!phone=Telefono]
+\setuplettertext[\s!es][\c!phone=Tel\eacute fono]
 
 % fax:
 
-\setuplettertext[\s!en][\v!fax=Fax]
-\setuplettertext[\s!nl][\v!fax=Fax]
-\setuplettertext[\s!de][\v!fax=Fax]
-\setuplettertext[\s!fr][\v!fax=T\eacute l\eacute fax] % or Fax
-\setuplettertext[\s!it][\v!fax=Fax]
-\setuplettertext[\s!es][\v!fax=Fax]
+\setuplettertext[\s!en][\c!fax=Fax]
+\setuplettertext[\s!nl][\c!fax=Fax]
+\setuplettertext[\s!de][\c!fax=Fax]
+\setuplettertext[\s!fr][\c!fax=T\eacute l\eacute fax] % or Fax
+\setuplettertext[\s!it][\c!fax=Fax]
+\setuplettertext[\s!es][\c!fax=Fax]
 
 % email:
 
-\setuplettertext[\s!en][\v!email=Email]
-\setuplettertext[\s!nl][\v!email=E–mail]
-\setuplettertext[\s!de][\v!email=E-Mail]
-\setuplettertext[\s!fr][\v!email=Courriel] % Adresse électronique
-\setuplettertext[\s!it][\v!email=Email]
-\setuplettertext[\s!es][\v!email=Email]
+\setuplettertext[\s!en][\c!email=Email]
+\setuplettertext[\s!nl][\c!email=E–mail]
+\setuplettertext[\s!de][\c!email=E-Mail]
+\setuplettertext[\s!fr][\c!email=Courriel] % Adresse électronique
+\setuplettertext[\s!it][\c!email=Email]
+\setuplettertext[\s!es][\c!email=Email]
 
 % url:
 
-\setuplettertext[\s!en][\v!url=Url]
-\setuplettertext[\s!nl][\v!url=URL]
-\setuplettertext[\s!de][\v!url=URL]
-\setuplettertext[\s!fr][\v!url=Site web]
-\setuplettertext[\s!it][\v!url=Sito Web]
-\setuplettertext[\s!es][\v!url=URL]
+\setuplettertext[\s!en][\c!url=Url]
+\setuplettertext[\s!nl][\c!url=URL]
+\setuplettertext[\s!de][\c!url=URL]
+\setuplettertext[\s!fr][\c!url=Site web]
+\setuplettertext[\s!it][\c!url=Sito Web]
+\setuplettertext[\s!es][\c!url=URL]
 
 % bank:
 
-\setuplettertext[\s!en][\v!bank=Bank account]
-\setuplettertext[\s!nl][\v!bank=Bankrekening]
-\setuplettertext[\s!de][\v!bank=Bankverbindung]
-\setuplettertext[\s!fr][\v!bank=Compte en banque]
-\setuplettertext[\s!it][\v!bank=Conto bancario]
-\setuplettertext[\s!es][\v!bank=Cuenta bancaria]
+\setuplettertext[\s!en][\c!bank=Bank account]
+\setuplettertext[\s!nl][\c!bank=Bankrekening]
+\setuplettertext[\s!de][\c!bank=Bankverbindung]
+\setuplettertext[\s!fr][\c!bank=Compte en banque]
+\setuplettertext[\s!it][\c!bank=Conto bancario]
+\setuplettertext[\s!es][\c!bank=Cuenta bancaria]
 
 % organization:
 
-\setuplettertext[\s!en][\v!organization=Organization]
-\setuplettertext[\s!nl][\v!organization=]
-\setuplettertext[\s!de][\v!organization=Organisation]
-\setuplettertext[\s!fr][\v!organization=]
-\setuplettertext[\s!it][\v!organization=]
-\setuplettertext[\s!es][\v!organization=]
+\setuplettertext[\s!en][\c!organization=Organization]
+\setuplettertext[\s!nl][\c!organization=]
+\setuplettertext[\s!de][\c!organization=Organisation]
+\setuplettertext[\s!fr][\c!organization=]
+\setuplettertext[\s!it][\c!organization=]
+\setuplettertext[\s!es][\c!organization=]
 
 % city:
 
-\setuplettertext[\s!en][\v!city=City]
-\setuplettertext[\s!nl][\v!city=]
-\setuplettertext[\s!de][\v!city=Stadt]
-\setuplettertext[\s!fr][\v!city=]
-\setuplettertext[\s!it][\v!city=]
-\setuplettertext[\s!es][\v!city=]
+\setuplettertext[\s!en][\c!city=City]
+\setuplettertext[\s!nl][\c!city=]
+\setuplettertext[\s!de][\c!city=Stadt]
+\setuplettertext[\s!fr][\c!city=]
+\setuplettertext[\s!it][\c!city=]
+\setuplettertext[\s!es][\c!city=]
 
 % zip:
 
-\setuplettertext[\s!en][\v!zip=Zip]
-\setuplettertext[\s!nl][\v!zip=]
-\setuplettertext[\s!de][\v!zip=PLZ]
-\setuplettertext[\s!fr][\v!zip=]
-\setuplettertext[\s!it][\v!zip=]
-\setuplettertext[\s!es][\v!zip=]
+\setuplettertext[\s!en][\c!zip=Zip]
+\setuplettertext[\s!nl][\c!zip=]
+\setuplettertext[\s!de][\c!zip=PLZ]
+\setuplettertext[\s!fr][\c!zip=]
+\setuplettertext[\s!it][\c!zip=]
+\setuplettertext[\s!es][\c!zip=]
 
 % country:
 
-\setuplettertext[\s!en][\v!country=Country]
-\setuplettertext[\s!nl][\v!country=]
-\setuplettertext[\s!de][\v!country=Land]
-\setuplettertext[\s!fr][\v!country=]
-\setuplettertext[\s!it][\v!country=]
-\setuplettertext[\s!es][\v!country=]
+\setuplettertext[\s!en][\c!country=Country]
+\setuplettertext[\s!nl][\c!country=]
+\setuplettertext[\s!de][\c!country=Land]
+\setuplettertext[\s!fr][\c!country=]
+\setuplettertext[\s!it][\c!country=]
+\setuplettertext[\s!es][\c!country=]
 
 % street:
 
-\setuplettertext[\s!en][\v!street=Street]
-\setuplettertext[\s!nl][\v!street=]
-\setuplettertext[\s!de][\v!street=Stra\ssharp e]
-\setuplettertext[\s!fr][\v!street=]
-\setuplettertext[\s!it][\v!street=]
-\setuplettertext[\s!es][\v!street=]
+\setuplettertext[\s!en][\c!street=Street]
+\setuplettertext[\s!nl][\c!street=]
+\setuplettertext[\s!de][\c!street=Stra\ssharp e]
+\setuplettertext[\s!fr][\c!street=]
+\setuplettertext[\s!it][\c!street=]
+\setuplettertext[\s!es][\c!street=]
 
 % page:
 
-\setuplettertext[\s!en][\v!page=Page~]
-\setuplettertext[\s!nl][\v!page=]
-\setuplettertext[\s!de][\v!page=Seite~]
-\setuplettertext[\s!fr][\v!page=]
-\setuplettertext[\s!it][\v!page=]
-\setuplettertext[\s!es][\v!page=]
+\setuplettertext[\s!en][\c!page=Page~]
+\setuplettertext[\s!nl][\c!page=]
+\setuplettertext[\s!de][\c!page=Seite~]
+\setuplettertext[\s!fr][\c!page=]
+\setuplettertext[\s!it][\c!page=]
+\setuplettertext[\s!es][\c!page=]
 
 % pagenumber:
 
-\setuplettertext[\s!en][\v!pagenumber={Page , of }]
-\setuplettertext[\s!nl][\v!pagenumber=]
-\setuplettertext[\s!de][\v!pagenumber={Seite , von }]
-\setuplettertext[\s!fr][\v!pagenumber=]
-\setuplettertext[\s!it][\v!pagenumber=]
-\setuplettertext[\s!es][\v!pagenumber=]
+\setuplettertext[\s!en][\c!pagenumber={Page , of }]
+\setuplettertext[\s!nl][\c!pagenumber=]
+\setuplettertext[\s!de][\c!pagenumber={Seite , von }]
+\setuplettertext[\s!fr][\c!pagenumber=]
+\setuplettertext[\s!it][\c!pagenumber=]
+\setuplettertext[\s!es][\c!pagenumber=]
 
 % Files
 

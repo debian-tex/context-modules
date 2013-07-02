@@ -21,7 +21,8 @@
 
 %D The page layout:
 
-\setuplayout [width=fit,
+\setuplayout [simpleslides:layout:horizontal]
+             [width=fit,
               margin=1.5cm,
               leftmargindistance=0pt,
               rightmargindistance=0pt,
@@ -33,6 +34,9 @@
               bottomspace=1cm,
               bottom=1cm,
               location=singlesided]
+
+\setuplayout [simpleslides:layout:title]
+             [bottomspace=0pt]
 
 %D These macros are used for placing figures/pictures:
 
@@ -77,6 +81,23 @@
 
 \setupcolors[textcolor={simpleslides:textcolor}]
 
+\definevisualcounter
+  [simpleslides:shadedcounter]
+  [markers]
+  [counter=userpage,
+%   distance=0.5cm,
+   distance={(\the\dimexpr\visualcounterparameter{maxwidth})/m + width},
+   path=unitcircle,
+   maxwidth=\textwidth,
+   width=0.3cm]
+
+\definepalet[visualcounter:markers]
+            [active=blue, %simpleslides:interactioncolor, % not enough contrast
+	     future=simpleslides:contrastcolor,
+	       past=simpleslides:variantcolor]
+
+\setupbottomtexts[\usevisualcounter{simpleslides:shadedcounter}]
+
 \setupTitle[color=white]
 
 %D This module shades the background in a gradient. We use \METAPOST\ to draw
@@ -85,33 +106,9 @@
 
 \startuseMPgraphic{simpleslides:MP:ornament}
 StartPage ;
-save p ; path p[] ;
-save a ; 
-if NOfPages <= 15:
-       a = 0.7cm ;
-elseif NOfPages <= 30:
-       a = 0.45cm ;
-else :
-       a = 0.25cm ;
-fi ;
-save factor ; numeric factor ;
-factor = (TextWidth - a)/(NOfPages - 1) ;
 linear_shade(Page, 6,
               \MPcolor{simpleslides:backgroundcolor},
               \MPcolor{simpleslides:variantcolor}) ;
-if PageNumber >1:
-       for i = 1 upto NOfPages :
-               p[i] = unitcircle scaled a shifted (BackSpace + (i-1)*factor, (2cm - a)/2) ;
-               if i = PageNumber :
-%                      p[i] := p[i] zscaled (1.2,1.5) ;
-                       pickup pencircle scaled 5pt ;
-                       drawfill p[i] withcolor \MPcolor{simpleslides:variantcolor} ;
-               else :
-                       circular_shade(p[i],2,\MPcolor{simpleslides:backgroundcolor},
-       \MPcolor{simpleslides:variantcolor}) ;
-               fi
-       endfor ;
-fi ;
 StopPage ;
 \stopuseMPgraphic
 

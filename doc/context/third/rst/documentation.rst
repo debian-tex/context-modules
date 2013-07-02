@@ -114,20 +114,20 @@ rendering of |rst| input initially, but certain objections
 diverted me from this path.
 
 -   *Typography*. It’s all about the details. No matter how good your
-    converter is, it still won’t reach |TEX|’s omnipotence and
-    flexibility. |rstcontext| is a tool to generate raw material
-    for your typesetting job, not a typesetting system in itself.
+    converter is, auto-generated code will not reach |TEX|’s
+    omnipotence and flexibility. |rstcontext| is a tool to
+    generate raw material for your typesetting job, not a
+    typesetting system in itself.
 
 -   *Testing*. Never underestimate the insights gained from reading
     the resulting |CONTEXT| file. Quite some effort has been
     undertaken to make it human-readable, especially the setups.
 
--   *MkII*. I’m not an MkII user at all save for rapid testing and
-    the occasional check for the sanity of |CONTEXT|’s behaviour.
-    Slow hardware forces me to run |PDFTEX| instead of |LUATEX|
-    whenvever I need some result as quick as possible, so I wanted
-    to keep the code MkII clean. Do not expect Unicode (as  in
-    this document) to work without precautions.
+-   *MkII*. I’m not an MkII user at all, and compatibility with
+    it is not a primary objective for |rstcontext|.
+    However, an effort has been made to keep the output essentially
+    MkII clean. Do not expect Unicode to work without
+    precautions.
 
 During the development readability of the generated code was
 alway one of the main goals of |rstcontext|. Quite some computing
@@ -388,6 +388,7 @@ defined it. (The placement parameter to ``placefigure`` will be
 set to ``here`` by default.)
 
 .. image:: cow
+    cow.pdf
     width: hsize
     alt: A generic Dutch cow (*bos primigenius taurus*).
 
@@ -405,13 +406,67 @@ caption text of the image.
 .. |TEX| ctx:: \TeX
 .. |PDFTEX| ctx:: \PDFTEX
 .. |LUATEX| ctx:: \LUATEX
-.. |rstcontext| ctx:: {\em rst}\kern.5pt\CONTEXT
-.. |rst| ctx:: {\rm re}{\ss Structured}{\rm Text}
+.. |rstcontext| ctx:: \bgroup\em rst\egroup\kern.5pt\CONTEXT
+.. |rst| ctx:: \bgroup\rm re\egroup\bgroup\ss Structured\egroup\bgroup\rm Text\egroup
 .. |LATEX| ctx:: \LATEX
 
 .. _outline: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 .. _docutils: http://docutils.sourceforge.net/
 .. _Pandoc: http://johnmacfarlane.net/pandoc/
+
+Containers
+**********
+
+Upon request |rstcontext| now supports another kind of
+directive, namely containers_.
+Due to their being defined explicitly in terms of HTML,
+*containers* lack a corresponding construct in |CONTEXT| (or
+|TEX| for that matter).
+Some parts of |CONTEXT| (e. g. ``\\framed``) come quite close with
+respect to functionality as well as generality.
+However, none of the candidates alone covers the entire spectrum
+of functionality that containers_ are supposed to.
+For that reason the implementation leaves them essentially
+undefined.
+
+If an explicit name is specified, then the ``container``
+directive maps to the environment of that name.
+Anonymous containers are interpreted as a |TEX| group.
+Any text block inside the element is treated as ordinary
+paragraph.
+In below example the content will be handled as if between
+``\\startxyzzy`` and ``\\stopxyzzy``, where it is up to the user to
+define the *xyzzy* environment::
+
+    This is a paragraph.
+
+    .. container:: xyzzy
+
+        whatever
+
+        foo **bar** baz
+
+    This is another paragraph.
+
+The middle part translates to |CONTEXT| as follows::
+
+    \start[xyzzy]%
+    whatever
+
+    foo {\sc bar} baz
+    \stop
+
+Note that the ``\\start[foo]``/``\\stop``-environment is equivalent
+to ``\\startfoo``/``\\stopfoo``, except that the environment
+doesn’t actually need to be defined.
+
+.. caution::
+    Support for the *container* directive is considered
+    experimental.
+    Suggestions for improving or extending the current
+    implementation are always welcome.
+
+.. _containers: http://docutils.sourceforge.net/docs/ref/rst/directives.html#container
 
 =======================
 Substitution Directives
@@ -603,7 +658,7 @@ License
 
 ::
 
-    Copyright 2010-2011 Philipp Gesang. All rights reserved.
+    Copyright 2010-2013 Philipp Gesang. All rights reserved.
 
     Redistribution and use in source and binary forms, with or
     without modification, are permitted provided that the

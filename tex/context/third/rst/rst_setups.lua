@@ -3,8 +3,8 @@
 --         FILE:  rst_setups.lua
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
---       AUTHOR:  Philipp Gesang (Phg), <megas.kapaneus@gmail.com>
---      CHANGED:  2011-08-28 13:47:24+0200
+--       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
+--      CHANGED:  2013-03-26 23:55:20+0100
 --------------------------------------------------------------------------------
 --
 
@@ -12,15 +12,16 @@ local optional_setups = { }
 thirddata.rst_setups  = optional_setups
 local rst_directives  = thirddata.rst_directives
 local rst_context     = thirddata.rst
+local state           = rst_context.state
 
-local fmt         = string.format
-local stringstrip = string.strip
+local stringformat = string.format
+local stringstrip  = string.strip
 
 function optional_setups.footnote_symbol ()
     local setup = [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Footnotes with symbol conversion                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 \definenote[symbolnote][footnote]
 \setupnote [symbolnote][way=bypage,numberconversion=set 2]
 ]]
@@ -31,9 +32,9 @@ function optional_setups.footnotes ()
     local tf = state.footnotes
     local fn = [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Footnotes                                                     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 ]]
     local buffer = [[
 
@@ -43,13 +44,13 @@ function optional_setups.footnotes ()
 ]]
     
     for nf, note in next, tf.numbered do
-        fn = fn .. fmt(buffer, "Autonumbered footnote", "__footnote_number_"..nf, note)
+        fn = fn .. stringformat(buffer, "Autonumbered footnote", "__footnote_number_"..nf, note)
     end
     for nf, note in next, tf.autolabel do
-        fn = fn .. fmt(buffer, "Labeled footnote", "__footnote_label_"..nf, note)
+        fn = fn .. stringformat(buffer, "Labeled footnote", "__footnote_label_"..nf, note)
     end
     for nf, note in next, tf.symbol do
-        fn = fn .. fmt(buffer, "Symbol footnote", "__footnote_symbol_"..nf, note)
+        fn = fn .. stringformat(buffer, "Symbol footnote", "__footnote_symbol_"..nf, note)
     end
     return fn
 end
@@ -81,9 +82,9 @@ function optional_setups.references ()
 
     local refsection = [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % References                                                    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 ]]
     local references = {}
@@ -96,7 +97,7 @@ function optional_setups.references ()
             if arefs[ref_text] then
                 ref_text = rst_context.anonymous_links[tonumber(arefs[ref_text])]
             end
-            references[#references+1] = fmt([[
+            references[#references+1] = stringformat([[
 \useURL[__target_%s] [%s] []   [%s] ]], rst_context.whitespace_to_underscore(ref), urlescape(target), ref_text)
         end
     end
@@ -119,18 +120,19 @@ function optional_setups.substitutions ()
     local directives = rst_directives
     local substitutions = [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Substitutions                                                 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 ]]
     local rs = rst_context.substitutions
     for name, content in next, rs do
-        local directive, data = content.directive, content.data
+        local id, data = content.directive, content.data
         name, data = name:gsub("%s", ""), stringstrip(data)
-        if directives[directive] then
-            substitutions = substitutions .. directives[directive](name, data)
+        local directive = directives[id]
+        if directive then
+            substitutions = substitutions .. directive(name, data)
         else
-            err(directive .. " does not exist.")
+            err(id .. " does not exist.")
         end
     end
     return substitutions
@@ -139,9 +141,9 @@ end
 function optional_setups.directive ()
     --local dirstr = [[
 
---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+--%---------------------------------------------------------------%
 --% Directives                                                    %
---%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+--%---------------------------------------------------------------%
 --]]
     --return dirstr
     return ""
@@ -150,9 +152,9 @@ end
 function optional_setups.blockquote ()
     return [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Blockquotes                                                   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 \setupdelimitedtext  [blockquote][style={\tfx}] % awful placeholder
 \definedelimitedtext[attribution][blockquote]
 \setupdelimitedtext [attribution][style={\tfx\it}]
@@ -162,9 +164,9 @@ end
 function optional_setups.deflist ()
     return [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Definitionlist                                                %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 \def\startRSTdefinitionlist{
   \bgroup
   \def      \RSTdeflistterm##1{{\bf ##1}}
@@ -187,9 +189,9 @@ end
 function optional_setups.lines ()
     return [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Lines environment (line blocks)                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 \setuplines[%
   space=on,%
@@ -202,9 +204,9 @@ end
 function optional_setups.breaks ()
     return [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Fancy transitions                                             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 % Get Wolfgang’s module at <https://bitbucket.org/wolfs/fancybreak>.
 \usemodule[fancybreak]
@@ -215,9 +217,9 @@ end
 function optional_setups.fieldlist ()
     return [[
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Fieldlists                                                    %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 \def\startRSTfieldlist{%
   \bgroup%
@@ -250,9 +252,9 @@ function optional_setups.dbend ()
     -- There's just no reason for not providing this.
     optional_setups.dbend_done = true
     return [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Dangerous bend                                                %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 \loadmapfile [manfnt.map]
 \definefontsynonym [bends] [manfnt]
@@ -276,9 +278,9 @@ function optional_setups.caution ()
         --result = result .. optional_setups.dbend()
     --end
     return result .. [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Caution directive                                             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 \usemodule[lettrine]
 
@@ -308,9 +310,9 @@ function optional_setups.danger ()
         --result = result .. optional_setups.dbend()
     --end
     return result .. [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Danger directive                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 
 \usemodule[lettrine]
 
@@ -327,9 +329,9 @@ end
 
 function optional_setups.citations ()
     local cit = [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Citations                                                     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 \setupbibtex[database=\jobname]
 ]]
     
@@ -339,9 +341,9 @@ end
 
 function optional_setups.citator ()
     local cit = [[
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 % Citator Options                                               %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------------------------------------------------------%
 \usemodule[citator]
 \loadbibdb{\jobname.bib}
 \setupcitator[sortmode=authoryear]

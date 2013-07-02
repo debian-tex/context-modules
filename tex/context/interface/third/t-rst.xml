@@ -3,7 +3,7 @@
 <cd:interface xmlns:cd="http://www.pragma-ade.com/commands" 
               name="context"
               language="en" 
-              version="0.6; 2011-08-28 13:46:23+0200">
+              version="0.6; 2013-03-27 00:26:22+0100">
 
   <cd:command name="typesetRSTfile" generated="no" file="t-rst.mkiv">
     <cd:sequence>

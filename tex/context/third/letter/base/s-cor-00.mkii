@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=s-cor-00,
-%D      version=2012.02.19,
+%D      version=2012.06.10,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Correspondence,
 %D       author=Wolfgang Schuster,
@@ -13,7 +13,7 @@
 %C This program is free software: you can redistribute it and/or modify
 %C it under the terms of the GNU General Public License as published by
 %C the Free Software Foundation, either version 3 of the License, or
-%C any later version.
+%C (at your option) any later version.
 %C
 %C This program is distributed in the hope that it will be useful,
 %C but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -50,12 +50,31 @@
   \setinterfaceconstant {fromurl}         {fromurl}
   \setinterfaceconstant {salutation}      {salutation}
   \setinterfaceconstant {language}        {language}
+  \setinterfaceconstant {street}          {street}
+  \setinterfaceconstant {city}            {city}
+  \setinterfaceconstant {phone}           {phone}
+  \setinterfaceconstant {email}           {email}
+  \setinterfaceconstant {bankname}        {bankname}
+  \setinterfaceconstant {banknumber}      {banknumber}
+  \setinterfaceconstant {accountnumber}   {accountnumber}
+  \setinterfaceconstant {room}            {room}
+  \setinterfaceconstant {yourref}         {yourref}
+  \setinterfaceconstant {yourmail}        {yourmail}
+  \setinterfaceconstant {myref}           {myref}
+  \setinterfaceconstant {mymail}          {mymail}
+  \setinterfaceconstant {customer}        {customer}
+  \setinterfaceconstant {invoice}         {invoice}
+  \setinterfaceconstant {fax}             {fax}
+  \setinterfaceconstant {url}             {url}
+  \setinterfaceconstant {bank}            {bank}
+  \setinterfaceconstant {organization}    {organization}
+  \setinterfaceconstant {zip}             {zip}
+  \setinterfaceconstant {country}         {country}
 \stopinterface
 
 \startinterface all
+  % all
   \setinterfacevariable {correspondence}  {correspondence}
-  \setinterfacevariable {letter}          {letter}
-  \setinterfacevariable {memo}            {memo}
   \setinterfacevariable {nexthead}        {nexthead}
   \setinterfacevariable {lefthead}        {lefthead}
   \setinterfacevariable {righthead}       {righthead}
@@ -63,16 +82,18 @@
   \setinterfacevariable {nextfoot}        {nextfoot}
   \setinterfacevariable {leftfoot}        {leftfoot}
   \setinterfacevariable {rightfoot}       {rightfoot}
-  \setinterfacevariable {address}         {address}
-  \setinterfacevariable {backaddress}     {backaddress}
-  \setinterfacevariable {location}        {location}
   \setinterfacevariable {topmark}         {topmark}
   \setinterfacevariable {botmark}         {botmark}
   \setinterfacevariable {cutmark}         {cutmark}
   \setinterfacevariable {endmark}         {endmark}
   \setinterfacevariable {usermark}        {usermark}
+  % letter
   \setinterfacevariable {lettermain}      {lettermain}
   \setinterfacevariable {letternext}      {letternext}
+  \setinterfacevariable {letter}          {letter}
+  \setinterfacevariable {address}         {address}
+  \setinterfacevariable {backaddress}     {backaddress}
+  \setinterfacevariable {location}        {location}
   \setinterfacevariable {opening}         {opening}
   \setinterfacevariable {closing}         {closing}
   \setinterfacevariable {secondpage}      {secondpage}
@@ -80,30 +101,7 @@
   \setinterfacevariable {enclosure}       {enclosure}
   \setinterfacevariable {french}          {french}
   \setinterfacevariable {specialnotation} {specialnotation}
-  \setinterfacevariable {memomain}        {memomain}
-  \setinterfacevariable {memonext}        {memonext}
   \setinterfacevariable {e}               {e}
-  \setinterfacevariable {attention}       {attention}
-  \setinterfacevariable {room}            {room}
-  \setinterfacevariable {yourref}         {yourref}
-  \setinterfacevariable {yourmail}        {yourmail}
-  \setinterfacevariable {myref}           {myref}
-  \setinterfacevariable {mymail}          {mymail}
-  \setinterfacevariable {customer}        {customer}
-  \setinterfacevariable {invoice}         {invoice}
-  \setinterfacevariable {to}              {to}
-  \setinterfacevariable {toname}          {toname}
-  \setinterfacevariable {from}            {from}
-  \setinterfacevariable {fromname}        {fromname}
-  \setinterfacevariable {phone}           {phone}
-  \setinterfacevariable {fax}             {fax}
-  \setinterfacevariable {email}           {email}
-  \setinterfacevariable {bank}            {bank}
-  \setinterfacevariable {organization}    {organization}
-  \setinterfacevariable {city}            {city}
-  \setinterfacevariable {zip}             {zip}
-  \setinterfacevariable {country}         {country}
-  \setinterfacevariable {street}          {street}
   \setinterfacevariable {place}           {place}
   \setinterfacevariable {gbrief}          {gbrief}
   \setinterfacevariable {fullblock}       {fullblock}
@@ -112,6 +110,10 @@
   \setinterfacevariable {modified}        {modified}
   \setinterfacevariable {blockstyle}      {blockstyle}
   \setinterfacevariable {knuth}           {knuth}
+  % memo
+  \setinterfacevariable {memo}            {memo}
+  \setinterfacevariable {memomain}        {memomain}
+  \setinterfacevariable {memonext}        {memonext}
 \stopinterface
 
 % Messages

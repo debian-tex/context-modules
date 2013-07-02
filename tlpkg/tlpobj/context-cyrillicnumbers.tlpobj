@@ -1,0 +1,16 @@
+name context-cyrillicnumbers
+category ConTeXt
+revision 29905
+shortdesc Write numbers as cyrillic glyphs.
+relocated 1
+longdesc The package extends Context's system of number conversion, by
+longdesc adding numeration using cyrillic letters.
+depend context
+runfiles size=10
+ RELOC/tex/context/interface/third/t-cyrillicnumbers.xml
+ RELOC/tex/context/third/cyrillicnumbers/cyrillicnumbers.lua
+ RELOC/tex/context/third/cyrillicnumbers/t-cyrillicnumbers.mkii
+ RELOC/tex/context/third/cyrillicnumbers/t-cyrillicnumbers.mkvi
+catalogue-ctan /macros/context/contrib/context-cyrillicnumbers
+catalogue-date 2013-04-12 11:27:24 +0200
+catalogue-license bsd

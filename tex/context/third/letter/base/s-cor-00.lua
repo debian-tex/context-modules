@@ -41,6 +41,7 @@ local v_page           = variables.page
 local v_paper          = variables.paper
 local v_text           = variables.text
 local v_start          = variables.start
+local v_list           = variables.list
 
 -- list for the elements to be shown
 
@@ -261,7 +262,8 @@ function correspondence.letter.reference_d(environment,list)
                     context.setvalue("currentcorrespondencestyle",style)
                     context.usecorrespondencestylestyleandcolor(c_titlestyle,c_titlecolor)
                     context.lettertext(value)
-                context.EQ()
+                    context.correspondencestyleparameter(c_separator)
+                context.NC()
                     context.setvalue("currentcorrespondencestyle",style)
                     context.usecorrespondencestylestyleandcolor(c_textstyle,c_textcolor)
                     context.correspondenceparameter(value)
@@ -290,12 +292,15 @@ function correspondence.letter.reference_e(environment,list)
     end )
 end
 
-function thirddata.correspondence.description_split(list)
+function correspondence.description_split(list)
     local format, items = nil, nil
     if string.find(list,":") then
         format, items = string.splitup(list,":")
+        if format ~= v_list then
+            items = list
+        end
     else
-        items  = list
+        items = list
     end
     -- the macros are empty be default, change this only when necessary
     context.unprotect()

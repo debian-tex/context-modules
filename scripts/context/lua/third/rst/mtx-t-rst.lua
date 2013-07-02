@@ -5,7 +5,7 @@
 --  DESCRIPTION:  context script interface for the reStructuredText module
 -- REQUIREMENTS:  latest ConTeXt MkIV
 --       AUTHOR:  Philipp Gesang (Phg), <megas.kapaneus@gmail.com>
---      CREATED:  2011-08-28 12:43:49+0200
+--      CHANGED:  2013-03-27 00:25:32+0100
 --------------------------------------------------------------------------------
 --
 
@@ -14,12 +14,12 @@ scripts.rst = { }
 
 environment.loadluafile("rst_parser")
 
-local ea    = environment.argument
+local ea = environment.argument
 
 local helpinfo = [[
 ===============================================================
     The reStructuredText module, command line interface.
-    © 2010--2011 Philipp Gesang. License: 2-clause BSD.
+    © 2010--2013 Philipp Gesang. License: 2-clause BSD.
     Home: <https://bitbucket.org/phg/context-rst/>
 ===============================================================
 
@@ -43,7 +43,7 @@ Optional arguments:
 
 local application = logs.application {
     name     = "mtx-rst",
-    banner   = "The reStructuredText module for ConTeXt, hg-rev 135+",
+    banner   = "The reStructuredText module for ConTeXt, hg-rev 125+",
     helpinfo = helpinfo,
 }
 

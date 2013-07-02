@@ -1,13 +1,15 @@
 name context-letter
 category ConTeXt
-revision 26753
+revision 30871
 shortdesc Context package for writing letters.
 relocated 1
 longdesc A means of writing 'vanilla' letters and memos is provided,
 longdesc with support covering Context Mkii and Mkiv. The design of
 longdesc letters may be amended by a wide range of style specifications.
 depend context
-runfiles size=88
+runfiles size=101
+ RELOC/tex/context/interface/third/t-letter.xml
+ RELOC/tex/context/interface/third/t-memo.xml
  RELOC/tex/context/third/letter/base/s-cor-00.lua
  RELOC/tex/context/third/letter/base/s-cor-00.mkii
  RELOC/tex/context/third/letter/base/s-cor-00.mkvi
@@ -15,6 +17,7 @@ runfiles size=88
  RELOC/tex/context/third/letter/base/s-cor-01.mkvi
  RELOC/tex/context/third/letter/base/s-cor-02.mkii
  RELOC/tex/context/third/letter/base/s-cor-02.mkvi
+ RELOC/tex/context/third/letter/base/s-cor-06.mkvi
  RELOC/tex/context/third/letter/base/t-letter.mkii
  RELOC/tex/context/third/letter/base/t-letter.mkiv
  RELOC/tex/context/third/letter/base/t-memo.mkii
@@ -60,5 +63,5 @@ runfiles size=88
  RELOC/tex/context/third/letter/style/memo-imp-table.mkii
  RELOC/tex/context/third/letter/style/memo-imp-table.mkiv
 catalogue-ctan /macros/context/contrib/context-letter
-catalogue-date 2012-02-13 08:46:03 +0100
+catalogue-date 2012-09-24 22:26:06 +0200
 catalogue-license gpl

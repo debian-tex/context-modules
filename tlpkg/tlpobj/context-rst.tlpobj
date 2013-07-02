@@ -1,6 +1,6 @@
 name context-rst
 category ConTeXt
-revision 24199
+revision 29575
 shortdesc Process reStructuredText with ConTeXt.
 relocated 1
 longdesc The package provides a converter and module for typesetting
@@ -8,7 +8,7 @@ longdesc reStructuredText with ConTeXt. The module uses several lua
 longdesc scripts in doing its work. Documentation is supplied in rst,
 longdesc which seems to be readable as text, but...
 depend context
-runfiles size=40
+runfiles size=41
  RELOC/scripts/context/lua/third/rst/mtx-t-rst.lua
  RELOC/tex/context/interface/third/t-rst.xml
  RELOC/tex/context/third/rst/rst_context.lua
