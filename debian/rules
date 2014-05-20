@@ -24,6 +24,10 @@ binary-indep: build-indep
 	cp -a doc/context/third/* $(instbase)/usr/share/doc/$(package)
 	# remove unnecessary stuff
 	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
+
+	# install override file
+	install -D --mode=644 debian/override $(instbase)/usr/share/lintian/overrides/$(package)
+
 	dh_installtex
 	dh_installdocs
 	dh_installchangelogs
