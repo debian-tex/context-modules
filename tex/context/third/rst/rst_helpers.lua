@@ -4,7 +4,7 @@
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
 --       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
---      CHANGED:  2013-03-26 23:55:04+0100
+--      CHANGED:  2014-03-02 19:20:28+0100
 --------------------------------------------------------------------------------
 --
 

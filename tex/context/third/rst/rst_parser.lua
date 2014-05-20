@@ -4,38 +4,71 @@
 --        USAGE:  refer to doc/documentation.rst
 --  DESCRIPTION:  https://bitbucket.org/phg/context-rst/overview
 --       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
---      VERSION:  0.6
---      CHANGED:  2013-03-26 22:45:59+0100
+--      VERSION:  0.6c
+--      CHANGED:  2014-03-02 19:20:17+0100
 --------------------------------------------------------------------------------
 --
 
+local usage_info = [[
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                           rstConTeXt
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Functionality has been moved, the reST converter can now be
+accessed via mtxrun:
+
+    $mtxrun --script rst
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+]]
+
+local main = function ()
+    io.write("\n"..usage_info.."\n")
+    return -1
+end
 
 thirddata             = thirddata or { }
 thirddata.rst         = { }
-thirddata.rst_helpers = { }
+thirddata.rst_helpers = { rst_debug = false }
+
+if context then
+    if environment.argument "debug" == true then
+        thirddata.rst_helpers.rst_debug = true
+    end
+elseif not scripts then
+    return main()
+end
 
 environment.loadluafile"rst_helpers"
 environment.loadluafile"rst_directives"
-environment.loadluafile"rst_setups" 
+environment.loadluafile"rst_setups"
 environment.loadluafile"rst_context"
 
-local rst             = thirddata.rst
-local helpers         = thirddata.rst_helpers
-local optional_setups = thirddata.rst_setups
+local rst                   = thirddata.rst
+local helpers               = thirddata.rst_helpers
+local optional_setups       = thirddata.rst_setups
 
-rst.strip_BOM     = true
-rst.expandtab     = true
-rst.shiftwidth    = 4
-rst.crlf          = true
-helpers.rst_debug = false
+rst.strip_BOM               = true
+rst.expandtab               = true
+rst.shiftwidth              = 4
+rst.crlf                    = true
 
-local iowrite      = io.write
-local ioopen       = io.open
-local stringformat = string.format
-local stringlen    = string.len
-local stringstrip  = string.strip
-local utf          = unicode.utf8
-local utflen       = utf.len
+local utf                   = unicode.utf8
+
+local ioopen                = io.open
+local iowrite               = io.write
+local select                = select
+local stringfind            = string.find
+local stringformat          = string.format
+local stringgsub            = string.gsub
+local stringlen             = string.len
+local stringmatch           = string.match
+local stringstrip           = string.strip
+local stringsub             = string.sub
+local tableconcat           = table.concat
+local utflen                = utf.len
+
+local context               = context
 
 local warn
 do
@@ -46,9 +79,8 @@ do
         local slen = #str + 3
         --str = "*["..str.."]"
         str = stringformat("*[%4d][%s]", ndebug, str)
-        local arglst = { ... }
-        for i=1, #arglst do
-            local current = arglst[i]
+        for i=1, select ("#", ...) do
+            local current = select (i, ...)
             if 80 - i * 8 - slen < 0 then
                 local indent = ""
                 for i=1, slen do
@@ -64,11 +96,11 @@ do
 end
 
 local C,   Cb, Cc, Cg,
-      Cmt, Cp, Cs, Ct 
+      Cmt, Cp, Cs, Ct
     = lpeg.C,   lpeg.Cb, lpeg.Cc, lpeg.Cg,
       lpeg.Cmt, lpeg.Cp, lpeg.Cs, lpeg.Ct
 
-local P, R, S, V, match 
+local P, R, S, V, lpegmatch
     = lpeg.P, lpeg.R, lpeg.S, lpeg.V, lpeg.match
 
 local utf = unicode.utf8
@@ -97,24 +129,24 @@ state.footnotes.symbol     = {}
 
 state.addme                = {}
 
+local valid_adornment
 do
-    local first_adornment = ""
-    local valid_adornment = P{
-        [1] = "adorncheck",
-        adorncheck  = V"check_first" * V"check_other"^1 * -P(1),
-        check_first = Cmt(V"adornment_char", function(_,_, first)
-                            first_adornment = first
-                            return true
-                        end)
-                    ,
-        check_other = Cmt(V"adornment_char", function(_,_, char)
-                            local prev = first_adornment
-                            return char == prev
-                        end)
-                    ,
-        adornment_char = S[[!"#$%&'()*+,-./:;<=>?@[]^_`{|}~]] + P[[\\]], 
-    }
-    state.valid_adornment = valid_adornment
+    --[[--
+
+        valid_adornment -- This subpattern tests if the string consists
+        entirely of one repeated adornment char.
+
+    --]]--
+    local first_adornment    = ""
+    local adornment_char     = S[[!"#$%&'()*+,-./:;<=>?@[]^_`{|}~]] + P[[\\]]
+    local check_first        = Cmt(adornment_char, function(_,_, first)
+                                       first_adornment = first
+                                       return true
+                                   end)
+    local check_other        = Cmt(adornment_char, function(_,_, char)
+                                       return char == first_adornment
+                                   end)
+    valid_adornment          = check_first * check_other^1 * -P(1)
 end
 
 local enclosed_mapping = {
@@ -138,7 +170,7 @@ local utfchar = P{ -- from l-lpeg.lua, modified to use as grammar
 
 
 
-local parser = P{
+local rst_parser = P {
     [1] = V"document",
 
     document = V"blank_line"^0 * Cs(V"block"^1),
@@ -197,7 +229,7 @@ local parser = P{
                           * V"directive_indented_lines"
                           ,
 
-    directive_block_single = Ct(C((1 - V"eol")^1)) * V"eol",
+    directive_block_single = V"whitespace"^1 * Ct(C((1 - V"eol")^1)) * V"eol",
 
 --------------------------------------------------------------------------------
 -- Substitution definition block
@@ -374,20 +406,20 @@ local parser = P{
     st_other_rows = (V"st_content"^1 * V"st_separator")^1,
 
     st_content = V"blank_line"^-1
-               * C(V"st_matchlayout"),       
+               * C(V"st_matchlayout"),
 
     st_matchlayout = -#V"st_separator" * Cmt((1 - V"eol")^1, function (s, i, content)
                         -- Don't check for matching indent but if the rest is
                         -- fine then the line should be sane. This allows
                         -- cells starting with spaces.
-                        content = content:sub(#state.currentindent)
+                        content = stringsub (content, #state.currentindent)
                         local tcb = state.currentlayout.bounds
                         local n = 1
                         local spaces_only = P" "^1
                         while n < #tcb.slices do
                             local from = tcb.slices[n]  .stop
                             local to   = tcb.slices[n+1].start
-                            local between = spaces_only:match(content, from)
+                            local between = lpegmatch (spaces_only, content, from)
                             if not between then -- Cell spanning more than one row.
                                 -- pass
                                 warn("sta-c", "span", from, to, i)
@@ -413,7 +445,7 @@ local parser = P{
                         return state.currentlayout.raw == layout
                     end)
                   ,
-                        
+
     st_colspan_sep = Cmt(V"dash"^1 * (V"spaces" * V"dash"^1)^0, function(s, i, layout)
                          local tcb = state.currentlayout.bounds
                          local this = helpers.get_st_boundaries (layout)
@@ -484,7 +516,7 @@ local parser = P{
     ,
 
 
-    gt_cell = (V"gt_content_cell" + V"gt_line_cell") 
+    gt_cell = (V"gt_content_cell" + V"gt_line_cell")
     * (V"table_intersection" + V"table_vline")
     ,
 
@@ -500,7 +532,7 @@ local parser = P{
 
     gt_body = ((V"gt_contentrow" - V"gt_bodysep")^1 * V"gt_bodysep")^1,
 
-    gt_bodysep = V"gt_matchindent" 
+    gt_bodysep = V"gt_matchindent"
                * C(Cmt(V"table_intersection"
                      * (V"table_hline"^1 * V"table_intersection")^1, function(s, i, separator)
                           local matchme = state.currentwidth
@@ -514,8 +546,8 @@ local parser = P{
             * V"gt_headsep"
             ,
 
-    gt_headsep = V"gt_matchindent" 
-               * C(Cmt(V"table_intersection" 
+    gt_headsep = V"gt_matchindent"
+               * C(Cmt(V"table_intersection"
                     * (V"table_header_hline"^1 * V"table_intersection")^1, function(s, i, separator)
                           local matchme = state.currentwidth
                           warn("tab-s", "head", #separator == matchme, #separator, matchme, i)
@@ -547,9 +579,9 @@ local parser = P{
                       * (1 - V"eol")^1
                       * V"eol"
                       ,
-                    
+
     block_quote_other = Cmt(V"space"^1, function (s, i, indent)
-                            warn("bkq-m", #indent, #state.currentindent, 
+                            warn("bkq-m", #indent, #state.currentindent,
                                            indent,  state.currentindent, i)
                             return state.currentindent == indent
                         end) / ""
@@ -563,16 +595,16 @@ local parser = P{
 
     block_quote_attri_first = Cmt(V"space"^1 * V"attrib_dash" * V"space", function (s, i, indent)
                                    local t = state
-                                   warn("bqa-i", utflen(indent), #t.currentindent, 
-                                                 indent,           t.currentindent, i)
-                                   local ret = indent:match(" *") == t.currentindent
+                                   warn("bqa-i", utflen(indent), #t.currentindent,
+                                                 indent,         t.currentindent, i)
+                                   local ret = stringmatch (indent, " *") == t.currentindent
                                    t.currentindent = ret and indent or t.currentindent
                                    return ret
                                end) / ""
                             * (1 - V"eol")^1
                             * V"eol"
                             ,
-                    
+
     block_quote_attri_other = Cmt(V"space"^1, function (s, i, indent)
                                   warn("bqa-m", #indent, utflen(state.currentindent),
                                                  indent,  state.currentindent, i)
@@ -609,7 +641,7 @@ local parser = P{
 
     line_block_empty = Cmt(V"line_block_empty_marker", function(s, i, marker)
                             warn("lbk-e", #marker, #state.currentindent, marker, state.currentindent, i)
-                            marker = marker:gsub("|.*", "| ")
+                            marker = stringgsub (marker, "|.*", "| ")
                             return state.currentindent == marker
                         end) / ""
                      / rst.line_block_empty
@@ -654,7 +686,7 @@ local parser = P{
     unquoted_literal_block_lines = V"literal_block_first"
                                  * (V"blank_line"^-1 * V"literal_block_other")^0
                                  ,
-                                 
+
     quoted_literal_block_lines =  V"quoted_literal_block_first"
                                * V"quoted_literal_block_other"^0 -- no blank lines allowed
                                ,
@@ -677,10 +709,10 @@ local parser = P{
                    * V"eol",
 
     literal_block_other = Cmt(V"space"^1, function (s, i, indent)
-                        warn("lbk-m", 
+                        warn("lbk-m",
                              #indent,
                              #state.currentindent,
-                             #indent >= #state.currentindent, 
+                             #indent >= #state.currentindent,
                              i)
                         return #indent >= #state.currentindent
                     end)
@@ -702,10 +734,10 @@ local parser = P{
                    ,
 
     quoted_literal_block_other = Cmt(V"adornment_char", function (s, i, indent)
-                        warn("qlb-m", 
+                        warn("qlb-m",
                              #indent,
                              #state.currentindent,
-                             #indent >= #state.currentindent, 
+                             #indent >= #state.currentindent,
                              i)
                         return #indent >= #state.currentindent
                     end)
@@ -762,7 +794,7 @@ local parser = P{
             + V"option_dos_vms")
             * V"option_arg"^-1,
 
-    option_arg = (V"equals" + V"space") 
+    option_arg = (V"equals" + V"space")
                * ((V"letter" * (V"letter" + V"digit")^1)
                 + (V"angle_left" * (1 - V"angle_right")^1 * V"angle_right")),
 
@@ -818,7 +850,7 @@ local parser = P{
                        * Ct(V"definition_def"))
                     ,
 
-    definition_term = #(1 - V"space" - V"field_marker") 
+    definition_term = #(1 - V"space" - V"field_marker")
                     * (1 - V"eol" - V"definition_classifier_separator")^1
                     ,
 
@@ -868,16 +900,18 @@ local parser = P{
 
     -- the next rule handles enumerations as well
     bullet_list = V"bullet_init"
-                * (V"blank_line"^-1 * (V"bullet_list" + V"bullet_continue"))^1
+                * (V"blank_line"^-1 * (V"bullet_list" + V"bullet_continue"))^0
                 * V"bullet_stop"
                 * Cmt(Cc(nil), function (s, i)
-                    local t = state
-                    warn("close", t.depth)
-                    t.bullets[t.depth] = nil -- “pop”
-                    t.depth = t.depth - 1
-                    t.lastbullet = t.lastbullets[t.depth]
+                    local depth = state.depth
+                    warn("close", depth)
+                    state.bullets[depth] = nil -- “pop”
+                    depth = depth - 1
+                    state.lastbullet = state.lastbullets[depth]
+                    state.depth = depth
                     return true
-                end),
+                end)
+                ,
 
     bullet_stop = V"end_block" / rst.stopitemize,
 
@@ -886,30 +920,32 @@ local parser = P{
                 ,
 
     bullet_first = #Cmt(V"bullet_indent", function (s, i, bullet)
-                        local t = state
-                        local oldbullet = t.bullets[t.depth]
-                        local n_spaces = match(P" "^0, bullet)
-                        warn("first", 
-                            t.depth, 
-                            (t.depth == 0 and n_spaces >= 1) or
-                            (t.depth >  0 and n_spaces >  1), 
+                        local depth      = state.depth
+                        local bullets    = state.bullets
+                        local oldbullet  = state.bullets[depth]
+                        local n_spaces   = lpegmatch(P" "^0, bullet)
+                        warn("first",
+                            depth,
+                            (depth == 0 and n_spaces >= 1) or (depth >  0 and n_spaces >  1),
                             bullet,
                             oldbullet,
                             helpers.list.conversion(bullet))
 
-                        if t.depth == 0 and n_spaces >= 1 then -- first level
-                            t.depth = 1             -- “push”
-                            t.bullets[1] = bullet
-                            t.lastbullet = bullet
-                            t.bullets.max = t.bullets.max < t.depth and t.depth or t.bullets.max
+                        if depth == 0 and n_spaces >= 1 then -- first level
+                            depth = 1             -- “push”
+                            bullets[1] = bullet
+                            state.lastbullet = bullet
+                            bullets.max = bullets.max < depth and depth or bullets.max
+                            state.depth = depth
                             return true
-                        elseif t.depth > 0 and n_spaces > 1 then    -- sublist (of sublist)^0
+                        elseif depth > 0 and n_spaces > 1 then    -- sublist (of sublist)^0
                             if n_spaces >= utflen(oldbullet) then
-                                t.lastbullets[t.depth] = t.lastbullet
-                                t.depth = t.depth + 1
-                                t.bullets[t.depth] = bullet
-                                t.lastbullet = bullet
-                                t.bullets.max = t.bullets.max < t.depth and t.depth or t.bullets.max
+                                state.lastbullets[depth] = state.lastbullet
+                                depth = depth + 1
+                                bullets[depth] = bullet
+                                state.lastbullet = bullet
+                                bullets.max = bullets.max < depth and depth or bullets.max
+                                state.depth = depth
                                 return true
                             end
                         end
@@ -922,29 +958,32 @@ local parser = P{
     bullet_indent = V"space"^0 * V"bullet_expr" * V"space"^1,
 
     bullet_cont  = Cmt(V"bullet_indent", function (s, i, bullet)
-                        local t = state
-                        local conversion = helpers.list.conversion
-                        warn("conti", 
-                                t.depth, 
-                                bullet == t.bullets[t.depth],
-                                bullet, 
-                                t.bullets[t.depth],
-                                t.lastbullets[t.depth],
-                                conversion(t.lastbullet),
+                        local conversion    = helpers.list.conversion
+                        local depth         = state.depth
+                        local bullets       = state.bullets
+                        local lastbullets   = state.lastbullets
+                        warn("conti",
+                                depth,
+                                bullet == bullets[depth],
+                                bullet,
+                                bullets[depth],
+                                lastbullets[depth],
+                                conversion(state.lastbullet),
                                 conversion(bullet)
                                 )
 
-                        if utflen(t.bullets[t.depth]) ~= utflen(bullet) then
+                        if utflen(bullets[depth]) ~= utflen(bullet) then
                             return false
-                        elseif not conversion(bullet) and t.bullets[t.depth] == bullet then
+                        elseif not conversion(bullet) and bullets[depth] == bullet then
                             return true
-                        elseif conversion(t.lastbullet) == conversion(bullet) then -- same type
+                        elseif conversion(state.lastbullet) == conversion(bullet) then -- same type
                             local autoconv  = conversion(bullet) == "auto"
-                            local greater   = helpers.list.greater  (bullet, t.lastbullet)
-                            t.lastbullet = bullet
+                            local greater   = helpers.list.greater  (bullet, state.lastbullet)
+                            state.lastbullet = bullet
                             return autoconv or successor or greater
                         end
-                    end),
+                    end)
+                 ,
 
     bullet_continue = Ct(C(V"bullet_cont") * V"bullet_itemrest")
                     /rst.bullet_item
@@ -957,7 +996,7 @@ local parser = P{
                     ,
                          --                                     ^^^^^^^^^^^^^
                          --                                     otherwise matches bullet_first
- 
+
     bullet_rest = (1 - V"eol")^1 * V"eol",  -- rest of one line
 
     bullet_next  = V"space"^1
@@ -965,8 +1004,8 @@ local parser = P{
 
     bullet_match = Cmt(V"bullet_next", function (s, i, this)
                          local t = state
-                         warn("match", 
-                                t.depth, 
+                         warn("match",
+                                t.depth,
                                 stringlen(this) == utflen(t.bullets[t.depth]),
                                 utflen(t.bullets[t.depth]), stringlen(this) )
                          return stringlen(this) == utflen(t.bullets[t.depth])
@@ -974,16 +1013,20 @@ local parser = P{
                  ,
 
     bullet_expr = V"bullet_char"
-                + (P"(" * V"number_char" * P")")
-                +        (V"number_char" * P")")
-                + (V"number_char" * V"dot") * #V"space"
-                + (V"number_char" * #V"space")
+                + (P"(" * V"number_char" * P")")        --- surrounded by parentheses
+                +        (V"number_char" * P")")        --- suffixed with right parenthesis
+                + (V"number_char" * V"dot") * #V"space" --- suffixed with period
+                --[[--
+                    below rule is invalid according to the spec:
+                    http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html#enumerated-lists
+                --]]--
+                --+ (V"number_char" * #V"space")
                 ,
 
     number_char = V"roman_numeral"
                 + V"Roman_numeral"
                 + P"#"
-                + V"digit"^1 
+                + V"digit"^1
                 + R"AZ"
                 + R"az"
                 ,
@@ -1014,9 +1057,11 @@ local parser = P{
     -- The whitespace handling after the overline is necessary because headings
     -- without overline aren't allowed to be indented.
     section_before = C(Cmt(V"section_adorn", function(s,i, adorn)
+                          local adorn_matched = lpegmatch (valid_adornment, adorn)
                           state.previousadorn = adorn
-                          warn ("sec-f", state.valid_adornment:match(adorn), adorn:sub(1,2) .. "...", "", i)
-                          if state.valid_adornment:match(adorn) then
+                          warn ("sec-f", adorn_matched,
+                                stringsub (adorn, 1,2) .. "...", "", i)
+                          if adorn_matched then
                               return true
                           end
                           return false
@@ -1030,11 +1075,13 @@ local parser = P{
 
     section_after = C(Cmt(V"section_adorn", function(s,i, adorn)
                          local tests = false
-                         tests = state.valid_adornment:match(adorn) and true
+                         if lpegmatch (valid_adornment, adorn) then
+                           tests = true
+                         end
                          if state.previousadorn then
                              tests = tests and adorn == state.previousadorn
                          end
-                         warn ("sec-o", tests, adorn:sub(1,2) .. "…", "", i)
+                         warn ("sec-a", tests, stringsub (adorn, 1,2) .. "…", "", i)
                          state.previousadorn = nil
                          return tests
                      end))
@@ -1043,8 +1090,10 @@ local parser = P{
 
     section_once = C(Cmt(V"section_adorn", function(s,i, adorn)
                          local tests = false
-                         tests = state.valid_adornment:match(adorn) and true
-                         warn ("sec-o", tests, adorn:sub(1,2) .. "…", "", i)
+                         if lpegmatch (valid_adornment, adorn) then
+                           tests = true
+                         end
+                         warn ("sec-o", tests, stringsub (adorn, 1,2) .. "…", "", i)
                          state.previousadorn = nil
                          return tests
                      end))
@@ -1074,11 +1123,11 @@ local parser = P{
 
     target_indentmatch = Cmt(V"target_nextindent" -- I ♡ LPEG!
                            * Cb("indent"), function (s, i, a, b)
-                                return a == b 
+                                return a == b
                             end),
 
     target_link  = ( V"space"^0 * V"target_firstindent"
-                 * Ct(C(1 - V"whitespace" - V"eol")^1 
+                 * Ct(C(1 - V"whitespace" - V"eol")^1
                     * (V"target_indentmatch"
                      * C(1 - V"whitespace" - V"eol")^1)^0)
                  * V"eol" * #(1 - V"whitespace" - "eol")) / rst.joinindented
@@ -1118,7 +1167,7 @@ local parser = P{
               * (V"included_literal_block" + V"eol")
               ,
 
-    par_other = V"par_matchindent" 
+    par_other = V"par_matchindent"
               * C((1 - V"literal_block_shorthand" - V"eol")^1)
               * (V"included_literal_block" + V"eol")
               ,
@@ -1147,8 +1196,8 @@ local parser = P{
     literal_block_shorthand = Cs((V"colon" * V"space" * V"double_colon"
                                 + V"double_colon")
                              * V"whitespace"^0
-                             * V"eol" 
-                             * V"blank_line") 
+                             * V"eol"
+                             * V"blank_line")
                              -- The \unskip is necessary because the lines of a
                              -- paragraph get concatenated from a table with a
                              -- space as separator. And the literal block is
@@ -1339,11 +1388,16 @@ local parser = P{
     table_header_hline = P"=",
 }
 
+--- 225 rules at 2014-02-28 with lpeg 0.12 and Luatex 0.78.3
+--lpeg.print(rst_parser)
+--lpeg.ptree(rst_parser)
+--os.exit()
+
 local file_helpers = { }
 
 function file_helpers.strip_BOM (raw)
-    if raw:match"^\239\187\191" then
-        return raw:sub(4)
+    if stringmatch (raw, "^\239\187\191") then
+        return stringsub (raw, 4)
     end
     return raw
 end
@@ -1369,21 +1423,21 @@ do
 
     function file_helpers.expandtab (raw)
         position = 1
-        return p_expand:match(raw)
+        return lpegmatch (p_expand, raw)
     end
 end
 
 --- Spotted by Philipp A.
 function file_helpers.insert_blank (raw)
-    if not raw:find"\n%s$" then
+    if not stringfind (raw, "\n%s$") then
         return raw .. "\n\n"
     end
     return raw
 end
 
 function file_helpers.crlf (raw)
-    if raw:find"\r\n" then
-        return raw:gsub("\r\n", "\n")
+    if stringfind (raw, "\r\n") then
+        return stringgsub (raw, "\r\n", "\n")
     end
     return raw
 end
@@ -1467,7 +1521,7 @@ function thirddata.rst.standalone (infile, outfile)
     local testdata = load_file(infile)
     if testdata == 1 then return 1 end
 
-    local processeddata = parser:match(testdata)
+    local processeddata = lpegmatch (rst_parser, testdata)
     local setups = get_setups(false)
 
     processeddata = setups .. processeddata .. [[
@@ -1489,23 +1543,40 @@ function thirddata.rst.standalone (infile, outfile)
     return 0
 end
 
+local p_strip_comments
 do
     local Cs, P = lpeg.Cs, lpeg.P
     local percent = P"%"
     local eol     = P"\n"
     local comment = percent * (1 - eol)^0 * eol / "\n"
-    strip_comments = Cs((comment + 1)^0)
+    p_strip_comments = Cs((comment + 1)^0)
 end
 
-function thirddata.rst.do_rst_file(fname)
-    local rst_parser = parser
-    local raw_data   = load_file(fname)
-    local processed  = rst_parser:match(raw_data)
-    local setups     = get_setups(false)
-    local tmp_file   = tex.jobname .. "–rst_temporary.tex.tmp"
 
+local tempfile_count = { } --- map category -> count
+
+local get_tmpfile = function (category)
+    local cnt = tempfile_count[category]
+    if not cnt then
+        cnt = 0
+    end
+    cnt = cnt + 1
+    tempfile_count[category] = cnt
+    local filename = stringformat ("%s_rst-%s-%d",
+                                   tex.jobname, category, cnt)
+    return luatex.registertempfile (filename,
+                                    true,
+                                    (helpers.rst_debug == true)) --- for debugging generated code
+end
+
+
+function thirddata.rst.do_rst_file(fname)
+    local raw_data   = load_file(fname)
+    local processed  = lpegmatch (rst_parser, raw_data)
+    local setups     = get_setups(false)
+    local tmp_file   = get_tmpfile "temporary"
     if processed then
-        processed = strip_comments:match(setups..processed.."\n\\stoptext\n")
+        processed = lpegmatch (p_strip_comments, setups..processed.."\n\\stoptext\n")
         save_file(tmp_file, processed)
         context.input("./"..tmp_file)
     end
@@ -1514,16 +1585,13 @@ end
 local rst_inclusions = { }
 local rst_incsetups  = { }
 function thirddata.rst.do_rst_inclusion (iname, fname)
-    local rst_parser = parser
     local raw_data   = load_file(fname)
-    local processed  = rst_parser:match(raw_data)
+    local processed  = lpegmatch (rst_parser, raw_data)
     local setups     = get_setups(true)
-
-    local incnr    = #rst_incsetups  + 1
-    local tmp_file = tex.jobname .. stringformat("–rst_inclusion-%d.tex.tmp", incnr)
+    local tmp_file   = get_tmpfile "setup"
 
     if processed then
-        processed = strip_comments:match(processed)
+        processed = lpegmatch (p_strip_comments, processed)
         save_file(tmp_file, processed)
         rst_inclusions[iname] = tmp_file
         rst_incsetups[#rst_incsetups +1] = setups
@@ -1531,9 +1599,9 @@ function thirddata.rst.do_rst_inclusion (iname, fname)
 end
 
 function thirddata.rst.do_rst_setups ()
-    local out = table.concat(rst_incsetups)
+    local out = tableconcat(rst_incsetups)
     --context(out) --- why doesn’t this work?
-    local tmp_file = tex.jobname .. "–rst_setups.tex.tmp"
+    local tmp_file = get_tmpfile "setup"
     save_file(tmp_file, out)
     context.input(tmp_file)
 end
@@ -1547,17 +1615,16 @@ function thirddata.rst.get_rst_inclusion (iname)
 end
 
 function thirddata.rst.do_rst_snippet(txt)
-    local processed  = parser:match(txt)
+    local processed  = lpegmatch (rst_parser, txt)
     local setups     = get_setups(true)
-    local tmp_file   = tex.jobname .. "–rst_temporary.tex.tmp"
-
+    local tmp_file   = get_tmpfile "snippet"
     if processed then
-        warn("·cs·",txt)
-        processed = strip_comments:match(setups..processed)
-        save_file(tmp_file,processed)
-        context.input("./"..tmp_file)
+        warn("·cs·", txt)
+        processed = lpegmatch (p_strip_comments, setups..processed)
+        save_file(tmp_file, processed)
+        context.input("./" .. tmp_file)
     else
-        warn("·cs·",txt)
+        warn("·cs·", txt)
         context.par()
         context("{\\bf context-rst could not process snippet.\\par}")
         context.type(txt)
@@ -1565,24 +1632,4 @@ function thirddata.rst.do_rst_snippet(txt)
     end
 end
 
-local usage_info = [[
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                           rstConTeXt
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Functionality has been moved, the reST converter can now be
-accessed via mtxrun:
-
-    $mtxrun --script rst
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-]]
-
-local function main()
-    iowrite("\n"..usage_info.."\n")
-    return -1
-end
-
-if not (context or scripts) then
-    return main()
-end
+--- vim:tw=79:et:sw=4:ts=8:sts=4

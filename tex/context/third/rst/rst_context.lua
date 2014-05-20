@@ -15,19 +15,21 @@
 ---   good.
 
 
-local helpers        = helpers        or thirddata and thirddata.rst_helpers
-local rst_directives = rst_directives or thirddata and thirddata.rst_directives
+local helpers           = helpers        or thirddata and thirddata.rst_helpers
+local rst_directives    = rst_directives or thirddata and thirddata.rst_directives
 
-local utf         = unicode.utf8
-local utflen      = utf.len
-local utflower    = utf.lower
-local utfupper    = utf.upper
-local iowrite     = io.write
-local tableconcat = table.concat
+local utf               = unicode.utf8
+local utflen            = utf.len
+local utflower          = utf.lower
+local utfupper          = utf.upper
+local iowrite           = io.write
+local tableconcat       = table.concat
 
-local stringmatch  = string.match
-local stringgmatch = string.gmatch
-local stringgsub   = string.gsub
+local stringgmatch      = string.gmatch
+local stringgsub        = string.gsub
+local stringmatch       = string.match
+local stringsub         = string.sub
+local stringformat      = string.format
 
 local dbg_write = helpers.dbg_writef
 
@@ -50,7 +52,6 @@ do
     end
 end
 local stringstrip  = string.strip
-local stringformat = string.format
 
 local err = function(str)
     if str then
@@ -77,13 +78,13 @@ rst_context.current_footnote_number   = 0
 rst_context.current_symbolnote_number = 0
 
 function rst_context.addsetups(item)
-    local state = thirddata.rst.state
+    local state = rst_context.state
     state.addme[item] = state.addme[item] or true
     return 0
 end
 
 function rst_context.footnote_reference (label)
-    local tf = thirddata.rst.state.footnotes
+    local tf = rst_context.state.footnotes
     if stringmatch(label, "^%d+$") then -- all digits
         local c = tonumber(label)
         return [[\\footnote{\\getbuffer[__footnote_number_]].. c .."]}"
@@ -345,14 +346,14 @@ end
 
 function rst_context.substitution_reference (str, underscores)
     local sub = ""
-    rst_context.addsetups("substitutions")
+    rst_context.addsetups "substitutions"
     if underscores == "_" then -- normal reference
         sub = sub .. [[\\reference[__target_]] .. rst_context.whitespace_to_underscore(stringstrip(str)) .. "]{}"
     elseif underscores == "__" then -- normal reference
         rst_context.anonymous_targets = rst_context.anonymous_targets + 1
         sub = sub .. [[\\reference[__target_anon_]] .. rst_context.anonymous_targets .. "]{}"
     end
-    return sub .. [[{\\RSTsubstitution]] .. str:gsub("%s", "") .. "}"
+    return sub .. [[{\\RSTsubstitution]] .. stringgsub(str, "%s", "") .. "}"
 end
 
 do
@@ -469,7 +470,7 @@ local inline_parser = P{
                      + V"bareia"
                      + V"asterisk"
                      + V"bar"
-                     + V"lsquare" + V"rsquare"
+                     + V"lbrack" + V"rbrack"
                      ,        -- inline markup
     asterisk = P"*",
     quote_single = P"'",
@@ -501,16 +502,16 @@ local inline_parser = P{
 
     lparenthesis = P"(",
     rparenthesis = P")",
-    lsquare = P"[" / [[{\\letterleftbracket}]],
-    rsquare = P"]" / [[{\\letterrightbracket}]],
+    lbrack  = P"[",
+    rbrack  = P"]",
     lbrace  = P"{" / [[{\\letterleftbrace}]],
     rbrace  = P"}" / [[{\\letterrightbrace}]],
     less    = P"<",
     greater = P">",
-    leftpar  = V"lparenthesis" + V"lsquare" + V"lbrace" + V"less",
-    rightpar = V"rparenthesis" + V"rsquare" + V"rbrace" + V"greater",
+    leftpar  = V"lparenthesis" + V"lbrack" + V"lbrace" + V"less",
+    rightpar = V"rparenthesis" + V"rbrack" + V"rbrace" + V"greater",
 
-    normal_char = V"lbrace" + V"rbrace" + V"lsquare" + V"rsquare" -- escape those if in input
+    normal_char = V"lbrace" + V"rbrace" + V"lbrack" + V"rbrack" -- escape those if in input
                 + 1
                 ,
 
@@ -602,9 +603,9 @@ local inline_parser = P{
                      * V"bareia" * V"underscore"
                      ,
 
-    footnote_reference = V"lsquare"
+    footnote_reference = V"lbrack"
                        * Cs(V"footnote_label" + V"citation_reference_label")
-                       * V"rsquare"
+                       * V"rbrack"
                        * V"underscore"
                        / rst_context.footnote_reference
                        ,
@@ -615,7 +616,7 @@ local inline_parser = P{
                    + V"asterisk"
                    ,
 
-    citation_reference_label = V"letter" * (1 - V"rsquare")^1,
+    citation_reference_label = V"letter" * (1 - V"rbrack")^1,
 
     inline_internal_target = V"underscore"
                            * V"bareia"
@@ -681,24 +682,34 @@ local function get_line_pattern (chr)
     return P(chr)^1 * (-P(1))
 end
 
-function rst_context.section (...)  -- TODO general cleanup; move validity
-    local tab = { ... }             -- checking to parser.
-    local section, str = true, ""
-    local adornchar 
-    local ulen = utflen
-    if #tab == 3 then -- TODO use unicode length with ConTeXt
-        adornchar = tab[1]:sub(1,1)
-        section = ulen(tab[1]) >= ulen(tab[2])
-        str = stringstrip(tab[2])
-    else -- no overline
-        adornchar = tab[2]:sub(1,1)
-        section = ulen(tab[1]) <= ulen(tab[2])
-        str = tab[1]
+--[[--
+        Quoth the spec:
+            An underline-only adornment is distinct from an
+            overline-and-underline adornment using the same character.
+
+    We store the depths by hashing the adorn character and distinguish
+    the overlined ones from only underlined ones by prefixing them with
+    “O” and “U”, respectively.
+--]]--
+
+function rst_context.section (first, second, third)
+    local section   = true
+    local str       = ""
+    local adornchar = nil
+    local ulen      = utflen
+    if third then --- overlined
+        adornchar   = "O" .. stringsub(first, 1,1)
+        section     = ulen(first) >= ulen(second)
+        str         = stringstrip(second)
+    else -- underline-only
+        adornchar   = "U" .. stringsub(second, 1,1)
+        section     = ulen(first) <= ulen(second)
+        str         = stringstrip(first)
     end
 
     if section then -- determine level
         local level = rst_context.last_section_level
-        local rca = rst_context.collected_adornments
+        local rca   = rst_context.collected_adornments
         if rca[adornchar] then
             level = rca[adornchar]
         else
@@ -707,14 +718,15 @@ function rst_context.section (...)  -- TODO general cleanup; move validity
             rst_context.last_section_level = level
         end
 
-        ref = get_context_reference (str)
+        local ref = get_context_reference (str)
 
-        str = stringformat("\n\\\\%s[%s]{%s}\n", sectionlevels[level], ref, str)
-    else
-        return [[{\\bf fix your sectioning!}\\endgraf}]]
+        str = stringformat("\n\\\\%s[%s]{%s}\n",
+                           sectionlevels[level],
+                           ref,
+                           str)
+        return str or ""
     end
-
-    return section and str or ""
+    return [[{\\bf fix your sectioning!}\\endgraf}]]
 end
 
 -- Prime time for the fancybreak module.
@@ -805,18 +817,16 @@ function rst_context.startitemize(str)
     return result
 end
 
-local last_item = {} -- stack
-local current_itemdepth = 0
+local item_stack = { }
+
 function rst_context.stopitemize(str)
-    last_item[current_itemdepth] = nil
-    current_itemdepth = current_itemdepth - 1
+    item_stack[#item_stack] = nil
     return str .. [[
 \\stopitemize
 ]]
 end
 
 function rst_context.bullet_item (tab)
-    local li = last_item
     -- The capture of the first item has the \startitemize as 
     -- *second* element in the array.
     local content  = #tab == 2 and tab[2] or tab[3]
@@ -824,18 +834,18 @@ function rst_context.bullet_item (tab)
     local itemtype = tab[1]
     local result = startstr or ""
     if startstr then
-        current_itemdepth = current_itemdepth + 1
-        li[current_itemdepth] = itemtype
-    elseif li[current_itemdepth] then
-        if helpers.list.successor(itemtype, li[current_itemdepth]) then
+        item_stack[#item_stack + 1] = itemtype
+    elseif next (item_stack) then
+        local current_item = item_stack [#item_stack]
+        if helpers.list.successor(itemtype, current_item) then
             -- just leave it alone
-        elseif helpers.list.greater(itemtype, li[current_itemdepth]) then
+        elseif helpers.list.greater(itemtype, current_item) then
             local itemnum = tonumber(stringstrip(itemtype)) or helpers.list.get_decimal(itemtype)
             result = result .. stringformat([[
 \\setnumber[itemgroup:itemize]{%s}
 ]], itemnum)
         end
-        li[current_itemdepth] = itemtype
+        item_stack[#item_stack] = itemtype
     end
 
     return result .. [[
@@ -1239,7 +1249,7 @@ function rst_context.simple_table(tab)
 end
 
 function rst_context.footnote (label, content)
-    local tf = thirddata.rst.state.footnotes
+    local tf = rst_context.state.footnotes
     rst_context.addsetups("footnotes")
     if stringmatch(label, "^%d+$") then -- all digits
         tf.numbered[tonumber(label)] =
@@ -1268,21 +1278,34 @@ function rst_context.footnote (label, content)
     return ""
 end
 
+--- hack to differentiate inline images
+local special_substitutions = {
+    image = "inline_image",
+}
+
 function rst_context.substitution_definition (subtext, directive, data)
-    local tmp
-    if data.first ~= "" then
-        tmp = { data.first }
+    local special = special_substitutions[directive]
+    if special then
+        --- override; pass data directly
+        directive = special
     else
-        tmp = { }
+        local tmp
+        if data.first ~= "" then
+            tmp = { data.first }
+        else
+            tmp = { }
+        end
+        data.first = nil
+        for i=1, #data do -- paragraphs
+            local current = tableconcat(data[i], "\n")
+            --current = lpegmatch(inline_parser, current)
+            --current = rst_context.escape(current)
+            tmp[#tmp+1] = current
+        end
+        data = tableconcat(tmp, "\n\n")
+        data = stringstrip(data)
     end
-    data.first = nil
-    for i=1, #data do -- paragraphs
-        local current = tableconcat(data[i], "\n")
-        --current = lpegmatch(inline_parser, current)
-        --current = rst_context.escape(current)
-        tmp[#tmp+1] = current
-    end
-    data = tableconcat(tmp, "\n\n")
+    subtext = stringgsub(subtext, "%s", "")
     rst_context.substitutions[subtext] = { directive = directive,
                                            data      = data }
     return ""
@@ -1290,7 +1313,7 @@ end
 
 -- not to be confused with the directive definition table rst_directives
 function rst_context.directive(directive, data)
-    local fun  = rst_directives[directive]
+    local fun = rst_directives[directive]
     if fun then
         rst_context.addsetups("directive")
         local result = ""

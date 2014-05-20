@@ -3,6 +3,7 @@ category ConTeXt
 revision 23167
 shortdesc A simple accounting package.
 relocated 1
+longdesc The package deals with "accounts" of its own specification.
 depend context
 runfiles size=11
  RELOC/tex/context/interface/third/t-account.xml
@@ -13,5 +14,5 @@ runfiles size=11
  RELOC/tex/context/third/account/t-floatnumber.mkiv
  RELOC/tex/context/third/account/t-floatnumber.tex
 catalogue-ctan /macros/context/contrib/context-account
-catalogue-date 2009-02-07 09:38:09 +0100
+catalogue-date 2014-02-26 23:03:13 +0100
 catalogue-license pd

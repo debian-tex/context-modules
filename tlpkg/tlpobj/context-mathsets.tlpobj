@@ -5,12 +5,11 @@ shortdesc Set notation in ConTeXt.
 relocated 1
 longdesc Typeset good-looking set notation (e.g., {x|x \in Y}), as well
 longdesc as similar things such as Dirac bra-ket notation, conditional
-longdesc probabilities, etc. The package is a partial port of Donald
-longdesc Arseneau's LaTeX package braket.
+longdesc probabilities, etc. The package is at least inspired by braket.
 depend context
 runfiles size=4
  RELOC/tex/context/interface/third/t-mathsets.xml
  RELOC/tex/context/third/mathsets/t-mathsets.tex
 catalogue-ctan /macros/context/contrib/context-mathsets
-catalogue-date 2011-05-13 02:08:48 +0200
+catalogue-date 2014-02-26 23:03:13 +0100
 catalogue-license other-free

@@ -8,5 +8,5 @@ longdesc covers ConTeXt installation, fonts, layout design, cross-
 longdesc reference, project structure, metafun and presentation design.
 depend context
 catalogue-ctan /info/context-notes-zh-cn
-catalogue-date 2009-11-09 14:30:19 +0100
+catalogue-date 2014-02-26 23:03:13 +0100
 catalogue-license gpl

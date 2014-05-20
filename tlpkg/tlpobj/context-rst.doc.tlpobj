@@ -1,11 +1,11 @@
 name context-rst.doc
 category ConTeXt
-revision 29575
+revision 33092
 shortdesc doc files of context-rst
 relocated 1
-docfiles size=47
- RELOC/doc/context/third/rst/COPYING
- RELOC/doc/context/third/rst/README.rst
+docfiles size=46
+ RELOC/doc/context/third/rst/OMakefile
+ RELOC/doc/context/third/rst/OMakefile.omc
  RELOC/doc/context/third/rst/documentation.rst
  RELOC/doc/context/third/rst/hybridtest.tex
  RELOC/doc/context/third/rst/inc-first.rst
