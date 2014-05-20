@@ -4,18 +4,18 @@
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
 --       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
---      CHANGED:  2013-03-26 23:55:20+0100
+--      CHANGED:  2013-06-03 18:52:29+0200
 --------------------------------------------------------------------------------
 --
 
-local optional_setups = { }
-thirddata.rst_setups  = optional_setups
-local rst_directives  = thirddata.rst_directives
-local rst_context     = thirddata.rst
-local state           = rst_context.state
+local optional_setups   = { }
+thirddata.rst_setups    = optional_setups
+local rst_directives    = thirddata.rst_directives
+local rst_context       = thirddata.rst
 
-local stringformat = string.format
-local stringstrip  = string.strip
+local stringformat      = string.format
+local stringstrip       = string.strip
+local stringgsub        = string.gsub
 
 function optional_setups.footnote_symbol ()
     local setup = [[
@@ -29,7 +29,7 @@ function optional_setups.footnote_symbol ()
 end
 
 function optional_setups.footnotes ()
-    local tf = state.footnotes
+    local tf = rst_context.state.footnotes
     local fn = [[
 
 %---------------------------------------------------------------%
@@ -127,7 +127,6 @@ function optional_setups.substitutions ()
     local rs = rst_context.substitutions
     for name, content in next, rs do
         local id, data = content.directive, content.data
-        name, data = name:gsub("%s", ""), stringstrip(data)
         local directive = directives[id]
         if directive then
             substitutions = substitutions .. directive(name, data)
@@ -361,5 +360,18 @@ function optional_setups.citator ()
     return cit
 end
 
+function optional_setups.image ()
+    local image = [[
+
+%---------------------------------------------------------------%
+% images                                                        %
+%---------------------------------------------------------------%
+\setupexternalfigure[location={local,global,default}]
+
+]]
+    return image
+end
+
 return optional_setups
 
+-- vim:ft=lua:sw=4:ts=4:expandtab:tw=80

@@ -4,7 +4,7 @@
 --        USAGE:  called by rst_parser.lua
 --  DESCRIPTION:  Complement to the reStructuredText parser
 --       AUTHOR:  Philipp Gesang (Phg), <phg42.2a@gmail.com>
---      CHANGED:  2013-03-26 22:45:45+0100
+--      CHANGED:  2013-06-03 18:52:35+0200
 --------------------------------------------------------------------------------
 --
 
@@ -72,36 +72,61 @@ local function img_setup (properties)
     return result
 end
 
-rst_directives.image = function(data)
+local collect_image_properties = function (data)
+    local image_directives  = rst_directives.images
+    local p_keyval          = helpers.patterns.colon_keyval
+    local properties        = { }
+
+    data = tableflattened(data)
+    for i=1, #data do
+        local str = stringstrip(data[i])
+        local key, val = lpegmatch(p_keyval, str)
+        if key and val then
+            key = image_directives.keys[key] -- sanitize key expression
+            local valtype = type(image_directives.values[key])
+            if valtype == "table" then
+                val = image_directives.values[key][val]
+            elseif valtype == "function" then
+                val = image_directives.values[key](val)
+            end
+            properties[key] = val
+        end
+    end
+    return properties
+end
+
+--- ordinary image directives are converted to floats
+
+local float_image = function (data)
+    rst_context.addsetups "image"
     local inline_parser = rst_context.inline_parser
-    local properties    = {}
+    local properties
     local anon          = false
     local rdi           = rst_directives.images
     local hp            = helpers.patterns
+    local caption       = ""
+    local name          = ""
 
-    local name = stringstrip(data.name)
+    if data.name then
+        name = stringstrip(data.name)
+        data.name   = nil
+    else
+        if next(data[1]) then
+            name = data[1][1]
+        end
+    end
 
     --rd.anonymous = rd.anonymous + 1
     --anon = true -- indicates a nameless picture
     --name = "anonymous" .. rd.anonymous
 
-    properties.caption = name
-    data               = tableflattened(data)
+    properties = collect_image_properties(data)
 
-    for i=1, #data do
-        local str = data[i]
-        local key, val = lpegmatch(hp.colon_keyval, str)
-        if key and val then
-            key = rdi.keys[key] -- sanitize key expression
-            local valtype = type(rdi.values[key])
-            if valtype == "table" then
-                val = rdi.values[key][val]
-            elseif valtype == "function" then
-                val = rdi.values[key](val)
-            end
-            properties[key] = val
-        end
+    if properties.caption then
+        caption = lpegmatch(inline_parser, properties.caption)
+        caption = rst_context.escape(caption)
     end
+
     properties.setup = img_setup(properties) or ""
     local img = ""
 --    local images_done = rdi.done
@@ -119,15 +144,48 @@ rst_directives.image = function(data)
 --}
 --]], name, rst_context.escape(lpegmatch(inline_parser, properties.caption)), name, properties.setup)
 --    else -- image won't be referenced but used instantly
-    img = stringformat([[
-
-\placefigure[here]{%s}{\externalfigure[%s]%s}
-]],     rst_context.escape(lpegmatch(inline_parser, properties.caption)),
+    img = stringformat(
+        "\n\\placefigure[here]{%s}{\\externalfigure[%s]%s}",
+        caption,
         name,
         properties.setup)
 --    end
     return img
 end
+
+--- inline substitutions are converted to bare external figures
+local inline_image = function (name, data)
+    rst_context.addsetups "image"
+    local filename  = data.first
+    local p_keyval  = helpers.patterns.colon_keyval
+    local properties
+
+    if not filename then --- garbage, ignore
+        return ""
+    end
+    data.first = nil
+    filename   = stringstrip(filename)
+    properties = collect_image_properties(data)
+
+    local scheme  = "\n\\def\\RSTsubstitution%s{\n  \\externalfigure[%s]%s%%\n}\n"
+    local options = ""
+    if next(properties) then
+        local tmp = { }
+        tmp[#tmp+1] = "["
+        for key, value in next, properties do
+            tmp[#tmp+1] = key
+            tmp[#tmp+1] = "={"
+            tmp[#tmp+1] = rst_context.escape(value)
+            tmp[#tmp+1] = "},"
+        end
+        tmp[#tmp+1] = "]"
+        options = tableconcat(tmp)
+    end
+    return stringformat(scheme, name, filename, options)
+end
+
+rst_directives.image        = float_image
+rst_directives.inline_image = inline_image
 
 rst_directives.caution = function(data)
     local inline_parser = rst_context.inline_parser

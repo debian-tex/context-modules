@@ -241,47 +241,45 @@ Save for nesting lists are fully implemented in |rstcontext|.
 The following code typesets a triple-nested list with different
 kinds of bulleting / numbering: ::
 
-    i   First order list, first entry.
+    i.   First order list, first entry.
 
-    ii  First order list, second entry.
+    ii.  First order list, second entry.
 
-    iii First order list, third entry.
+    iii. First order list, third entry.
 
         -   Second order list, first entry.
 
-            #   Third order list, first entry.
-
-            #   Third order list, second entry.
-
-            #   Third order list, third entry.
+            #.  Third order list, first entry.
+            #.  Third order list, second entry.
+            #.  Third order list, third entry.
                 Real nesting rules!
 
         -   Second order list, second entry.
 
-    iv  First order list, fourth entry.
+    iv.  First order list, fourth entry.
 
-    v   First order list, fifth entry.
+    v.   First order list, fifth entry.
 
 The result looks like this:
 
-i   First order list, first entry.
+i.   First order list, first entry.
 
-ii  First order list, second entry.
+ii.  First order list, second entry.
 
-iii First order list, third entry.
+iii. First order list, third entry.
 
     -   Second order list, first entry.
 
-        #   Third order list, first entry.
-        #   Third order list, second entry.
-        #   Third order list, third entry.
+        #.  Third order list, first entry.
+        #.  Third order list, second entry.
+        #.  Third order list, third entry.
             Real nesting rules!
 
     -   Second order list, second entry.
 
-iv  First order list, fourth entry.
+iv.  First order list, fourth entry.
 
-v   First order list, fifth entry.
+v.   First order list, fifth entry.
 
 .. caution:: 
     Don’t forget the blank lines between list items.
@@ -658,7 +656,7 @@ License
 
 ::
 
-    Copyright 2010-2013 Philipp Gesang. All rights reserved.
+    Copyright 2010-2014 Philipp Gesang. All rights reserved.
 
     Redistribution and use in source and binary forms, with or
     without modification, are permitted provided that the

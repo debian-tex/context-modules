@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=s-cor-01,
-%D      version=2013.01.14,
+%D      version=2013.07.31,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Letters,
 %D       author=Wolfgang Schuster,
@@ -346,32 +346,38 @@
 
 \defineletterlayeralternative[\v!reference:\s!default][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\s!default]
 \defineletterlayeralternative[\v!reference:\v!a      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a      ]
+%defineletterlayeralternative[\v!reference:\v!top    ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a      ]
 \defineletterlayeralternative[\v!reference:\v!b      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b      ]
+%defineletterlayeralternative[\v!reference:\v!block  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b      ]
 \defineletterlayeralternative[\v!reference:\v!c      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c      ]
+%defineletterlayeralternative[\v!reference:\v!line   ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c      ]
 \defineletterlayeralternative[\v!reference:\v!d      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d      ]
+%defineletterlayeralternative[\v!reference:\v!table  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d      ]
 \defineletterlayeralternative[\v!reference:\v!e      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e      ]
+%defineletterlayeralternative[\v!reference:\v!width  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e      ]
+
 
 \startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\s!default]
   \correspondenceparameter\c!reference
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a] % line
+\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a]
   \ctxlua{thirddata.correspondence.letter.reference_a("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b] % block
+\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b]
   \ctxlua{thirddata.correspondence.letter.reference_b("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c] % argument
+\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c]
   \ctxlua{thirddata.correspondence.letter.reference_c("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d] % table
+\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d]
   \ctxlua{thirddata.correspondence.letter.reference_d("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e] % width
+\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e]
   \ctxlua{thirddata.correspondence.letter.reference_e("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
