@@ -12,8 +12,8 @@ Vcs-Browser: http://svn.debian.org/wsvn/debian-tex/context-modules/trunk/
 Package: context-modules
 Section: tex
 Architecture: all
-Depends: context (>> 2011), ${misc:Depends}
-Replaces: context (<< 2011.05.18.20110626-1)
+Depends: context (>= 2014), ${misc:Depends}
+Replaces: context (<< 2014)
 Description: additional ConTeXt modules
  ConTeXt is a document-production system based, like LaTeX, on the TeX
  typesetting system.  Whereas LaTeX insulates the writer from
@@ -28,6 +28,5 @@ Description: additional ConTeXt modules
  .
  This package includes the following additional ConTeXt modules:
  account, algorithmic, bnf, chromato, construction-plan, degrade, filter,
- fixme, french, fullpage, games, letter, lettrine, lilypond,
- mathsets, rst, ruby, simplefonts, simpleslides, 
- typearea, typescripts, vim.
+ fixme, french, fullpage, games, gnuplot, letter, lettrine, lilypond,
+ mathsets, rst, ruby, simplefonts, simpleslides, typearea, typescripts, vim.
