@@ -2,8 +2,9 @@ context-modules (20140528-2) unstable; urgency=medium
 
   * install metapost files (and scripts) (Closes: #767273)
   * install doc files into texmf/doc for texdoc
+  * bump standards version, no changes necessary
 
- -- Norbert Preining <preining@debian.org>  Thu, 30 Oct 2014 07:35:33 +0900
+ -- Norbert Preining <preining@debian.org>  Thu, 30 Oct 2014 07:36:39 +0900
 
 context-modules (20140528-1) unstable; urgency=medium
 
