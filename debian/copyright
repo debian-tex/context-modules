@@ -7,10 +7,11 @@ pretest archive (see http://www.tug.org/texlive/pretest.html)
 	http://<pretest-mirror>/archive/context-$name.doc.tar.xz
 	http://<pretest-mirror>/archive/context-$name.source.tar.xz
 for $name in the following list:
-	account, algorithmic, bnf, chromato, construction-plan, degrade, 
-	filter, fixme, french, fullpage, games, gantt, letter, 
-	lettrine, lilypond, mathsets, notes-zh-cn, rst, ruby, 
-	simplefonts, simpleslides, typearea, typescripts, vim
+	account, algorithmic, bnf, chromato, construction-plan, 
+	cyrillicnumbers, degrade, filter, fixme, french, fullpage, 
+	games, gantt, gnuplot, letter, lettrine, lilypond, mathsets, 
+	notes-zh-cn, rst, ruby, simplefonts, simpleslides, 
+	transliterator, typearea, typescripts, vim
 
 Debian adaptations for this Package are licensed under the GNU General
 Public License, version 2, and are under Copyright by:
@@ -61,7 +62,7 @@ gantt
 %D        license=Public Domain]
 
 
-fullpage, simple-fonts, typescripts
+fullpage, simplefonts, typescripts
 %C Copyright (C) 2010  Wolfgang Schuster
 %C
 %C This program is free software: you can redistribute it and/or modify
@@ -95,7 +96,7 @@ ConTeXt installation, fonts, layout design, cross-reference, project structure, 
 
 This package is licensed in GFDL (GNU Free Documentation License).
 
-rst:
+rst, cyrillicnumber, transliterator:
 %D       author=Philipp Gesang,
 %D    copyright=Philipp Gesang,
 %D      license=2-clause BSD,
