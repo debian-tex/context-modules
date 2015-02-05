@@ -1,3 +1,11 @@
+context-modules (20150205-1) UNRELEASED; urgency=medium
+
+  * include new modules: animation, annotation fancybreak, title,
+    visualcounter
+  * update copyright file
+
+ -- Norbert Preining <preining@debian.org>  Thu, 05 Feb 2015 09:04:58 +0900
+
 context-modules (20140528-2) unstable; urgency=medium
 
   * install metapost files (and scripts) (Closes: #767273)

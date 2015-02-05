@@ -1,22 +1,23 @@
 This package was debianized by Norbert Preining <preining@debian.org> on
 Sun Oct 22 11:53:51 CEST 2006.
 
-The original source was downloaded and merged from TeX Live 2012
-pretest archive (see http://www.tug.org/texlive/pretest.html)
-	http://<pretest-mirror>/archive/context-$name.tar.xz
-	http://<pretest-mirror>/archive/context-$name.doc.tar.xz
-	http://<pretest-mirror>/archive/context-$name.source.tar.xz
+The original source was downloaded and merged from TeX Live
+(pretest or tlnet) archive (see http://www.tug.org/texlive/)
+	http://<tl-mirror>/archive/context-$name.tar.xz
+	http://<tl-mirror>/archive/context-$name.doc.tar.xz
+	http://<tl-mirror>/archive/context-$name.source.tar.xz
 for $name in the following list:
-	account, algorithmic, bnf, chromato, construction-plan, 
-	cyrillicnumbers, degrade, filter, fixme, french, fullpage, 
-	games, gantt, gnuplot, letter, lettrine, lilypond, mathsets, 
-	notes-zh-cn, rst, ruby, simplefonts, simpleslides, 
-	transliterator, typearea, typescripts, vim
+	account, algorithmic, animation, annotation, bnf, chromato, 
+	construction-plan, cyrillicnumbers, degrade, fancybreak, filter, 
+	fixme, french, fullpage, games, gantt, gnuplot, letter, lettrine, 
+	lilypond, mathsets, notes-zh-cn, rst, ruby, simplefonts, 
+	simpleslides, title, transliterator, typearea, typescripts, vim,
+	visualcounter
 
 Debian adaptations for this Package are licensed under the GNU General
 Public License, version 2, and are under Copyright by:
 
-	Norbert Preining <preining@debian.org> 2011, 2012
+	Norbert Preining <preining@debian.org> 2011-2015
 
 The license statements for the contained modules are:
 
@@ -25,6 +26,11 @@ account, algorithmic, fixme, games, ruby
 %D      copyright=Wolfgang Schuster,
 %D          email=schuster.wolfgang@googlemail.com,
 %D        license=Public Domain]
+
+animation, annotation, fancybreak, title
+%D       author=Wolfgang Schuster,
+%D    copyright=Wolfgang Schuster,
+%D      license=GNU General Public License]
 
 bnf:
 %D          author={Nikolai Weibull},
@@ -47,7 +53,7 @@ chromato, construction-plan, degrade, french, typearea
 % of the License, or (at your option) any later version.
 
 
-filter, mathsets, vim
+filter, mathsets, vim, visualcounter
 %D       author=Aditya Mahajan,
 %D         date=\currentdate,
 %D    copyright=Aditya Mahajan,

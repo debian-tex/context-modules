@@ -1,10 +1,13 @@
 account
 algorithmic
+animation
+annotation
 bnf
 chromato
 construction-plan
 cyrillicnumbers
 degrade
+fancybreak
 filter
 fixme
 french
@@ -21,7 +24,9 @@ rst
 ruby
 simplefonts
 simpleslides
+title
 transliterator
 typearea
 typescripts
 vim
+visualcounter
