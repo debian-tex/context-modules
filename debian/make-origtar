@@ -3,7 +3,12 @@
 # create .orig.tar.gz for context-modules package
 #
 
-tlnetloc=/var/www/norbert/tlpretest/archive
+if [ "$1" = "-p" ] ; then
+  tlnetloc=/var/www/norbert/tlpretest/archive
+else
+  tlnetloc=/var/www/norbert/tlnet/archive
+fi
+
 package=context-modules
 vers=`date +'%Y%m%d'`
 basedir=${package}-$vers
