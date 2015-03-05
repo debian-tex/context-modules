@@ -1,10 +1,10 @@
-context-modules (20150205-1) UNRELEASED; urgency=medium
+context-modules (20150304-1) experimental; urgency=medium
 
   * include new modules: animation, annotation fancybreak, title,
     visualcounter
   * update copyright file
 
- -- Norbert Preining <preining@debian.org>  Thu, 05 Feb 2015 09:04:58 +0900
+ -- Norbert Preining <preining@debian.org>  Thu, 05 Mar 2015 11:15:28 +0900
 
 context-modules (20140528-2) unstable; urgency=medium
 
