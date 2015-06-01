@@ -1,0 +1,7 @@
+name context-visualcounter
+category ConTeXt
+revision 36190
+relocated 1
+depend context
+runfiles size=4
+ RELOC/tex/context/third/visualcounter/t-visualcounter.mkvi

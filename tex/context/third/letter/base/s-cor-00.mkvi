@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=s-cor-00,
-%D      version=2013.01.20,
+%D      version=2014.06.25,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Correspondence,
 %D       author=Wolfgang Schuster,
@@ -131,6 +131,8 @@
   \setinterfacevariable {resume}          {resume}
   \setinterfacevariable {resumemain}      {resumemain}
   \setinterfacevariable {resumenext}      {resumenext}
+  \setinterfacevariable {casual}          {casual}
+  \setinterfacevariable {classic}         {classic}
   % frames
   \setinterfacevariable {frames}          {frames}
   \setinterfacevariable {framesmain}      {framesmain}
@@ -169,6 +171,7 @@
 \installnamespace {correspondenceelement}
 \installnamespace {correspondencelayout}
 \installnamespace {correspondencehead}
+\installnamespace {correspondenceheadbuffer}
 \installnamespace {correspondenceheadrenderings}
 \installnamespace {correspondenceheadalternative}
 \installnamespace {correspondenceparagraph}
@@ -615,17 +618,17 @@
 \setvalue{\????correspondencedescriptionformat\v!none}%
   {\m_correspondence_description_items}
 
-%\def\correspondence_description_item#text%
-%  {\begingroup
-%   \setbox\scratchbox\hbox
-%     {\usecorrespondencedescriptionstyleandcolor\c!symbolstyle\c!symbolcolor
-%      \symbol{\correspondencedescriptionparameter\c!symbol}}%
-%   \assignwidth
-%     {\correspondencedescriptionparameter\c!symbolwidth}
-%     {\scratchdimen}
-%     {\unhcopy\scratchbox}
-%     {\correspondencedescriptionparameter\c!symboldistance}%
-%   \endgroup}
+% \def\correspondence_description_item#text%
+%   {\begingroup
+%    \setbox\scratchbox\hbox
+%      {\usecorrespondencedescriptionstyleandcolor\c!symbolstyle\c!symbolcolor
+%       \symbol{\correspondencedescriptionparameter\c!symbol}}%
+%    \assignwidth
+%      {\correspondencedescriptionparameter\c!symbolwidth}
+%      {\scratchdimen}
+%      {\unhcopy\scratchbox}
+%      {\correspondencedescriptionparameter\c!symboldistance}%
+%    \endgroup}
 
 \setupcorrespondencedescription
   [   \c!width=\v!fit,
@@ -637,16 +640,21 @@
 \installsimplecommandhandler \????correspondenceparagraph            {correspondenceparagraph}            \????correspondenceparagraph
 \installcommandhandler       \????correspondenceparagraphalternative {correspondenceparagraphalternative} \????correspondenceparagraphalternative
 
-\newtoks\t_correspondence_paragraphs
-
-\appendtoks
-  \the\t_correspondence_paragraphs
-\to \t_correspondence_before
+% \newtoks\t_correspondence_paragraphs
+%
+% \appendtoks
+%   \the\t_correspondence_paragraphs
+% \to \t_correspondence_before
+%
+% \unexpanded\def\correspondence_paragraph_define[#environment][#element]%
+%   {\def\currentcorrespondenceparagraph{#environment:#element}%
+%    \checkcorrespondenceparagraphparent
+%    \t_correspondence_paragraphs\expandafter{\the\t_correspondence_paragraphs\correspondence_paragraph_commands[#environment][#element]}}
 
 \unexpanded\def\correspondence_paragraph_define[#environment][#element]%
   {\def\currentcorrespondenceparagraph{#environment:#element}%
    \checkcorrespondenceparagraphparent
-   \t_correspondence_paragraphs\expandafter{\the\t_correspondence_paragraphs\correspondence_paragraph_commands[#environment][#element]}}
+   \correspondence_paragraph_commands[#environment][#element]}
 
 \unexpanded\def\correspondence_paragraph_setup[#environment][#elements][#parameters]%
   {\def\correspondence_paragraph_command#element%
@@ -670,13 +678,7 @@
    \grabbufferdatadirect{\????correspondenceparagraphbuffer\currentcorrespondenceparagraph}{\e!start\currentcorrespondenceelement}{\e!stop\currentcorrespondenceelement}}
 
 \unexpanded\def\correspondence_paragraph_stop[#environment][#element]%
-  {\edef\p_correspondence_paragraph_setups{\correspondenceparagraphparameter\c!setups}%
-   \ifx\p_correspondence_paragraph_setups\empty \else
-     \doifsetupselse{\????correspondenceparagraphsetups:#environment:\p_correspondence_paragraph_setups}
-       {\texsetup{\????correspondenceparagraphsetups:#environment:\p_correspondence_paragraph_setups}}
-       {\texsetup\p_correspondence_paragraph_setups}%
-   \fi
-   \doifsomethingelse{\correspondenceparagraphparameter\c!spacebefore}{\blank[\correspondenceparagraphparameter\c!spacebefore]}\endgraf
+  {\doifsomethingelse{\correspondenceparagraphparameter\c!spacebefore}{\blank[\correspondenceparagraphparameter\c!spacebefore]}\endgraf
    \correspondence_paragraph_alternative_place
    \doifsomethingelse{\correspondenceparagraphparameter\c!spaceafter }{\blank[\correspondenceparagraphparameter\c!spaceafter ]}\endgraf
    \endgroup}
@@ -703,111 +705,85 @@
    \edef\p_correspondence_paragraph_renderingsetup{\correspondenceparagraphalternativeparameter\c!renderingsetup}%
    \autosetups\p_correspondence_paragraph_renderingsetup}
 
-\definecorrespondenceparagraphalternative[\s!default][\c!renderingsetup=\????correspondenceparagraphrenderings:\s!default]
-\definecorrespondenceparagraphalternative[\v!top    ][\c!renderingsetup=\????correspondenceparagraphrenderings:\v!top    ]
-\definecorrespondenceparagraphalternative[\v!margin ][\c!renderingsetup=\????correspondenceparagraphrenderings:\v!margin ]
-\definecorrespondenceparagraphalternative[\v!columns][\c!renderingsetup=\????correspondenceparagraphrenderings:\v!columns]
+\definecorrespondenceparagraphalternative[\s!default   ][\c!renderingsetup=\????correspondenceparagraphrenderings:\s!default   ]
+\definecorrespondenceparagraphalternative[\v!columns   ][\c!renderingsetup=\????correspondenceparagraphrenderings:\v!columns   ]
+\definecorrespondenceparagraphalternative[\c!lefttext  ][\c!renderingsetup=\????correspondenceparagraphrenderings:\c!lefttext  ]
+\definecorrespondenceparagraphalternative[\c!middletext][\c!renderingsetup=\????correspondenceparagraphrenderings:\c!middletext]
+\definecorrespondenceparagraphalternative[\c!righttext ][\c!renderingsetup=\????correspondenceparagraphrenderings:\c!righttext ]
 
 \startsetups[\????correspondenceparagraphrenderings:\s!default]
-  \getbufferdata[\????correspondenceparagraphbuffer\currentcorrespondenceparagraph]
+  \ifdefined\currentparentcorrespondenceparagraph
+    \getbufferdata[\????correspondenceparagraphbuffer\currentparentcorrespondenceparagraph]
+  \else
+    \getbufferdata[\????correspondenceparagraphbuffer\currentcorrespondenceparagraph      ]
+  \fi
 \stopsetups
 
-\unexpanded\def\correspondence_paragraph_text
-  {\edef\p_correspondence_paragraph_text{\correspondenceparagraphparameter\c!text}%
-   \ifx\p_correspondence_paragraph_text\empty \else
-     \begingroup
-       \usecorrespondenceparagraphstyleandcolor\c!textstyle\c!textcolor
-       \correspondenceparagraphparameter\c!text
-       \endgraf
-     \endgroup
-     \doifsomethingelse{\correspondenceparagraphparameter\c!spaceinbetween}{\blank[\correspondenceparagraphparameter\c!spaceinbetween]}{\dosomebreak\nobreak}%
-   \fi}
+\newbox  \b_correspondence_paragraph
+\newcount\c_correspondence_paragraph
 
-\startsetups[\????correspondenceparagraphrenderings:\v!top]
-  \correspondence_paragraph_text
-  \getbufferdata[\????correspondenceparagraphbuffer\currentcorrespondenceparagraph]
-\stopsetups
+\unexpanded\def\correspondence_paragraph_columns_start
+  {\begingroup
+   \global\c_correspondence_paragraph\zerocount
+   \edef\p_correspondence_paragraph_n       {\correspondenceparagraphparameter\c!n       }%
+   \edef\p_correspondence_paragraph_distance{\correspondenceparagraphparameter\c!distance}%
+   \letcorrespondenceparagraphparameter\c!alternative\v!default
+   \dontleavehmode\hbox\bgroup}
 
-\unexpanded\def\correspondence_paragraph_leftmargin
-  {\edef\p_correspondence_paragraph_lefttext{\correspondenceparagraphparameter\c!lefttext}%
-   \ifx\p_correspondence_paragraph_lefttext\empty \else
-     \margindata
-       [\v!inleft]
-       [\c!style=\correspondenceparagraphparameter\c!leftstyle,
-        \c!color=\correspondenceparagraphparameter\c!leftcolor]
-       [\c!align=\correspondenceparagraphparameter\c!leftalign]
-       {\p_correspondence_paragraph_lefttext}%
-   \fi}
+\unexpanded\def\correspondence_paragraph_columns_stop
+  {\egroup
+   \endgroup}
 
-\unexpanded\def\correspondence_paragraph_rightmargin
-  {\edef\p_correspondence_paragraph_righttext{\correspondenceparagraphparameter\c!righttext}%
-   \ifx\p_correspondence_paragraph_righttext\empty \else
-     \margindata
-       [\v!inright]
-       [\c!style=\correspondenceparagraphparameter\c!rightstyle,
-        \c!color=\correspondenceparagraphparameter\c!rightcolor]
-       [\c!align=\correspondenceparagraphparameter\c!rightalign]
-       {\p_correspondence_paragraph_righttext}%
-   \fi}
-
-\startsetups[\????correspondenceparagraphrenderings:\v!margin]
-  \correspondence_paragraph_leftmargin
-  \correspondence_paragraph_rightmargin
-  \getbufferdata[\????correspondenceparagraphbuffer\currentcorrespondenceparagraph]
-\stopsetups
-
-\unexpanded\def\correspondence_paragraph_leftcolumn
-  {\edef\p_correspondence_paragraph_leftwidth {\correspondenceparagraphparameter\c!leftwidth }%
-   \edef\p_correspondence_paragraph_leftmargin{\correspondenceparagraphparameter\c!leftmargin}%
-   \ifzeropt\p_correspondence_paragraph_leftwidth \else
-     \setbox\scratchbox\vtop\bgroup
-       \dontinterfere
-       \hsize\p_correspondence_paragraph_leftwidth
-       \usecorrespondenceparagraphstyleandcolor\c!leftstyle\c!leftcolor
-       \begstrut\correspondenceparagraphparameter\c!lefttext\endstrut
-     \egroup
-     \llap{\box\scratchbox\hskip\p_correspondence_paragraph_leftmargin}%
-     \doadaptleftskip{\dimexpr\p_correspondence_paragraph_leftwidth+\p_correspondence_paragraph_leftmargin\relax}%
-   \fi}
-
-\unexpanded\def\correspondence_paragraph_rightcolumn
-  {\edef\p_correspondence_paragraph_rightwidth {\correspondenceparagraphparameter\c!rightwidth }%
-   \edef\p_correspondence_paragraph_rightmargin{\correspondenceparagraphparameter\c!rightmargin}%
-   \ifzeropt\p_correspondence_paragraph_rightwidth \else
-     \setbox\scratchbox\vtop\bgroup
-       \dontinterfere
-       \hsize\p_correspondence_paragraph_rightwidth
-       \usecorrespondenceparagraphstyleandcolor\c!rightstyle\c!rightcolor
-       \begstrut\correspondenceparagraphparameter\c!righttext\endstrut
-     \egroup
-     \rlap{\hskip\dimexpr\hsize-\leftskip-\rightskip-\p_correspondence_paragraph_rightwidth+\p_correspondence_paragraph_rightmargin\relax\box\scratchbox}%
-     \doadaptrightskip{\dimexpr\p_correspondence_paragraph_rightwidth+\p_correspondence_paragraph_rightmargin\relax}%
-   \fi}
-
-% \startsetups[\????correspondenceparagraphrenderings:\v!columns]
-%   \dontleavehmode
-%   \correspondence_paragraph_leftcolumn
-%   \correspondence_paragraph_rightcolumn
-%   \getbufferdata[\????correspondenceparagraphbuffer\currentcorrespondenceparagraph]
-% \stopsetups
+\unexpanded\def\correspondence_paragraph_columns_place
+  {\begingroup
+   \global\advance\c_correspondence_paragraph\plusone
+   \let\currentparentcorrespondenceparagraph\currentcorrespondenceparagraph
+   \chaintocurrentcorrespondenceparagraph{\currentparentcorrespondenceparagraph:\number\c_correspondence_paragraph}%
+   \edef\currentcorrespondenceparagraph  {\currentparentcorrespondenceparagraph:\number\c_correspondence_paragraph}%
+   \edef\p_correspondence_columns_width  {\correspondenceparagraphparameter\c!width}%
+   \setbox\b_correspondence_paragraph\vtop\bgroup
+     \ifx\p_correspondence_columns_width\empty \else \hsize\p_correspondence_columns_width \fi
+     \usealignparameter\correspondenceparagraphparameter
+     \begstrut
+     \usecorrespondenceparagraphstyleandcolor\c!style\c!color
+     \correspondence_paragraph_alternative_place
+     \endstrut
+   \egroup
+   \ifzeropt\p_correspondence_columns_width \else
+     \ifnum\c_correspondence_paragraph>\p_correspondence_paragraph_n
+       % more columns are used than specified
+     \else\ifnum\c_correspondence_paragraph=\p_correspondence_paragraph_n
+       \box\b_correspondence_paragraph
+     \else
+       \box\b_correspondence_paragraph
+       \hskip\p_correspondence_paragraph_distance
+     \fi\fi
+   \fi
+   \endgroup}
 
 \startsetups[\????correspondenceparagraphrenderings:\v!columns]
 
   \correspondence_paragraph_columns_start
-
-    \correspondence_paragraph_cell_start
-      \correspondenceparagraphparameter\c!lefttext
-    \correspondence_paragraph_cell_stop
-
-    \correspondence_paragraph_cell_start
-      \getbufferdata[\????correspondenceparagraphbuffer\currentparentcorrespondenceparagraph]
-    \correspondence_paragraph_cell_stop
-
-    \correspondence_paragraph_cell_start
-      \correspondenceparagraphparameter\c!righttext
-    \correspondence_paragraph_cell_stop
-
+  \dorecurse\p_correspondence_paragraph_n\correspondence_paragraph_columns_place
   \correspondence_paragraph_columns_stop
+
+\stopsetups
+
+\startsetups[\????correspondenceparagraphrenderings:\c!lefttext]
+
+  \correspondenceparagraphparameter\c!lefttext
+
+\stopsetups
+
+\startsetups[\????correspondenceparagraphrenderings:\c!middletext]
+
+  \correspondenceparagraphparameter\c!middletext
+
+\stopsetups
+
+\startsetups[\????correspondenceparagraphrenderings:\c!righttext]
+
+  \correspondenceparagraphparameter\c!righttext
 
 \stopsetups
 
@@ -815,56 +791,9 @@
   [\c!spacebefore=\v!line,
     \c!spaceafter=\v!line,
    \c!alternative=\s!default,
-     \c!leftalign=\v!flushleft,
-    \c!rightalign=\v!flushleft,
-     \c!leftwidth=\zeropoint,
-    \c!rightwidth=\zeropoint,
-    \c!leftmargin=\zeropoint,
-   \c!rightmargin=\zeropoint,
+      \c!distance=\zeropoint,
+         \c!width=\zeropoint,
              \c!n=3]
-
-% Columns, only for internal use, take values from paragraphs
-
-\installbasicparameterhandler \????correspondencecolumns {correspondencecolumns}
-\installstyleandcolorhandler  \????correspondencecolumns {correspondencecolumns}
-
-\newbox  \b_correspondence_paragraph
-\newcount\c_correspondence_paragraph
-
-\unexpanded\def\correspondence_paragraph_columns_start
-  {\begingroup
-   \c_correspondence_paragraph\zerocount
-   \let\currentparentcorrespondenceparagraph\currentcorrespondenceparagraph
-   \edef\p_correspondence_paragraph_n       {\correspondenceparagraphparameter\c!n       }%
-   \edef\p_correspondence_paragraph_distance{\correspondenceparagraphparameter\c!distance}%
-   \dontleavehmode\hbox\bgroup}
-
-\unexpanded\def\correspondence_paragraph_columns_stop
-  {\egroup
-   \endgroup}
-
-\unexpanded\def\correspondence_paragraph_cell_start
-  {\advance\c_correspondence_paragraph\plusone
-   \chaintocurrentcorrespondenceparagraph{\currentparentcorrespondenceparagraph:\number\c_correspondence_paragraph}%
-   \edef\currentcorrespondenceparagraph  {\currentparentcorrespondenceparagraph:\number\c_correspondence_paragraph}%
-   \edef\p_correspondence_columns_width  {\correspondenceparagraphparameter\c!width}%
-   \setbox\b_correspondence_paragraph\vtop\bgroup
-   \ifx\p_correspondence_columns_width\empty \else \hsize\p_correspondence_columns_width \fi
-   \begstrut}
-
-\unexpanded\def\correspondence_paragraph_cell_stop
-  {\endstrut
-   \egroup
-   \ifnum\c_correspondence_paragraph>\p_correspondence_paragraph_n
-     % more columns are used than specified
-   \else\ifnum\c_correspondence_paragraph=\p_correspondence_paragraph_n
-     \box\b_correspondence_paragraph
-   \else
-     \box\b_correspondence_paragraph
-     \hskip\p_correspondence_paragraph_distance
-   \fi\fi}
-
-
 
 % Heading
 
@@ -876,16 +805,21 @@
   \definemarking[\currentcorrespondencehead]% \definemarking[\????correspondenceheadmarking\currentcorrespondencehead]
 \to \everydefinecorrespondencehead
 
-\newtoks\t_correspondence_headings
-
-\appendtoks
-  \the\t_correspondence_headings
-\to \t_correspondence_before 
+% \newtoks\t_correspondence_headings
+%
+% \appendtoks
+%   \the\t_correspondence_headings
+% \to \t_correspondence_before 
+%
+% \unexpanded\def\correspondence_head_define[#environment][#element]%
+%   {\def\currentcorrespondencehead{#environment:#element}%
+%    \checkcorrespondenceheadparent
+%    \t_correspondence_headings\expandafter{\the\t_correspondence_headings\correspondence_head_commands[#environment][#element]}}
 
 \unexpanded\def\correspondence_head_define[#environment][#element]%
   {\def\currentcorrespondencehead{#environment:#element}%
    \checkcorrespondenceheadparent
-   \t_correspondence_headings\expandafter{\the\t_correspondence_headings\correspondence_head_commands[#environment][#element]}}
+   \correspondence_head_commands[#environment][#element]}
 
 \unexpanded\def\correspondence_head_setup[#environment][#elements][#parameters]%
   {\def\correspondence_head_command#element%
@@ -894,41 +828,43 @@
    \processcommacommand[#elements]\correspondence_head_command}
 
 \unexpanded\def\correspondence_head_commands[#environment][#element]%
-  {\setuevalue        {#element}{\correspondence_head_direct[#environment][#element]}%
+  {%setuevalue        {#element}{\correspondence_head_direct[#environment][#element]}%
    \setuevalue{\e!start#element}{\correspondence_head_start [#environment][#element]}%
    \setuevalue{\e!stop #element}{\correspondence_head_stop  [#environment][#element]}}
 
-\unexpanded\def\correspondence_head_direct[#environment][#element]%
-  {\begingroup
-   \correspondence_parameters{#environment}{#element}%
-   \doifnextbgroupelse{\dosinglegroupempty\correspondence_head_direct_argument}{\dosingleempty\correspondence_head_direct_parameters}}
-
-\unexpanded\def\correspondence_head_direct_argument#title%
-  {\setcorrespondenceheadparameter\c!title{#title}%
-   \correspondence_head_alternative_place
-   \endgroup}
-
-\unexpanded\def\correspondence_head_direct_parameters[#parameters]%
-  {\iffirstargument
-     \setupcurrentcorrespondencehead[#parameters]%
-   \fi
-   \correspondence_head_alternative_place
-   \endgroup}
+% \unexpanded\def\correspondence_head_direct[#environment][#element]%
+%   {\begingroup
+%    \correspondence_parameters{#environment}{#element}%
+%    \doifnextbgroupelse{\dosinglegroupempty\correspondence_head_direct_argument}{\dosingleempty\correspondence_head_direct_parameters}}
+%
+% \unexpanded\def\correspondence_head_direct_argument#title%
+%   {\setcorrespondenceheadparameter\c!title{#title}%
+%    \correspondence_head_alternative_place
+%    \endgroup}
+%
+% \unexpanded\def\correspondence_head_direct_parameters[#parameters]%
+%   {\iffirstargument
+%      \setupcurrentcorrespondencehead[#parameters]%
+%    \fi
+%    \correspondence_head_alternative_place
+%    \endgroup}
 
 \unexpanded\def\correspondence_head_start[#environment][#element]%
   {\begingroup
    \correspondence_parameters{#environment}{#element}%
-   \dosingleempty\correspondence_head_start_parameters}
+   \dodoubleempty\correspondence_head_start_parameters}
 
-\unexpanded\def\correspondence_head_start_parameters[#parameters]%
+\unexpanded\def\correspondence_head_start_parameters[#parameters][#dummy]%
   {\iffirstargument
      \setupcurrentcorrespondencehead[#parameters]%
    \fi
-   \correspondence_head_alternative_place
-   \endgroup}
+   \correspondenceheadparameter\c!beforesection
+   \grabbufferdatadirect{\????correspondenceheadbuffer\currentcorrespondencehead}{\e!start\currentcorrespondenceelement}{\e!stop\currentcorrespondenceelement}}
 
 \unexpanded\def\correspondence_head_stop[#environment][#element]%
-  {}
+  {\correspondence_head_alternative_place
+   \correspondenceheadparameter\c!aftersection
+   \endgroup}
 
 \unexpanded\def\correspondence_head_alternative_define[#environment][#self][#parent][#parameters]%
   {\iffourthargument
@@ -952,37 +888,56 @@
    \edef\p_correspondence_section_renderingsetup{\correspondenceheadalternativeparameter\c!renderingsetup}%
    \autosetups\p_correspondence_section_renderingsetup}
 
+\unexpanded\def\correspondenceheadtitle
+  {\begingroup
+     \usecorrespondenceheadstyleandcolor\c!style\c!color
+     \correspondenceheadparameter\c!textcommand{\begstrut\correspondenceheadparameter\c!title\endstrut}%
+   \endgroup}
+
+\unexpanded\def\correspondenceheadcontent
+  {\getbufferdata[\????correspondenceheadbuffer\currentcorrespondencehead]}
+
 \definecorrespondenceheadalternative[\s!default ][\c!renderingsetup=\????correspondenceheadrenderings:\s!default ]
 \definecorrespondenceheadalternative[\v!margin  ][\c!renderingsetup=\????correspondenceheadrenderings:\v!margin  ]
 \definecorrespondenceheadalternative[\v!inmargin][\c!renderingsetup=\????correspondenceheadrenderings:\v!inmargin]
 
 \startsetups[\????correspondenceheadrenderings:\s!default]
-  \doifsomething{\correspondenceheadparameter\c!spacebefore}{\blank[\correspondenceheadparameter\c!spacebefore]}
+
+  \edef\p_spacebefore{\correspondenceheadparameter\c!spacebefore}
+  \edef\p_spaceafter {\correspondenceheadparameter\c!spaceafter }
+
+  \ifx\p_spacebefore\empty \else
+    \blank[\p_spacebefore]
+  \fi
+
   \vbox\bgroup
-    \doifsomething{\correspondenceheadparameter\c!align}{\setupalign[\correspondenceheadparameter\c!align]}
-    \usecorrespondenceheadstyleandcolor\c!style\c!color
-    \correspondenceheadparameter\c!title
+    \usealignparameter\correspondenceheadparameter
+    \correspondenceheadtitle
   \egroup
-  \doifsomething{\correspondenceheadparameter\c!spaceafter }{\blank[\correspondenceheadparameter\c!spaceafter ]}
+
+  \ifx\p_spaceafter\empty \else
+    \blank[\p_spaceafter]
+  \fi
+
+  \correspondenceheadcontent
+
 \stopsetups
 
 \startsetups[\????correspondenceheadrenderings:\v!margin]
-  \doifsomething{\correspondenceheadparameter\c!spacebefore}{\blank[\correspondenceheadparameter\c!spacebefore]}
-  \noindent\hskip-\dimexpr\leftmarginwidth+\leftmargindistance\relax
-  \hbox\bgroup
-    \usecorrespondenceheadstyleandcolor\c!style\c!color
-    \correspondenceheadparameter\c!title
-  \egroup
-  \doifsomething{\correspondenceheadparameter\c!spaceafter }{\blank[\correspondenceheadparameter\c!spaceafter ]}
-\stopsetups
 
-\startsetups[\????correspondenceheadrenderings:\v!inmargin]
-  \margindata
-    [inleft]
-    [\c!style=\correspondenceheadparameter\c!style,
-     \c!color=\correspondenceheadparameter\c!color]
-    [\c!align=\correspondenceheadparameter\c!align]
-    {\correspondenceheadparameter\c!title}
+  \dontleavehmode\llap\bgroup
+    \vtop\bgroup
+      \hsize\leftmarginwidth
+      \usealignparameter\correspondenceheadparameter
+      \correspondenceheadtitle
+    \egroup
+    \hskip\leftmargindistance
+  \egroup
+
+  \blank[\v!overlay]
+
+  \correspondenceheadcontent
+
 \stopsetups
 
 \setupcorrespondencehead
@@ -1042,6 +997,14 @@
   {\edef\currentcorrespondencestyle  {#environment:#element}%
    \edef\p_correspondence_style_width{\correspondencestyleparameter\c!width}%
    \hbox \ifx\p_correspondence_style_width\empty \else to \p_correspondence_style_width \fi{#content\hss}}
+
+\unexpanded\def\formattedcorrespondenceparameter#element%
+  {\begingroup
+     \edef\currentcorrespondenceelement{#element}%
+     \edef\currentcorrespondencestyle  {\currentcorrespondence:#element}%
+     \usecorrespondencestylestyleandcolor\c!style\c!color
+     \correspondenceparameter\currentcorrespondenceelement
+   \endgroup}
 
 %D \section{Layout}
 %D

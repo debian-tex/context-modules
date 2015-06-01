@@ -1,0 +1,8 @@
+name context-title.doc
+category ConTeXt
+revision 36189
+shortdesc doc files of context-title
+relocated 1
+docfiles size=7
+ RELOC/doc/context/third/title/README
+ RELOC/doc/context/third/title/title-doc.pdf

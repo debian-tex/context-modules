@@ -64,12 +64,10 @@
    alternative=square]
 
 \usemodule
-  [simpleslides-f]
-  [default]
+  [simpleslides-fontsdefault]
 
 \usemodule
-  [simpleslides-s]
-  [default]
+   [simpleslides-default]
 
 % \usemodule
 %   [simpleslides-c]
@@ -78,7 +76,7 @@
 
 \doiffileelse{s-\currentmoduleparameter\c!style}
   {\ReadFile{s-\currentmoduleparameter\c!style}}
-  {\expanded{\usemodule[simpleslides-s-\currentmoduleparameter\c!style]}}
+  {\expanded{\usemodule[simpleslides-\currentmoduleparameter\c!style]}}
 
 \protect
 

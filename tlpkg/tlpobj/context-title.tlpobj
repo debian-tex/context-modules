@@ -1,0 +1,8 @@
+name context-title
+category ConTeXt
+revision 36189
+relocated 1
+depend context
+runfiles size=2
+ RELOC/tex/context/interface/third/t-title.xml
+ RELOC/tex/context/third/title/t-title.mkvi

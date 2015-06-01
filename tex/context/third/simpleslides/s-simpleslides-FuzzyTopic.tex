@@ -105,10 +105,10 @@
 
 %D Here are the main macros for defining and typesetting the Topic list:
 
-\define[3]\FancyEntry%
- {\doifelse{#1}{\MyMark}%
+\define[3]\FancyEntry{%
+  \doifelse \rawstructurelistfirst \MyMark%
   {\framed[width=3cm,height=1cm,frame=off,top=\vss,bottom=\vss,background=simpleslides:current,offset=1mm,align=center]{\switchtobodyfont[11pt]#1}}%
-  {\framed[width=3cm,height=1cm,frame=off,top=\vss,bottom=\vss,offset=2mm,align=center]{\switchtobodyfont[11pt]#1}}}
+  {\framed[width=3cm,height=1cm,frame=off,top=\vss,bottom=\vss,offset=1mm,align=center]{\switchtobodyfont[11pt]#1}}}
 
 \definelist[MyTopics][criterium=all]
 
@@ -122,7 +122,7 @@
 
 \def\doTopic[#1]{%
   \gdef\MyMark{#1}%
-  \writetolist[MyTopics][location=none]{#1}}%
+  \writetolist[MyTopics][location=none]{#1}{}}%
 
 %\def\Topic%
 %  {\dosingleargument\doTopic}
@@ -349,13 +349,13 @@ currentpicture := currentpicture
    \c!after=\vfill,
    \c!title\c!style={\switchtobodyfont[\TitleSize]},
    \c!title\c!color=simpleslides:contrastcolor,
-   \c!title\c!align=,%\v!middle,
+   \c!title\c!align=\v!middle,
    \c!author\c!style=,
    \c!author\c!color={simpleslides:contrastcolor},
-   \c!author\c!align=,%\v!middle, 
+   \c!author\c!align=\v!middle, 
    \c!date\c!style=,
    \c!date\c!color={simpleslides:contrastcolor},
-   \c!date\c!align=,%\v!middle,
+   \c!date\c!align=\v!middle,
    \c!before\c!title=,
    \c!before\c!author=,
    \c!before\c!date=,

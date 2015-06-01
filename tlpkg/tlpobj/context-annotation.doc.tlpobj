@@ -1,0 +1,8 @@
+name context-annotation.doc
+category ConTeXt
+revision 36188
+shortdesc doc files of context-annotation
+relocated 1
+docfiles size=14
+ RELOC/doc/context/third/annotation/README
+ RELOC/doc/context/third/annotation/annotation-doc.pdf

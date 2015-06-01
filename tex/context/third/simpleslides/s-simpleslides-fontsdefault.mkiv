@@ -12,7 +12,7 @@
 
 \writestatus{simpleslides}{loading default font setup}
 
-\startmodule[simpleslides-f-default]
+\startmodule[s-simpleslides-fontsdefault]
 
 \unprotect
 
@@ -46,10 +46,6 @@
 \def\NormalSize     {\the\simpleslidesNormalSize}
 \def\TitleSize      {\the\simpleslidesTitleSize}
 \def\SlideTitleSize {\the\simpleslidesSlideTitleSize}
-
-\beginOLDTEX 
-\setupencoding[default=ec]
-\endOLDTEX
 
 %D The bodyfont needs to be defined so \CONTEXT\ can calculate size switches,
 %D math formulas, etc.
@@ -88,17 +84,7 @@
 \setupbodyfont[ss,\NormalSize]
 \stopsetups
 
-\beginLUATEX
 \usetypescriptfile[type-otf] %Isn't this included by default?
-\endLUATEX
-
-\beginXETEX
-\usetypescriptfile[type-otf]
-\endXETEX
-
-\beginOLDTEX
-\usetypescriptfile[type-gyr]
-\endOLDTEX
 
 %AM: For all the fonts, I have used traditional names rather than TeX Gyre
 %names.
@@ -120,7 +106,6 @@
   \setupbodyfont[bookman,\NormalSize]
 \stopsetups
 
-\beginLUATEX
 %AM: Was Chorus
 \startsetups simpleslides:font:Chancery
 \starttypescript[serif] [chancery]
@@ -141,30 +126,6 @@
   \usetypescript[chancery]
   \setupbodyfont[chancery,\NormalSize]
 \stopsetups
-\endLUATEX
-
-\beginOLDTEX
-\startsetups simpleslides:font:Chancery
-  \loadmapfile[qzc-ec.map]
-  \starttypescript[serif] [chancery]
-    \definefontsynonym [ChanceryRoman]          [ec-qzcmi]  [encoding=ec]
-  \stoptypescript
-
-  \starttypescript [serif] [chancery]
-  \definefontsynonym [Serif]           [ChanceryRoman] 
-  \definefontsynonym [SerifItalic]     [Serif]
-  \definefontsynonym [SerifBold]       [Serif]
-  \definefontsynonym [SerifBoldItalic] [Serif]
-  \definefontsynonym [SerifCaps]       [Serif]
-\stoptypescript
-
-\starttypescript [chancery]
-  \definetypeface [chancery] [rm] [serif] [chancery] [encoding=ec]
-\stoptypescript 
-\usetypescript[chancery]
-\setupbodyfont[chancery,\NormalSize]
-\stopsetups
-\endOLDTEX
 
 \startsetups simpleslides:font:Gothic
   \starttypescript[gothic]
@@ -185,21 +146,11 @@
 \stopsetups
 
 
-\beginLUATEX
 %AM: Was Pagella
 \startsetups simpleslides:font:Palatino
   \usetypescript[palatino]
   \setupbodyfont[palatino,\NormalSize]
 \stopsetups
-\endLUATEX
-
-\beginOLDTEX
-\startsetups simpleslides:font:Palatino
-\definetypeface [palatino] [rm] [serif] [palatino] [default] [encoding=texnansi]
-\definetypeface [palatino] [tt] [mono]  [modern]   [default] [encoding=texnansi]
-\setupbodyfont[palatino,\NormalSize]
-\stopsetups
-\endOLDTEX
 
 \startsetups simpleslides:font:Schoolbook
   \starttypescript[schoolbook]
@@ -212,26 +163,10 @@
   \setupbodyfont[schoolbook,\NormalSize]
 \stopsetups
 
-\beginLUATEX
 \startsetups simpleslides:font:Times
   \usetypescript[postscript]
   \setupbodyfont[postscript,\NormalSize]
 \stopsetups
-\endLUATEX
-
-\beginOLDTEX
-\startsetups simpleslides:font:Times
-  \starttypescript [postscript]
-    \definetypeface [postscript] [rm] [serif] [times]     [default]
-    \definetypeface [postscript] [ss] [sans]  [helvetica] [default] [rscale=.9]
-    \definetypeface [postscript] [tt] [mono]  [courier]   [default] [rscale=1.1]
-    \definetypeface [postscript] [mm] [math]  [times]     [default]
-  \stoptypescript
-  \usetypescript[postscript]
-  \setupbodyfont[postscript,\NormalSize]
-\stopsetups
-\endOLDTEX
-
 
 \doifsetupselse{simpleslides:font:\moduleparameter{simpleslides}{font}}
      {\setups{simpleslides:font:\moduleparameter{simpleslides}{font}}}

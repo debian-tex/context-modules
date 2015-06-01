@@ -32,6 +32,11 @@
 \setupmodule
   [\c!style=memo]
 
+% Namespaces
+
+\installnamespace {memolayerrenderings}
+\installnamespace {memosectionrenderings}
+
 % Commands
 
 \definecorrespondence[\v!memo]
@@ -135,9 +140,9 @@
 
 % layer: foot
 
-\definememolayeralternative[\v!foot:\v!pagenumber][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!foot:\v!pagenumber]
+\definememolayeralternative[\v!foot:\v!pagenumber][\c!renderingsetup=\????memosectionrenderings:\v!foot:\v!pagenumber]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!foot:\v!pagenumber]
+\startsetups[\????memosectionrenderings:\v!foot:\v!pagenumber]
   \centerbox{\hbox{\begstrut\leftmemotext\c!pagenumber\subpagenumber\rightmemotext\c!pagenumber\lastsubpagenumber\endstrut}}
 \stopsetups
 
@@ -171,17 +176,17 @@
 
 % section: head
 
-\definememosectionalternative[\v!head:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!head:\s!default]
-\definememosectionalternative[\v!head:\v!memo   ][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!head:\v!memo   ]
-\definememosectionalternative[\v!head:\v!table  ][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!head:\v!table  ]
-\definememosectionalternative[\v!head:\v!margin ][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!head:\v!margin ]
+\definememosectionalternative[\v!head:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!head:\s!default]
+\definememosectionalternative[\v!head:\v!memo   ][\c!renderingsetup=\????memosectionrenderings:\v!head:\v!memo   ]
+\definememosectionalternative[\v!head:\v!table  ][\c!renderingsetup=\????memosectionrenderings:\v!head:\v!table  ]
+\definememosectionalternative[\v!head:\v!margin ][\c!renderingsetup=\????memosectionrenderings:\v!head:\v!margin ]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!head:\s!default]
+\startsetups[\????memosectionrenderings:\v!memo:\v!head:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!fromaddress
 \stopsetups
 
-\startsetups[\v!head:\v!memo]
+\startsetups[\???memosectionrenderings\v!head:\v!memo]
   \def\\{\correspondencesectionparameter\c!separator}
   \startpacked
   \doifsomething{\correspondenceparameter\c!fromname}{\memotext\c!fromname \correspondenceparameter\c!fromname \par}
@@ -203,7 +208,7 @@
         \correspondenceparameter#element
       \NC\NR}}
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!head:\v!table]
+\startsetups[\????memosectionrenderings:\v!head:\v!table]
   \def\\{\correspondencesectionparameter\c!separator}
   \starttabulate[|l|p|]
   \correspondence_memo_head_table\c!fromname
@@ -227,7 +232,7 @@
       \egroup
       \par}}
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!head:\v!margin]
+\startsetups[\????memosectionrenderings:\v!head:\v!margin]
   \def\\{\correspondencesectionparameter\c!separator}
   \startpacked
   \correspondence_memo_head_margin\c!fromname
@@ -239,36 +244,36 @@
 
 % section: date
 
-\definememosectionalternative[\v!date:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!date:\s!default]
+\definememosectionalternative[\v!date:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!date:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!date:\s!default]
+\startsetups[\????memosectionrenderings:\v!date:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!date
 \stopsetups
 
 % section: reference
 
-\definememosectionalternative[\v!reference:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!reference:\s!default]
+\definememosectionalternative[\v!reference:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!reference:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!reference:\s!default]
+\startsetups[\????memosectionrenderings:\v!reference:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!reference
 \stopsetups
 
 % section: specialnotation
 
-\definememosectionalternative[\v!specialnotation:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!specialnotation:\s!default]
+\definememosectionalternative[\v!specialnotation:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!specialnotation:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!specialnotation:\s!default]
+\startsetups[\????memosectionrenderings:\v!specialnotation:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!dispatch
 \stopsetups
 
 % section: address
 
-\definememosectionalternative[\v!address:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!address:\s!default]
+\definememosectionalternative[\v!address:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!address:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!address:\s!default]
+\startsetups[\????memosectionrenderings:\v!address:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!toname
   \doifsomething{\correspondenceparameter\c!toname}\\
@@ -277,44 +282,44 @@
 
 % section: title
 
-\definememosectionalternative[\v!title:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!title:\s!default]
+\definememosectionalternative[\v!title:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!title:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!title:\s!default]
+\startsetups[\????memosectionrenderings:\v!title:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!title
 \stopsetups
 
 % section: opening
 
-\definememosectionalternative[\v!opening:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!opening:\s!default]
+\definememosectionalternative[\v!opening:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!opening:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!opening:\s!default]
+\startsetups[\????memosectionrenderings:\v!opening:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!opening
 \stopsetups
 
 % section: subject
 
-\definememosectionalternative[\v!subject:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!subject:\s!default]
+\definememosectionalternative[\v!subject:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!subject:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!subject:\s!default]
+\startsetups[\????memosectionrenderings:\v!subject:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \memotext\c!subject\correspondenceparameter\c!subject
 \stopsetups
 
 % section: content
 
-\definememosectionalternative[\v!content:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!content:\s!default]
+\definememosectionalternative[\v!content:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!content:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!content:\s!default]
+\startsetups[\????memosectionrenderings:\v!content:\s!default]
   \getbufferdata[\????correspondencebuffer\v!memo]
 \stopsetups
 
 % section: closing
 
-\definememosectionalternative[\v!closing:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!closing:\s!default]
+\definememosectionalternative[\v!closing:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!closing:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!closing:\s!default]
+\startsetups[\????memosectionrenderings:\v!closing:\s!default]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!closing
   \doifsomething{\correspondenceparameter\c!signature}
@@ -324,12 +329,12 @@
 
 % section: appendices
 
-\definememosectionalternative[\v!appendices:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!memo:\v!appendices:\s!default]
+\definememosectionalternative[\v!appendices:\s!default][\c!renderingsetup=\????memosectionrenderings:\v!appendices:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!memo:\v!appendices:\s!default]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????memosectionrenderings:\v!appendices:\s!default]
+  \def\\{\correspondencesectionparameter\c!separator}
   \startpacked
-  \normalexpanded{\processcommalistwithparameters[\correspondence_elements_access\v!memo\v!description]}{\correspondence_description_place[\v!memo]}%
+  \normalexpanded{\processcommalistwithparameters[\correspondence_elements_access\v!memo\v!description]}{\correspondence_description_place[\v!memo]}
   \stoppacked
 \stopsetups
 
