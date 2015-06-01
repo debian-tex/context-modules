@@ -1,6 +1,6 @@
 name context-filter
 category ConTeXt
-revision 29983
+revision 36285
 shortdesc Run external programs on the contents of a start-stop environment.
 relocated 1
 longdesc The filter module provides a simple interface to run external

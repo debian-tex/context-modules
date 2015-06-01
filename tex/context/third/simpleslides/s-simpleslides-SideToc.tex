@@ -108,8 +108,9 @@
 \definecolor [simpleslides:altcontrastcolor]  [b=.6]
 \definecolor [simpleslides:contrastcolor]     [s=.3]
 \definecolor [simpleslides:itemize:color]     [simpleslides:altcontrastcolor]
-\define[3]\FancyEntry
- {\doifelse{#1}{\MyMark}%
+
+\define[3]\FancyEntry{%
+  \doifelse \rawstructurelistfirst \MyMark%
     {\framed[width=3.5cm,
 	     height=4ex,
 	     align=middle,
@@ -127,6 +128,7 @@
  	     foregroundcolor=simpleslides:backgroundcolor]
 	    {\switchtobodyfont[13pt]#1}}% normal layout
 }
+
 \stopmode
 
 \startmode[light]
@@ -141,14 +143,14 @@
 	     frame=off,
 	     align=middle,
  	     foregroundcolor=simpleslides:altcontrastcolor]
-	    {\switchtobodyfont[13pt]\bf #1}}% fancy layout
+	    {\switchtobodyfont[13pt]\bf Y #1}}% fancy layout
     {\framed[width=3.5cm,
 	     height=4ex,
 	     align=middle,
 	     frame=off,
 	     framecolor=red,
  	     foregroundcolor=simpleslides:altcontrastcolor]
-	    {\switchtobodyfont[13pt]#1}}% normal layout
+	    {\switchtobodyfont[13pt] X #1}}% normal layout
 }
 \stopmode
 
@@ -162,9 +164,9 @@
 %{\relax}
   {\dosingleargument\doTopic}
 
-\def\doTopic[#1]{%
-  \def\MyMark{#1}%
-  \writetolist[MyTopics]{#1}{}%
+\def\doTopic[#1]{
+  \gdef\MyMark{#1}%
+  \writetolist[MyTopics][location=none]{#1}{}%
 }
 
 \setuplist[MyTopics]
@@ -278,18 +280,18 @@ StopPage ;
    \c!date=\currentdate,
    \c!headstyle=,
    \c!headcolor={simpleslides:backgroundcolor},
-   \c!align=\v!middle,
+   \c!align=middle,
    \c!before=\vfill,
    \c!after=\vfill,
    \c!title\c!style={\switchtobodyfont[\TitleSize]},
    \c!title\c!color=simpleslides:backgroundcolor,
-   \c!title\c!align=,%\v!middle,
+   \c!title\c!align=middle,
    \c!author\c!style=,
    \c!author\c!color=simpleslides:backgroundcolor,
-   \c!author\c!align=,%\v!middle, 
+   \c!author\c!align=middle, 
    \c!date\c!style=,
    \c!date\c!color=simpleslides:backgroundcolor,
-   \c!date\c!align=,%\v!middle,
+   \c!date\c!align=middle,
    \c!before\c!title=,
    \c!before\c!author=,
    \c!before\c!date=,

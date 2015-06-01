@@ -1,0 +1,16 @@
+name context-fancybreak
+category ConTeXt
+revision 36948
+shortdesc Overfull pages with ConTeXt
+relocated 1
+longdesc The (ConTeXt) module allows insertion of thought breaks in
+longdesc texts. With parameters one can adjust the spacing around the
+longdesc content and set a default symbol.
+depend context
+runfiles size=7
+ RELOC/tex/context/interface/third/t-fancybreak.xml
+ RELOC/tex/context/third/fancybreak/t-fancybreak.mkii
+ RELOC/tex/context/third/fancybreak/t-fancybreak.mkvi
+catalogue-ctan /macros/context/contrib/context-fancybreak
+catalogue-date 2015-04-19 09:17:11 +0200
+catalogue-license gpl

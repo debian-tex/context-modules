@@ -87,7 +87,7 @@ if PageNumber > 1:
 	p[3] = zt .. zr .. zb .. zl .. cycle ;
  	fill p[3] withcolor  \MPcolor{simpleslides:contrastcolor} ;
  	draw p[3] withcolor \MPcolor{simpleslides:backgroundcolor} ;
- 	label(textext("\switchtobodyfont[10pt]\color[simpleslides:backgroundcolor]\pagenumber"),center p[3]) ;
+ 	label(textext("\switchtobodyfont[10pt]\startcolor[simpleslides:backgroundcolor]\pagenumber\stopcolor"),center p[3]) ;
 fi ;
 \stopuseMPgraphic 
 \stopsetups
@@ -135,21 +135,9 @@ fi ;
 
 %D We define our color scheme:
 
-\define\SScolorsbackground{r=.88,g=.92,b=.95}
-\define\SScolorscontrasta{r=.4,g=.6,b=.8}
-\define\SScolorscontrastb{r=.1,g=.1,b=.4}
-
-%D I'm still trying to implement a color mechanism that can be set by the users
-%D in their files. 
-
-\def\setupSimpleSlideColors[#1]%
-   {\getparameters[SScolors][#1]}
-
-% \setupSimpleSlideColors[background={r=1,g=0,b=0}]
-
-\definecolor [simpleslides:backgroundcolor]     [\SScolorsbackground]
-\definecolor [simpleslides:contrastcolor]	[\SScolorscontrasta]
-\definecolor [simpleslides:altcontrastcolor]	[\SScolorscontrastb]
+\definecolor [simpleslides:backgroundcolor]     [r=.88,g=.92,b=.95]
+\definecolor [simpleslides:contrastcolor]	[r=.4,g=.6,b=.8]
+\definecolor [simpleslides:altcontrastcolor]	[r=.1,g=.1,b=.4]
 \definecolor [simpleslides:itemize:color]       [simpleslides:contrastcolor]
 \definecolor [simpleslides:textcolor]  		[simpleslides:altcontrastcolor] 
 
@@ -267,13 +255,13 @@ StopPage ;
    \c!after=\vfill,
    \c!title\c!style={\switchtobodyfont[\TitleSize]},
    \c!title\c!color=simpleslides:altcontrastcolor,
-   \c!title\c!align=,%\v!middle,
+   \c!title\c!align=\v!middle,
    \c!author\c!style=,
    \c!author\c!color=simpleslides:altcontrastcolor,
-   \c!author\c!align=,%\v!middle, 
+   \c!author\c!align=\v!middle, 
    \c!date\c!style=,
    \c!date\c!color=simpleslides:altcontrastcolor,
-   \c!date\c!align=,%\v!middle,
+   \c!date\c!align=\v!middle,
    \c!before\c!title=,
    \c!before\c!author=,
    \c!before\c!date=,

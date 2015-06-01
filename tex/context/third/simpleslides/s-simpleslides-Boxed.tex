@@ -28,9 +28,7 @@
 	      leftmargindistance=1cm,
 	      rightmargindistance=0cm,
               header=2.8cm, 
-	      bottomspace=0.4cm,
-              bottom=1cm,
-              footer=0cm, 
+              footer=1cm, 
               topspace=.7cm, 
               backspace=2cm,
               location=singlesided]
@@ -59,24 +57,6 @@
 \definecolor [simpleslides:contrastcolor]       [r=.55, g=0, b=.04]
 \definecolor [simpleslides:variantcolor]	    [yellow]
 \definecolor [simpleslides:itemize:color]       [simpleslides:contrastcolor]
-
-\definevisualcounter
-  [simpleslides:squarescounter]
-  [markers]
-  [counter=userpage,
-   distance={(\the\dimexpr\visualcounterparameter{maxwidth})/(max(m-1,1)) - width},
-   path=unitcircle,
-   maxwidth=\textwidth,
-   height=0.5cm,
-   width=0.5cm]
-
-\definepalet[visualcounter:markers]
-            [active=simpleslides:variantcolor,
-	     future=simpleslides:backgroundcolor,
-	       past=simpleslides:backgroundcolor]
-
-\setupbottomtexts[\usevisualcounter{simpleslides:squarescounter}]
-
 
 %D We let Metapost calculate the background:
 
@@ -162,14 +142,14 @@ StopPage
   [simpleslides:background:title] 
   [\useMPgraphic{simpleslides:MP:horizontal}] 
 
-% \defineoverlay 
-%   [simpleslides:background:ornament] 
-%   [\useMPgraphic{simpleslides:MP:ornament}] 
+\defineoverlay 
+  [simpleslides:background:ornament] 
+  [\useMPgraphic{simpleslides:MP:ornament}] 
 
 %D The title page:
 
 \setupTitle
-  [\c!color={simpleslides:contrastcolor}]
+  [\c!headcolor={simpleslides:contrastcolor}]
 
 %D The slide title is typeset in a layer
 

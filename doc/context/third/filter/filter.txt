@@ -1,3 +1,6 @@
+[![Stories in Ready](https://badge.waffle.io/adityam/filter.png?label=ready&title=Ready)](https://waffle.io/adityam/filter)
+=======
+
 The filter module
 =================
 
@@ -188,7 +191,7 @@ fast, so these extra runs are not noticeable. But some filters, like the
 R-programming language for which simply startup and exit takes about 0.3
 seconds, are slow. In such cases, the additional runs start adding up. A better
 trade off is to store the contents of each environment in a separate file and
-invoke the filter only if a file *changes in between successive runes*.
+invoke the filter only if a file *changes in between successive runs*.
 
 The second behavior is achieved by adding `cache=yes` option to the
 definition:
@@ -516,7 +519,17 @@ Thus, all the following are valid:
 
     \inlinemarkdown!a closing brace }!
 
+**Note** Inline mode sets `\endlinechar=\minusone`; therefore no space is
+inserted after a newline. This may lead to unexpected results if the output of
+the filter is wrapped into multiple lines. For example, if the output of the
+filter is
 
+    This is a long line that is wrapped
+    after a fixed number of characters.
+
+Then, when reading the file the space between `wrapped` and `after` will be
+lost! To avoid that pass appropriate options to the filter program so that it
+does not wrap long lines.
 
 Processing existing Files
 -------------------------

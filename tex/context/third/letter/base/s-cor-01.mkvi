@@ -33,6 +33,11 @@
 \setupmodule
   [\c!style=dinb]
 
+% Namespaces
+
+\installnamespace {letterlayerrenderings}
+\installnamespace {lettersectionrenderings}
+
 % Commands
 
 \definecorrespondence[\v!letter]
@@ -128,11 +133,11 @@
 
 % layer: head
 
-\defineletterlayeralternative[\v!head:\s!default][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!head:\s!default]
+\defineletterlayeralternative[\v!head:\s!default][\c!renderingsetup=\????letterlayerrenderings:\v!head:\s!default]
 
 \defineletterlayeralternative
   [\v!head:\v!generic]
-  [\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!head:\v!generic,
+  [\c!renderingsetup=\????letterlayerrenderings:\v!head:\v!generic,
    \c!rule=\correspondencelayerparameter\c!rule,
    \c!rulewidth=\correspondencelayerparameter\c!rulewidth,
    \c!rulecolor=\correspondencelayerparameter\c!rulecolor,
@@ -142,16 +147,16 @@
 \defineletterlayeralternative[\v!head:\v!middle ][\v!head:\v!generic][\c!align=\v!middle    ]
 \defineletterlayeralternative[\v!head:\v!right  ][\v!head:\v!generic][\c!align=\v!flushright]
 
-\defineletterlayeralternative[\v!head:\v!gbrief ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!head:\v!gbrief ]
+\defineletterlayeralternative[\v!head:\v!gbrief ][\c!renderingsetup=\????letterlayerrenderings:\v!head:\v!gbrief ]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!head:\s!default]
+\startsetups[\????letterlayerrenderings:\v!head:\s!default]
   \def\\{\correspondencelayerparameter\c!separator}
   \correspondenceparameter\c!fromname
   \doifsomething{\correspondenceparameter\c!fromname}\\
   \correspondenceparameter\c!fromaddress
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!head:\v!generic]
+\startsetups[\????letterlayerrenderings:\v!head:\v!generic]
   \edef\p_rulewidth    {\correspondencelayeralternativeparameter\c!rulewidth    }
   \edef\p_rulethickness{\correspondencelayeralternativeparameter\c!rulethickness}
   \edef\p_rulecolor    {\correspondencelayeralternativeparameter\c!rulecolor    }
@@ -198,23 +203,23 @@
   [\c!commandbefore=\correspondencelayerparameter\c!commandbefore,
     \c!commandafter=\correspondencelayerparameter\c!commandafter]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!head:\v!gbrief]
-  \def\\{\correspondencelayerparameter\c!separator}%
+\startsetups[\????letterlayerrenderings:\v!head:\v!gbrief]
+  \def\\{\correspondencelayerparameter\c!separator}
   \correspondenceparameter\c!fromname
   \hrule
 \stopsetups
 
 % layer: nexthead
 
-\defineletterlayeralternative[\v!nexthead:\v!gbrief    ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!gbrief   ]
-\defineletterlayeralternative[\v!nexthead:\v!fullblock ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!fullblock]
-\defineletterlayeralternative[\v!nexthead:\v!hanging   ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!hanging  ]
-\defineletterlayeralternative[\v!nexthead:\v!semiblock ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!semiblock]
-\defineletterlayeralternative[\v!nexthead:\v!simplified][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!fullblock]
-\defineletterlayeralternative[\v!nexthead:\v!modified  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!hanging  ]
-\defineletterlayeralternative[\v!nexthead:\v!knuth     ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!knuth    ]
+\defineletterlayeralternative[\v!nexthead:\v!gbrief    ][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!gbrief   ]
+\defineletterlayeralternative[\v!nexthead:\v!fullblock ][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!fullblock]
+\defineletterlayeralternative[\v!nexthead:\v!hanging   ][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!hanging  ]
+\defineletterlayeralternative[\v!nexthead:\v!semiblock ][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!semiblock]
+\defineletterlayeralternative[\v!nexthead:\v!simplified][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!fullblock]
+\defineletterlayeralternative[\v!nexthead:\v!modified  ][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!hanging  ]
+\defineletterlayeralternative[\v!nexthead:\v!knuth     ][\c!renderingsetup=\????letterlayerrenderings:\v!nexthead:\v!knuth    ]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!gbrief]
+\startsetups[\????letterlayerrenderings:\v!nexthead:\v!gbrief]
   \maxaligned
     {\rlap{\correspondenceparameter\c!fromname}
      \midaligned{\leftlettertext\c!pagenumber\subpagenumber\rightlettertext\c!pagenumber\lastsubpagenumber}
@@ -222,16 +227,16 @@
   \hairline
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!fullblock]
+\startsetups[\????letterlayerrenderings:\v!nexthead:\v!fullblock]
   \maxaligned
-    {\rlap{\correspondenceparameter\c!toname}%
-     \midaligned{\subpagenumber}%
+    {\rlap{\correspondenceparameter\c!toname}
+     \midaligned{\subpagenumber}
      \llap{\framed[\c!frame=\v!off,\c!location=\v!top,\c!align=\v!left]
        {\correspondenceparameter\c!date   \\
         \correspondenceparameter\c!reference}}}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!hanging]
+\startsetups[\????letterlayerrenderings:\v!nexthead:\v!hanging]
   \maxaligned
     {\framed[\c!frame=\v!off,\c!location=\v!top,\c!align=v!right]
       {\correspondenceparameter\c!toname    \\
@@ -240,17 +245,17 @@
        \lettertext\c!page\subpagenumber}}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!semiblock]
+\startsetups[\????letterlayerrenderings:\v!nexthead:\v!semiblock]
   \maxaligned
-    {\rlap{\correspondenceparameter\c!toname}%
-     \midaligned{\subpagenumber}%
+    {\rlap{\correspondenceparameter\c!toname}
+     \midaligned{\subpagenumber}
      \llap{\correspondenceparameter\c!date}}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!nexthead:\v!knuth]
+\startsetups[\????letterlayerrenderings:\v!nexthead:\v!knuth]
   \maxaligned
-    {\rlap{\correspondenceparameter\c!toname}%
-     \midaligned{\currentdate}%
+    {\rlap{\correspondenceparameter\c!toname}
+     \midaligned{\currentdate}
      \llap{\lettertext\c!page\subpagenumber}}
 \stopsetups
 
@@ -264,10 +269,10 @@
 
 % layer: foot
 
-\defineletterlayeralternative[\v!foot:\v!gbrief    ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!foot:\v!gbrief]
-\defineletterlayeralternative[\v!foot:\v!pagenumber][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!foot:\v!pagenumber]
+\defineletterlayeralternative[\v!foot:\v!gbrief    ][\c!renderingsetup=\????letterlayerrenderings:\v!foot:\v!gbrief]
+\defineletterlayeralternative[\v!foot:\v!pagenumber][\c!renderingsetup=\????letterlayerrenderings:\v!foot:\v!pagenumber]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!foot:\v!gbrief]
+\startsetups[\????letterlayerrenderings:\v!foot:\v!gbrief]
   \bTABLE[\c!frame=\v!off,\c!width=.25\hsize,\c!offset=\zeropoint]
     \bTR[\c!style=\bfxx,\c!topframe=\v!on]
       \bTD \lettertext\c!address \eTD
@@ -284,7 +289,7 @@
   \eTABLE
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!foot:\v!pagenumber]
+\startsetups[\????letterlayerrenderings:\v!foot:\v!pagenumber]
   \centerbox{\hbox{\begstrut\leftlettertext\c!pagenumber\subpagenumber\rightlettertext\c!pagenumber\lastsubpagenumber\endstrut}}
 \stopsetups
 
@@ -302,18 +307,18 @@
 
 % layer: address
 
-\defineletterlayeralternative[\v!address:\s!default][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!address:\s!default]
-\defineletterlayeralternative[\v!address:\v!a      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!address:\v!a      ]
+\defineletterlayeralternative[\v!address:\s!default][\c!renderingsetup=\????letterlayerrenderings:\v!address:\s!default]
+\defineletterlayeralternative[\v!address:\v!a      ][\c!renderingsetup=\????letterlayerrenderings:\v!address:\v!a      ]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!address:\s!default]
-  \def\\{\correspondencelayerparameter\c!separator}%
+\startsetups[\????letterlayerrenderings:\v!address:\s!default]
+  \def\\{\correspondencelayerparameter\c!separator}
   \doifsomething{\correspondenceparameter\c!dispatch}{\correspondenceparameter\c!dispatch\\}
   \doifsomething{\correspondenceparameter\c!toname  }{\correspondenceparameter\c!toname  \\}
   \correspondenceparameter\c!toaddress
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!address:\v!a]
-  \def\\{\correspondencelayerparameter\c!separator}%
+\startsetups[\????letterlayerrenderings:\v!address:\v!a]
+  \def\\{\correspondencelayerparameter\c!separator}
   \doifsomethingelse{\correspondenceparameter\c!dispatch}
     {\correspondenceparameter\c!dispatch\\} % check number of lines!
     {\blank[2*\v!line]}
@@ -323,17 +328,17 @@
 
 % layer: backaddress
 
-\defineletterlayeralternative[\v!backaddress:\s!default][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!backaddress:\s!default]
-\defineletterlayeralternative[\v!backaddress:\v!auto   ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!backaddress:\v!auto   ]
+\defineletterlayeralternative[\v!backaddress:\s!default][\c!renderingsetup=\????letterlayerrenderings:\v!backaddress:\s!default]
+\defineletterlayeralternative[\v!backaddress:\v!auto   ][\c!renderingsetup=\????letterlayerrenderings:\v!backaddress:\v!auto   ]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!backaddress:\s!default]
+\startsetups[\????letterlayerrenderings:\v!backaddress:\s!default]
   \def\\{\correspondencelayerparameter\c!separator}
   \correspondenceparameter\c!fromname
   \doifsomething{\correspondenceparameter\c!fromaddress}\\
   \correspondenceparameter\c!fromaddress
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!backaddress:\v!auto]
+\startsetups[\????letterlayerrenderings:\v!backaddress:\v!auto]
   \def\\{\correspondencelayerparameter\c!separator}
   \doifsomethingelse{\correspondenceparameter\c!backaddress}
     {\correspondenceparameter\c!backaddress}
@@ -344,50 +349,50 @@
 
 % layer: reference
 
-\defineletterlayeralternative[\v!reference:\s!default][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\s!default]
-\defineletterlayeralternative[\v!reference:\v!a      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a      ]
-%defineletterlayeralternative[\v!reference:\v!top    ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a      ]
-\defineletterlayeralternative[\v!reference:\v!b      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b      ]
-%defineletterlayeralternative[\v!reference:\v!block  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b      ]
-\defineletterlayeralternative[\v!reference:\v!c      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c      ]
-%defineletterlayeralternative[\v!reference:\v!line   ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c      ]
-\defineletterlayeralternative[\v!reference:\v!d      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d      ]
-%defineletterlayeralternative[\v!reference:\v!table  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d      ]
-\defineletterlayeralternative[\v!reference:\v!e      ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e      ]
-%defineletterlayeralternative[\v!reference:\v!width  ][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e      ]
+\defineletterlayeralternative[\v!reference:\s!default][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\s!default]
+\defineletterlayeralternative[\v!reference:\v!a      ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!a      ]
+%defineletterlayeralternative[\v!reference:\v!top    ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!a      ]
+\defineletterlayeralternative[\v!reference:\v!b      ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!b      ]
+%defineletterlayeralternative[\v!reference:\v!block  ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!b      ]
+\defineletterlayeralternative[\v!reference:\v!c      ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!c      ]
+%defineletterlayeralternative[\v!reference:\v!line   ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!c      ]
+\defineletterlayeralternative[\v!reference:\v!d      ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!d      ]
+%defineletterlayeralternative[\v!reference:\v!table  ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!d      ]
+\defineletterlayeralternative[\v!reference:\v!e      ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!e      ]
+%defineletterlayeralternative[\v!reference:\v!width  ][\c!renderingsetup=\????letterlayerrenderings:\v!reference:\v!e      ]
 
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\s!default]
+\startsetups[\????letterlayerrenderings:\v!reference:\s!default]
   \correspondenceparameter\c!reference
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!a]
+\startsetups[\????letterlayerrenderings:\v!reference:\v!a]
   \ctxlua{thirddata.correspondence.letter.reference_a("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!b]
+\startsetups[\????letterlayerrenderings:\v!reference:\v!b]
   \ctxlua{thirddata.correspondence.letter.reference_b("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!c]
+\startsetups[\????letterlayerrenderings:\v!reference:\v!c]
   \ctxlua{thirddata.correspondence.letter.reference_c("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!d]
+\startsetups[\????letterlayerrenderings:\v!reference:\v!d]
   \ctxlua{thirddata.correspondence.letter.reference_d("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!reference:\v!e]
+\startsetups[\????letterlayerrenderings:\v!reference:\v!e]
   \ctxlua{thirddata.correspondence.letter.reference_e("\v!letter","\correspondencelayerparameter\c!list")}
 \stopsetups
 
 % layer: location
 
-\defineletterlayeralternative[\v!location:\v!french][\c!renderingsetup=\????correspondencelayerrenderings:\v!letter:\v!location:\v!french]
+\defineletterlayeralternative[\v!location:\v!french][\c!renderingsetup=\????letterlayerrenderings:\v!location:\v!french]
 
-\startsetups[\????correspondencelayerrenderings:\v!letter:\v!location:\v!french]
+\startsetups[\????letterlayerrenderings:\v!location:\v!french]
   \def\\{\correspondencelayerparameter\c!separator}
-  \doifsomething{\correspondenceparameter\c!place}{\correspondenceparameter\c!place\\}%
+  \doifsomething{\correspondenceparameter\c!place}{\correspondenceparameter\c!place\\}
   \correspondenceparameter\c!date
 \stopsetups
 
@@ -421,46 +426,46 @@
 
 % section: head
 
-\definelettersectionalternative[\v!head:\v!blockstyle][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!head:\v!blockstyle]
+\definelettersectionalternative[\v!head:\v!blockstyle][\c!renderingsetup=\????lettersectionrenderings:\v!head:\v!blockstyle]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!head:\v!blockstyle]
+\startsetups[\????lettersectionrenderings:\v!head:\v!blockstyle]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!fromaddress
 \stopsetups
 
 % section: date
 
-\definelettersectionalternative[\v!date:\v!blockstyle][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!date:\v!blockstyle]
+\definelettersectionalternative[\v!date:\v!blockstyle][\c!renderingsetup=\????lettersectionrenderings:\v!date:\v!blockstyle]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!date:\v!blockstyle]
+\startsetups[\????lettersectionrenderings:\v!date:\v!blockstyle]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!date
 \stopsetups
 
 % section: reference
 
-\definelettersectionalternative[\v!reference:\v!blockstyle][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!reference:\v!blockstyle]
+\definelettersectionalternative[\v!reference:\v!blockstyle][\c!renderingsetup=\????lettersectionrenderings:\v!reference:\v!blockstyle]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!reference:\v!blockstyle]
+\startsetups[\????lettersectionrenderings:\v!reference:\v!blockstyle]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!reference
 \stopsetups
 
 % section: specialnotation
 
-\definelettersectionalternative[\v!specialnotation:\v!blockstyle][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!specialnotation:\v!blockstyle]
+\definelettersectionalternative[\v!specialnotation:\v!blockstyle][\c!renderingsetup=\????lettersectionrenderings:\v!specialnotation:\v!blockstyle]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!specialnotation:\v!blockstyle]
+\startsetups[\????lettersectionrenderings:\v!specialnotation:\v!blockstyle]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!dispatch
 \stopsetups
 
 % section: address
 
-\definelettersectionalternative[\v!address:\v!blockstyle][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!address:\v!blockstyle]
-\definelettersectionalternative[\v!address:\v!knuth     ][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!address:\v!blockstyle]
+\definelettersectionalternative[\v!address:\v!blockstyle][\c!renderingsetup=\????lettersectionrenderings:\v!address:\v!blockstyle]
+\definelettersectionalternative[\v!address:\v!knuth     ][\c!renderingsetup=\????lettersectionrenderings:\v!address:\v!blockstyle]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!address:\v!blockstyle]
+\startsetups[\????lettersectionrenderings:\v!address:\v!blockstyle]
   \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!toname
   \doifsomething{\correspondenceparameter\c!toname}\\
@@ -469,10 +474,10 @@
 
 % section: title
 
-\definelettersectionalternative[\v!title:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!title:\s!default]
+\definelettersectionalternative[\v!title:\s!default][\c!renderingsetup=\????lettersectionrenderings:\v!title:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!title:\s!default]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????lettersectionrenderings:\v!title:\s!default]
+  \def\\{\correspondencesectionparameter\c!separator}
   \doifsomethingelse{\correspondenceparameter\c!title}
     {\correspondenceparameter\c!title}
     {\lettertext\c!attention\correspondenceparameter\c!attention}
@@ -480,27 +485,27 @@
 
 % section: subject
 
-\definelettersectionalternative[\v!subject:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!subject:\s!default]
+\definelettersectionalternative[\v!subject:\s!default][\c!renderingsetup=\????lettersectionrenderings:\v!subject:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!subject:\s!default]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????lettersectionrenderings:\v!subject:\s!default]
+  \def\\{\correspondencesectionparameter\c!separator}
   \lettertext\c!subject\correspondenceparameter\c!subject
 \stopsetups
 
 % section: opening
 
-\definelettersectionalternative[\v!opening:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!opening:\s!default]
-\definelettersectionalternative[\v!opening:\v!french ][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!opening:\v!french ]
+\definelettersectionalternative[\v!opening:\s!default][\c!renderingsetup=\????lettersectionrenderings:\v!opening:\s!default]
+\definelettersectionalternative[\v!opening:\v!french ][\c!renderingsetup=\????lettersectionrenderings:\v!opening:\v!french ]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!opening:\s!default]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????lettersectionrenderings:\v!opening:\s!default]
+  \def\\{\correspondencesectionparameter\c!separator}
   \doifsomethingelse{\correspondenceparameter\c!opening}
     {\correspondenceparameter\c!opening}
     {\correspondenceparameter\c!salutation}
 \stopsetups
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!opening:\v!french]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????lettersectionrenderings:\v!opening:\v!french]
+  \def\\{\correspondencesectionparameter\c!separator}
   \doifsomething{\correspondenceoptionparameter\c!indenting}{\setupindenting[\correspondenceoptionparameter\c!indenting]}
   \doifsomethingelse{\correspondenceparameter\c!opening}
     {\correspondenceparameter\c!opening}
@@ -509,60 +514,60 @@
 
 % section: content
 
-\definelettersectionalternative[\v!content:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!content:\s!default]
+\definelettersectionalternative[\v!content:\s!default][\c!renderingsetup=\????lettersectionrenderings:\v!content:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!content:\s!default]
+\startsetups[\????lettersectionrenderings:\v!content:\s!default]
   \getbufferdata[\????correspondencebuffer\v!letter]
 \stopsetups
 
 % section: closing
 
-\definelettersectionalternative[\v!closing:\s!default   ][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!closing:\s!default   ]
-\definelettersectionalternative[\v!closing:\v!french    ][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!closing:\v!french    ]
-\definelettersectionalternative[\v!closing:\v!simplified][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!closing:\v!simplified]
-\definelettersectionalternative[\v!closing:\v!knuth     ][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!closing:\v!knuth     ]
+\definelettersectionalternative[\v!closing:\s!default   ][\c!renderingsetup=\????lettersectionrenderings:\v!closing:\s!default   ]
+\definelettersectionalternative[\v!closing:\v!french    ][\c!renderingsetup=\????lettersectionrenderings:\v!closing:\v!french    ]
+\definelettersectionalternative[\v!closing:\v!simplified][\c!renderingsetup=\????lettersectionrenderings:\v!closing:\v!simplified]
+\definelettersectionalternative[\v!closing:\v!knuth     ][\c!renderingsetup=\????lettersectionrenderings:\v!closing:\v!knuth     ]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!closing:\s!default]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????lettersectionrenderings:\v!closing:\s!default]
+  \def\\{\correspondencesectionparameter\c!separator}
   \correspondenceparameter\c!closing
   \doifsomething{\correspondenceparameter\c!signature}
-    {\blank[\correspondencesectionparameter\c!spaceinbetween]%
+    {\blank[\correspondencesectionparameter\c!spaceinbetween]
      \correspondenceparameter\c!signature}
 \stopsetups
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!closing:\v!french]
-  \def\\{\correspondencesectionparameter\c!separator}%
-  \doifsomething{\correspondenceoptionparameter\c!indenting}{\setupindenting[\correspondenceoptionparameter\c!indenting,\v!first]}%
+\startsetups[\????lettersectionrenderings:\v!closing:\v!french]
+  \def\\{\correspondencesectionparameter\c!separator}
+  \doifsomething{\correspondenceoptionparameter\c!indenting}{\setupindenting[\correspondenceoptionparameter\c!indenting,\v!first]}
   \correspondenceparameter\c!closing
   \doifsomething{\correspondenceparameter\c!signature}
-    {\blank[\correspondencesectionparameter\c!spaceinbetween]%
-     \raggedcenter\doadaptleftskip{.5\textwidth}%
+    {\blank[\correspondencesectionparameter\c!spaceinbetween]
+     \raggedcenter\doadaptleftskip{.5\textwidth}
      \correspondenceparameter\c!signature\endgraf}
 \stopsetups
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!closing:\v!simplified]
-  \def\\{\correspondencesectionparameter\c!separator}%
-  \doifsomething{\correspondenceparameter\c!signature}{\blank[\correspondencesectionparameter\c!spaceinbetween]}%
+\startsetups[\????lettersectionrenderings:\v!closing:\v!simplified]
+  \def\\{\correspondencesectionparameter\c!separator}
+  \doifsomething{\correspondenceparameter\c!signature}{\blank[\correspondencesectionparameter\c!spaceinbetween]}
   \correspondenceparameter\c!signature
 \stopsetups
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!closing:\v!knuth]
-  \def\\{\correspondencesectionparameter\c!separator}%
-  \doadaptleftskip{\dimexpr\textwidth/13*8\relax}%
+\startsetups[\????lettersectionrenderings:\v!closing:\v!knuth]
+  \def\\{\correspondencesectionparameter\c!separator}
+  \doadaptleftskip{\dimexpr\textwidth/13*8\relax}
   \correspondenceparameter\c!closing
   \doifsomething{\correspondenceparameter\c!signature}
-    {\blank[\correspondencesectionparameter\c!spaceinbetween]%
+    {\blank[\correspondencesectionparameter\c!spaceinbetween]
      \correspondenceparameter\c!signature}
 \stopsetups
 
 % section: appendices
 
-\definelettersectionalternative[\v!appendices:\s!default][\c!renderingsetup=\????correspondencesectionrenderings:\v!letter:\v!appendices:\s!default]
+\definelettersectionalternative[\v!appendices:\s!default][\c!renderingsetup=\????lettersectionrenderings:\v!appendices:\s!default]
 
-\startsetups[\????correspondencesectionrenderings:\v!letter:\v!appendices:\s!default]
-  \def\\{\correspondencesectionparameter\c!separator}%
+\startsetups[\????lettersectionrenderings:\v!appendices:\s!default]
+  \def\\{\correspondencesectionparameter\c!separator}
   \startpacked
-  \processcommacommand[\correspondence_elements_access\v!letter\v!description]{\correspondence_description_place\v!letter}%
+  \processcommacommand[\correspondence_elements_access\v!letter\v!description]{\correspondence_description_place\v!letter}
   \stoppacked
 \stopsetups
 

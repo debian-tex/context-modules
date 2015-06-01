@@ -31,13 +31,12 @@
               footer=0cm, 
               topspace=1cm,
 	      bottomspace=2cm,
-              bottom=1cm,
               backspace=1.5cm,
               location=singlesided]
 
 \setuplayout [simpleslides:layout:horizontal][header=1.4cm]
 \setuplayout [simpleslides:layout:vertical]  [header=0cm]
-\setuplayout [simpleslides:layout:title]     [header=0cm,bottom=0pt,bottomspace=0pt]
+\setuplayout [simpleslides:layout:title]     [header=0cm]
 
 %D We also specify the position of the slidetitle.
 
@@ -65,23 +64,6 @@
 \definecolor [simpleslides:variantcolor]       [s=.3]
 \definecolor [simpleslides:itemize:color]      [simpleslides:contrastcolor]
 
-\definevisualcounter
-  [simpleslides:bottomsquarescounter]
-  [squaremarkers]
-  [counter=userpage,
-   distance={(\the\dimexpr\visualcounterparameter{maxwidth})/m + width},
-   path=unitsquare,
-   maxwidth=\textwidth,
-   height=0.3cm,
-   width=0.3cm]
-
-\definepalet[visualcounter:squaremarkers]
-            [active=simpleslides:contrastcolor,
-	     future=simpleslides:variantcolor,
-	       past=simpleslides:variantcolor]
-
-\setupbottomtexts[\usevisualcounter{simpleslides:bottomsquarescounter}]
-
 %D We let \METAPOST\ calculate the background:
 
 %AM: Why not implement this as an interaction bar?
@@ -89,34 +71,14 @@
 \startuseMPgraphic{simpleslides:MP:ornament} 
 StartPage ;
 
+picture p ;
+
 fill Page withcolor \MPcolor{simpleslides:backgroundcolor} ;
-% 
-% save diff ;numeric diff; 
-% diff = .3cm ;
-% 
-% save w; numeric w; 
-% w = xpart (lrcorner Field[Text][Text] - llcorner Field[Text][Text]) - diff ;
-% 
-% save factor; numeric factor; 
-% if NOfPages <= 1 :
-%   factor = w ;
-% else :
-%   factor = w/(NOfPages - 1) ;
-% fi ;
-% 
-% save p; path p ;
-% p = unitsquare xyscaled (diff,diff) 
-%                shifted (xpart llcorner Field[Text][Text],0.85cm) ;
-% 
-% for i = 1 upto NOfPages:
-%   if PageNumber = i:
-%     fill p xyscaled (0,2) shifted ( (i-1)*factor,-diff-0.85cm) 
-%          withcolor \MPcolor{simpleslides:contrastcolor} ;
-%   else :
-%     fill p shifted ( (i-1)*factor, 0) 
-%          withcolor \MPcolor{simpleslides:variantcolor} ;
-%   fi ;
-% endfor ;
+
+p := image (externalfigure "/tmp/blackboard.jpg") ;
+
+addto currentpicture also p ;
+
 StopPage ;
 \stopuseMPgraphic 
 

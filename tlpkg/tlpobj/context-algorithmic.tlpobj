@@ -10,5 +10,5 @@ runfiles size=5
  RELOC/tex/context/third/algorithmic/t-algorithmic.mkii
  RELOC/tex/context/third/algorithmic/t-algorithmic.mkiv
 catalogue-ctan /macros/context/contrib/context-algorithmic
-catalogue-date 2014-02-26 23:03:13 +0100
-catalogue-license pd
+catalogue-date 2015-02-01 17:06:53 +0100
+catalogue-license gpl

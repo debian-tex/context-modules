@@ -1,0 +1,9 @@
+name context-annotation
+category ConTeXt
+revision 36188
+relocated 1
+depend context
+runfiles size=13
+ RELOC/tex/context/interface/third/t-annotation.xml
+ RELOC/tex/context/third/annotation/t-annotation.lua
+ RELOC/tex/context/third/annotation/t-annotation.mkvi

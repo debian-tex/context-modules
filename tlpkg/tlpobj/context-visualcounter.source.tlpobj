@@ -1,0 +1,8 @@
+name context-visualcounter.source
+category ConTeXt
+revision 36190
+shortdesc source files of context-visualcounter
+relocated 1
+srcfiles size=7
+ RELOC/source/context/third/visualcounter/p-documentation.tex
+ RELOC/source/context/third/visualcounter/visualcounter.tex
