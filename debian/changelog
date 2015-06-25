@@ -1,3 +1,9 @@
+context-modules (20150601-2) unstable; urgency=medium
+
+  * upload to unstable
+
+ -- Norbert Preining <preining@debian.org>  Thu, 25 Jun 2015 14:54:14 +0900
+
 context-modules (20150601-1) experimental; urgency=medium
 
   * include new modules: animation, annotation fancybreak, title,
