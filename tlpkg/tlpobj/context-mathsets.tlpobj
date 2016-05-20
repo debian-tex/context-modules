@@ -1,7 +1,7 @@
 name context-mathsets
 category ConTeXt
 revision 23167
-shortdesc Set notation in ConTeXt.
+shortdesc Set notation in ConTeXt
 relocated 1
 longdesc Typeset good-looking set notation (e.g., {x|x \in Y}), as well
 longdesc as similar things such as Dirac bra-ket notation, conditional
@@ -11,5 +11,6 @@ runfiles size=4
  RELOC/tex/context/interface/third/t-mathsets.xml
  RELOC/tex/context/third/mathsets/t-mathsets.tex
 catalogue-ctan /macros/context/contrib/context-mathsets
-catalogue-date 2014-02-26 23:03:13 +0100
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license other-free
+catalogue-topics maths

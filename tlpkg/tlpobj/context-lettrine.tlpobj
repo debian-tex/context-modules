@@ -1,7 +1,7 @@
 name context-lettrine
 category ConTeXt
 revision 23167
-shortdesc A ConTeXt implementation of lettrines.
+shortdesc A ConTeXt implementation of lettrines
 relocated 1
 longdesc This is a re-implementation of the LaTeX package lettrine.
 depend context
@@ -9,5 +9,6 @@ runfiles size=3
  RELOC/tex/context/interface/third/lettrine.xml
  RELOC/tex/context/third/lettrine/t-lettrine.tex
 catalogue-ctan /macros/context/contrib/context-lettrine
-catalogue-date 2014-02-26 23:03:13 +0100
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license pd
+catalogue-topics lettrine

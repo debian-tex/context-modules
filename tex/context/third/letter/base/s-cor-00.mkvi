@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=s-cor-00,
-%D      version=2014.06.25,
+%D      version=2015.08.24,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Correspondence,
 %D       author=Wolfgang Schuster,
@@ -859,11 +859,10 @@
      \setupcurrentcorrespondencehead[#parameters]%
    \fi
    \correspondenceheadparameter\c!beforesection
-   \grabbufferdatadirect{\????correspondenceheadbuffer\currentcorrespondencehead}{\e!start\currentcorrespondenceelement}{\e!stop\currentcorrespondenceelement}}
+   \correspondence_head_alternative_place}
 
 \unexpanded\def\correspondence_head_stop[#environment][#element]%
-  {\correspondence_head_alternative_place
-   \correspondenceheadparameter\c!aftersection
+  {\correspondenceheadparameter\c!aftersection
    \endgroup}
 
 \unexpanded\def\correspondence_head_alternative_define[#environment][#self][#parent][#parameters]%
@@ -894,9 +893,6 @@
      \correspondenceheadparameter\c!textcommand{\begstrut\correspondenceheadparameter\c!title\endstrut}%
    \endgroup}
 
-\unexpanded\def\correspondenceheadcontent
-  {\getbufferdata[\????correspondenceheadbuffer\currentcorrespondencehead]}
-
 \definecorrespondenceheadalternative[\s!default ][\c!renderingsetup=\????correspondenceheadrenderings:\s!default ]
 \definecorrespondenceheadalternative[\v!margin  ][\c!renderingsetup=\????correspondenceheadrenderings:\v!margin  ]
 \definecorrespondenceheadalternative[\v!inmargin][\c!renderingsetup=\????correspondenceheadrenderings:\v!inmargin]
@@ -919,8 +915,6 @@
     \blank[\p_spaceafter]
   \fi
 
-  \correspondenceheadcontent
-
 \stopsetups
 
 \startsetups[\????correspondenceheadrenderings:\v!margin]
@@ -935,8 +929,6 @@
   \egroup
 
   \blank[\v!overlay]
-
-  \correspondenceheadcontent
 
 \stopsetups
 

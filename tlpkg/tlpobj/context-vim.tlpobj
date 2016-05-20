@@ -1,7 +1,7 @@
 name context-vim
 category ConTeXt
 revision 37413
-shortdesc Generate Context syntax highlighting code from vim.
+shortdesc Generate ConTeXt syntax highlighting code from vim
 relocated 1
 longdesc ConTeXt has excellent pretty printing capabilities for many
 longdesc languages. The code for pretty printing is written in TeX, and
@@ -20,6 +20,8 @@ runfiles size=11
  RELOC/tex/context/third/vim/t-syntax-highlight.mkii
  RELOC/tex/context/third/vim/t-syntax-highlight.mkiv
  RELOC/tex/context/third/vim/t-vim.tex
+catalogue-also context-filter
 catalogue-ctan /macros/context/contrib/context-vim
-catalogue-date 2014-08-14 15:19:33 +0200
+catalogue-date 2015-08-03 06:08:41 +0200
 catalogue-license bsd
+catalogue-topics synt-hlt ext-code context

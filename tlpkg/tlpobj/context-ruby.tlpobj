@@ -1,7 +1,7 @@
 name context-ruby
 category ConTeXt
 revision 28434
-shortdesc Ruby annotations in ConTeXt.
+shortdesc Ruby annotations in ConTeXt
 relocated 1
 longdesc Ruby markup (aka furigana in Japan) are inline annotations
 longdesc above or below a word to indicate the reading of ideographic
@@ -14,5 +14,6 @@ runfiles size=9
  RELOC/tex/context/third/ruby/t-ruby.mkiv
  RELOC/tex/context/third/ruby/t-ruby.mkvi
 catalogue-ctan /macros/context/contrib/context-ruby
-catalogue-date 2014-02-26 23:03:13 +0100
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license pd
+catalogue-topics notes
