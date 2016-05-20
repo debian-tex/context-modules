@@ -1,11 +1,13 @@
 name context-degrade
 category ConTeXt
 revision 23167
-shortdesc Degrading JPEG images in ConTeXt.
+shortdesc Degrading JPEG images in ConTeXt
 relocated 1
 depend context
 runfiles size=2
  RELOC/tex/context/third/degrade/t-degrade.tex
+catalogue-also degrade
 catalogue-ctan /macros/context/contrib/context-degrade
-catalogue-date 2012-07-23 21:08:55 +0200
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license gpl
+catalogue-topics graphics-use

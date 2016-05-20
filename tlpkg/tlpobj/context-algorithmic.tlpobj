@@ -1,7 +1,7 @@
 name context-algorithmic
 category ConTeXt
 revision 31026
-shortdesc Algorithm handling in ConTeXt.
+shortdesc Algorithm handling in ConTeXt
 relocated 1
 longdesc Support for typesetting algorithms (a port of the LaTeX package
 longdesc algorithmic, which was a predecessor of algorithmicx).
@@ -10,5 +10,6 @@ runfiles size=5
  RELOC/tex/context/third/algorithmic/t-algorithmic.mkii
  RELOC/tex/context/third/algorithmic/t-algorithmic.mkiv
 catalogue-ctan /macros/context/contrib/context-algorithmic
-catalogue-date 2015-02-01 17:06:53 +0100
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license gpl
+catalogue-topics pseudocode

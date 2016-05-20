@@ -1,12 +1,13 @@
 name context-notes-zh-cn
 category Package
 revision 23171
-shortdesc Notes on using ConTeXt MkIV.
+shortdesc Notes on using ConTeXt MkIV
 relocated 1
 longdesc An introductory tutorial on ConTeXt, in Chinese. The document
 longdesc covers ConTeXt installation, fonts, layout design, cross-
 longdesc reference, project structure, metafun and presentation design.
 depend context
 catalogue-ctan /info/context-notes-zh-cn
-catalogue-date 2014-02-26 23:03:13 +0100
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license gpl
+catalogue-topics chinese-doc

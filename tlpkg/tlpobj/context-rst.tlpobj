@@ -1,7 +1,7 @@
 name context-rst
 category ConTeXt
 revision 33092
-shortdesc Process reStructuredText with ConTeXt.
+shortdesc Process reStructuredText with ConTeXt
 relocated 1
 longdesc The package provides a converter and module for typesetting
 longdesc reStructuredText with ConTeXt. The module uses several lua
@@ -18,6 +18,7 @@ runfiles size=42
  RELOC/tex/context/third/rst/rst_setups.lua
  RELOC/tex/context/third/rst/t-rst.mkiv
 catalogue-ctan /macros/context/contrib/context-rst
-catalogue-date 2014-03-03 08:58:55 +0100
+catalogue-date 2015-08-03 05:43:12 +0200
 catalogue-license other-free
+catalogue-topics foreign-import
 catalogue-version 0.6c
