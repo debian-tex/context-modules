@@ -22,6 +22,6 @@ runfiles size=11
  RELOC/tex/context/third/vim/t-vim.tex
 catalogue-also context-filter
 catalogue-ctan /macros/context/contrib/context-vim
-catalogue-date 2015-08-03 06:08:41 +0200
+catalogue-date 2016-06-24 19:18:15 +0200
 catalogue-license bsd
 catalogue-topics synt-hlt ext-code context

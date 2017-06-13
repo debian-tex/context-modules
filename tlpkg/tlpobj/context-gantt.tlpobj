@@ -12,6 +12,6 @@ runfiles size=8
  RELOC/tex/context/third/gantt/gantt-s-tikz.tex
  RELOC/tex/context/third/gantt/t-gantt.tex
 catalogue-ctan /macros/context/contrib/context-gantt
-catalogue-date 2015-08-15 05:39:34 +0200
+catalogue-date 2016-06-24 19:18:15 +0200
 catalogue-license pd
 catalogue-topics diagram gantt

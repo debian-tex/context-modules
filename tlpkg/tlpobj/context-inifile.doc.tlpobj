@@ -1,0 +1,8 @@
+name context-inifile.doc
+category ConTeXt
+revision 42329
+shortdesc doc files of context-inifile
+relocated 1
+docfiles size=23
+ RELOC/doc/context/third/inifile/inifile-demo.pdf
+ RELOC/doc/context/third/inifile/inifile-doc.pdf

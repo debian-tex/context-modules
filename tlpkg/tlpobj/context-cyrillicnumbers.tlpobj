@@ -12,6 +12,6 @@ runfiles size=10
  RELOC/tex/context/third/cyrillicnumbers/t-cyrillicnumbers.mkii
  RELOC/tex/context/third/cyrillicnumbers/t-cyrillicnumbers.mkvi
 catalogue-ctan /macros/context/contrib/context-cyrillicnumbers
-catalogue-date 2015-08-08 19:53:23 +0200
+catalogue-date 2016-06-24 19:18:15 +0200
 catalogue-license bsd
 catalogue-topics cyrillic numbers

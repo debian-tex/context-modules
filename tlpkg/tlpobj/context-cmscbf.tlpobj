@@ -1,0 +1,15 @@
+name context-cmscbf
+category ConTeXt
+revision 42327
+shortdesc Use Computer Modern bold Caps and Small-caps in ConTeXt
+relocated 1
+longdesc The module makes provision for bold caps and small caps CM
+longdesc fonts, in ConTeXt. Such a font may be found in the Computer
+longdesc Modern 'extras' font set.
+depend context
+runfiles size=1
+ RELOC/tex/context/third/cmscbf/t-cmscbf.tex
+catalogue-ctan /macros/context/contrib/context-cmscbf
+catalogue-date 2016-10-24 06:20:57 +0200
+catalogue-license gpl
+catalogue-topics font-supp

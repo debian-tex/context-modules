@@ -1,8 +1,0 @@
-name context-games.doc
-category ConTeXt
-revision 23167
-shortdesc doc files of context-games
-relocated 1
-docfiles size=10
- RELOC/doc/context/third/games/README
- RELOC/doc/context/third/games/games-doc.pdf

@@ -1,0 +1,7 @@
+name context-layout
+category ConTeXt
+revision 42330
+relocated 1
+depend context
+runfiles size=3
+ RELOC/tex/context/third/layout/t-layout.tex
