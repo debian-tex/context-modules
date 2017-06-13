@@ -12,7 +12,7 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=debian-tex/context-modules.git
 Package: context-modules
 Section: tex
 Architecture: all
-Depends: context (>= 2014), ${misc:Depends}
+Depends: context (>= 2017.05), ${misc:Depends}
 Replaces: context (<< 2014)
 Description: additional ConTeXt modules
  ConTeXt is a document-production system based, like LaTeX, on the TeX
@@ -27,6 +27,8 @@ Description: additional ConTeXt modules
  with LaTeX.
  .
  This package includes the following additional ConTeXt modules:
- account, algorithmic, bnf, chromato, construction-plan, degrade, filter,
- fixme, french, fullpage, games, gnuplot, letter, lettrine, lilypond,
- mathsets, rst, ruby, simplefonts, simpleslides, typearea, typescripts, vim.
+ account, algorithmic, animation, annotation, bnf, chromato, cmscbf,
+ cmttbf, construction-plan, cyrillicnumbers, degrade, fancybreak,
+ filter, french, fullpage, gantt, gnuplot, inifile, layout, letter,
+ lettrine, mathsets, notes-zh-cn, rst, ruby, simplefonts, simpleslides,
+ title, transliterator, typearea, typescripts, vim, visualcounter.
