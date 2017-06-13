@@ -6,7 +6,7 @@ relocated 1
 longdesc The package provides a converter and module for typesetting
 longdesc reStructuredText with ConTeXt. The module uses several lua
 longdesc scripts in doing its work. Documentation is supplied in rst,
-longdesc which seems to be readable as text, but...
+longdesc which seems to be readable as text, but ....
 depend context
 runfiles size=42
  RELOC/scripts/context/lua/third/rst/mtx-t-rst.lua
@@ -18,7 +18,7 @@ runfiles size=42
  RELOC/tex/context/third/rst/rst_setups.lua
  RELOC/tex/context/third/rst/t-rst.mkiv
 catalogue-ctan /macros/context/contrib/context-rst
-catalogue-date 2015-08-03 05:43:12 +0200
+catalogue-date 2016-06-24 19:18:15 +0200
 catalogue-license other-free
 catalogue-topics foreign-import
 catalogue-version 0.6c
