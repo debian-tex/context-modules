@@ -1,3 +1,9 @@
+context-modules (20170613-2) unstable; urgency=medium
+
+  * upload to unstable
+
+ -- Norbert Preining <preining@debian.org>  Mon, 19 Jun 2017 16:42:23 +0900
+
 context-modules (20170613-1) experimental; urgency=medium
 
   * update list of included context modules
