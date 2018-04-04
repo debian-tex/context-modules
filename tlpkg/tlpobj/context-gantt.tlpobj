@@ -1,6 +1,6 @@
 name context-gantt
 category ConTeXt
-revision 27472
+revision 47085
 shortdesc GANTT module for ConTeXt
 relocated 1
 longdesc Gantt is a module for drawing Gantt charts via MetaPost or

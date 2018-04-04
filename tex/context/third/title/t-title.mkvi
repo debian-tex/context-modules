@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-title,
-%D      version=2012.04.11,
+%D      version=2013.02.05,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Document titles,
 %D       author=Wolfgang Schuster,
@@ -13,7 +13,7 @@
 %C This program is free software: you can redistribute it and/or modify
 %C it under the terms of the GNU General Public License as published by
 %C the Free Software Foundation, either version 3 of the License, or
-%C any later version.
+%C (at your option) any later version.
 %C
 %C This program is distributed in the hope that it will be useful,
 %C but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,20 +33,28 @@
 
 \unprotect
 
-\installnamespace                 {title}
-\installcommandhandler \????title {title} \????title
+\installnamespace {title}
+\installnamespace {titlealternative}
+\installnamespace {titlerenderings}
+
+\installsimplecommandhandler \????title            {title}            \????title
+\installcommandhandler       \????titlealternative {titlealternative} \????titlealternative
 
 \unexpanded\def\title_place
   {\begingroup
    \dostarttagged\t!division\v!title
-   \dosingleempty\title_arguments}
+   \dosingleempty\title_place_indeed}
 
-\def\title_arguments[#parameters]%
+\def\title_place_indeed[#parameters]%
   {\let\currenttitle\empty
-   \iffirstargument\setupcurrenttitle[#parameters]\fi
-   \autosetups{\roottitleparameter\c!setups}%
+   \iffirstargument
+     \setupcurrenttitle[#parameters]%
+   \fi
+   \edef\currenttitlealternative{\roottitleparameter\c!alternative}%
+   \edef\p_renderingsetup{\titlealternativeparameter\c!renderingsetup}%
+   \autosetups\p_renderingsetup
    \dostoptagged
-   \doif{\roottitleparameter\c!pagestate}\v!stop{\aftergroup\noheaderandfooterlines}%
+   \doif{\roottitleparameter\c!pagestate}\v!stop{\aftergroup\noheaderandfooterlines}% why here and not after \endgroup?
    \endgroup}
 
 \def\title_parameter#element%
@@ -61,7 +69,9 @@
 \let\placetitle  \title_place
 \let\titleelement\title_parameter
 
-\startsetups title:default
+\definetitlealternative[\s!default][\c!renderingsetup=\????titlerenderings:\s!default]
+
+\startsetups[\????titlerenderings:\s!default]
 
     \blank[\roottitleparameter\c!spacebefore]
 
@@ -89,7 +99,7 @@
     \c!spaceafter={1.5em},
          \c!align=\v!middle,
      \c!pagestate=\v!stop,
-        \c!setups=title:default]
+   \c!alternative=\s!default]
 
 \setuptitle
   [\c!title]

@@ -1,7 +1,8 @@
 name context-visualcounter.doc
 category ConTeXt
-revision 36190
+revision 47085
 shortdesc doc files of context-visualcounter
 relocated 1
-docfiles size=67
+docfiles size=68
+ RELOC/doc/context/third/visualcounter/VERSION
  RELOC/doc/context/third/visualcounter/visualcounter.pdf

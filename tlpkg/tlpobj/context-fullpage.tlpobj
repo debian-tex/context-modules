@@ -1,6 +1,6 @@
 name context-fullpage
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc Overfull pages with ConTeXt
 relocated 1
 longdesc The (ConTeXt) module copies the functionality of the fullpage,

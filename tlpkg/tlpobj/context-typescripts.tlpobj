@@ -1,6 +1,6 @@
 name context-typescripts
 category ConTeXt
-revision 25411
+revision 47085
 shortdesc Small modules to load various fonts for use in ConTeXt
 relocated 1
 longdesc The package provides files offering interfaces to 33 publicly

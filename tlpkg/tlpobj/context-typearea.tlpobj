@@ -1,6 +1,6 @@
 name context-typearea
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc Something like Koma-Script typearea
 relocated 1
 longdesc The module provides a command that calculates the page layout

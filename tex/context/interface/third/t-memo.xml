@@ -133,7 +133,7 @@
             <cd:inherit name="setupframe" n="2"/>
         </cd:assignments>
     </cd:arguments>
-</cd:interface>
+</cd:command>
 
 <cd:command name="setupmemolayer" file="s-cor-02.mkvi">
     <cd:sequence>

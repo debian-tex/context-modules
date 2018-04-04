@@ -4,8 +4,9 @@ revision 23171
 shortdesc Notes on using ConTeXt MkIV
 relocated 1
 longdesc An introductory tutorial on ConTeXt, in Chinese. The document
-longdesc covers ConTeXt installation, fonts, layout design, cross-
-longdesc reference, project structure, metafun and presentation design.
+longdesc covers ConTeXt installation, fonts, layout design,
+longdesc cross-reference, project structure, metafun and presentation
+longdesc design.
 depend context
 catalogue-ctan /info/context-notes-zh-cn
 catalogue-date 2016-06-24 19:18:15 +0200

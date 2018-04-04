@@ -1,6 +1,6 @@
 name context-gnuplot
 category ConTeXt
-revision 30380
+revision 47085
 shortdesc Inclusion of Gnuplot graphs in ConTeXt
 relocated 1
 longdesc Enables simple creation and inclusion of graphs with Gnuplot.
@@ -14,6 +14,6 @@ runfiles size=27
  RELOC/tex/context/third/gnuplot/t-gnuplot.mkiv
 catalogue-also gnuplottex
 catalogue-ctan /macros/context/contrib/context-gnuplot
-catalogue-date 2016-06-24 19:18:15 +0200
+catalogue-date 2017-04-18 05:31:40 +0200
 catalogue-license gpl
 catalogue-topics graphics-inline

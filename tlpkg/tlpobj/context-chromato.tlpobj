@@ -1,6 +1,6 @@
 name context-chromato
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc ConTeXt macros for chromatograms
 relocated 1
 longdesc The module provides macros for drawing chromatograms.

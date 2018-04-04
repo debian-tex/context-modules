@@ -1,6 +1,6 @@
 name context-fancybreak
 category ConTeXt
-revision 36948
+revision 47085
 shortdesc Overfull pages with ConTeXt
 relocated 1
 longdesc The (ConTeXt) module allows insertion of thought breaks in

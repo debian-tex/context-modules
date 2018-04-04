@@ -2,7 +2,7 @@
 
 <cd:interface xmlns:cd="http://www.pragma-ade.com/commands" name="context" language="en" version="2011.10.04">
 
-<cd:command name="placetitle" file=t-tile.mkvi">
+<cd:command name="placetitle" file="t-tile.mkvi">
     <cd:sequence>
         <cd:string value="placetitle"/>
     </cd:sequence>

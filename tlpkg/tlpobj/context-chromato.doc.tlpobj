@@ -1,8 +1,9 @@
 name context-chromato.doc
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc doc files of context-chromato
 relocated 1
-docfiles size=60
+docfiles size=61
+ RELOC/doc/context/third/chromato/VERSION
  RELOC/doc/context/third/chromato/chromato-demo.pdf
  RELOC/doc/context/third/chromato/chromato-doc.pdf

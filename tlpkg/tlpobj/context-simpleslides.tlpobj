@@ -1,7 +1,15 @@
 name context-simpleslides
 category ConTeXt
-revision 34438
+revision 47085
+shortdesc A module for preparing presentations
 relocated 1
+longdesc This ConTeXt module provides an easy-to-use interface for
+longdesc creating presentations for use with a digital projector. The
+longdesc presentations are not interactive (no buttons, hyperlinks or
+longdesc navigational tools such as tables of contents). Graphics may be
+longdesc mixed with the text of slides. The module provides several
+longdesc predefined styles, designed for academic presentation. Most
+longdesc styles are configurable, and it is easy to design new styles.
 depend context
 runfiles size=65
  RELOC/scripts/context/lua/third/simpleslides/mtx-simpleslides.lua
@@ -32,3 +40,7 @@ runfiles size=65
  RELOC/tex/context/third/simpleslides/s-simpleslides-default.tex
  RELOC/tex/context/third/simpleslides/s-simpleslides-fontsdefault.mkiv
  RELOC/tex/context/third/simpleslides/t-simpleslides.mkiv
+catalogue-ctan /macros/context/contrib/context-simpleslides
+catalogue-date 2018-01-07 14:49:11 +0100
+catalogue-license gpl
+catalogue-topics context

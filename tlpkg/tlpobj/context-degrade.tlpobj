@@ -1,6 +1,6 @@
 name context-degrade
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc Degrading JPEG images in ConTeXt
 relocated 1
 depend context

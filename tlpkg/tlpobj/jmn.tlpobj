@@ -1,0 +1,16 @@
+name jmn
+category Package
+revision 45751
+shortdesc special fonts for ConTeXt
+relocated 1
+runfiles size=22
+ RELOC/fonts/afm/jmn/hans/hans-sh.afm
+ RELOC/fonts/afm/jmn/hans/hans.afm
+ RELOC/fonts/enc/dvips/jmn/hans.enc
+ RELOC/fonts/map/dvips/jmn/hans.map
+ RELOC/fonts/tfm/jmn/hans/hans-sh.tfm
+ RELOC/fonts/tfm/jmn/hans/hans.tfm
+ RELOC/fonts/type1/jmn/hans/hans-sh.pfb
+ RELOC/fonts/type1/jmn/hans/hans-sh.pfm
+ RELOC/fonts/type1/jmn/hans/hans.pfb
+ RELOC/fonts/type1/jmn/hans/hans.pfm

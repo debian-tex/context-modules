@@ -1,8 +1,9 @@
 name context-cmttbf.doc
 category ConTeXt
-revision 42328
+revision 47085
 shortdesc doc files of context-cmttbf
 relocated 1
-docfiles size=44
+docfiles size=45
+ RELOC/doc/context/third/cmttbf/VERSION
  RELOC/doc/context/third/cmttbf/cmttbf-demo.pdf
  RELOC/doc/context/third/cmttbf/cmttbf-doc.pdf

@@ -1,8 +1,9 @@
 name context-fancybreak.doc
 category ConTeXt
-revision 36948
+revision 47085
 shortdesc doc files of context-fancybreak
 relocated 1
-docfiles size=49
+docfiles size=50
  RELOC/doc/context/third/fancybreak/README
+ RELOC/doc/context/third/fancybreak/VERSION
  RELOC/doc/context/third/fancybreak/fancybreak-doc.pdf
