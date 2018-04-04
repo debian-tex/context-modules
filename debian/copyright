@@ -68,6 +68,15 @@ gantt
 %D        license=Public Domain]
 
 
+handlecsv
+%C Copyright (C) 2018  Jaroslav Hajtmar
+%C
+%C This program is free software: you can redistribute it and/or modify
+%C it under the terms of the GNU General Public License as published by
+%C the Free Software Foundation, either version 3 of the License, or
+%C (at your option) any later version.
+
+
 fullpage, simplefonts, typescripts
 %C Copyright (C) 2010  Wolfgang Schuster
 %C
@@ -102,6 +111,13 @@ ConTeXt installation, fonts, layout design, cross-reference, project structure, 
 
 This package is licensed in GFDL (GNU Free Documentation License).
 
+npp-for-context:
+Idris Samawi Hamid
+Luigi Scarso
+
+GNU GPLv3
+
+
 rst, cyrillicnumber, transliterator:
 %D       author=Philipp Gesang,
 %D    copyright=Philipp Gesang,
@@ -112,7 +128,7 @@ simpleslides:
 %D         author=Aditya Mahajan and Thomas A. Schmitz,
 %D      copyright={Aditya Mahajan and Thomas A. Schmitz}]
 %C
-%C Copyright 2007 Aditya Mahajan and Thomas A. Schmitz
+%C Copyright 2007-2018 Aditya Mahajan and Thomas A. Schmitz
 %C This file may be distributed under the GNU General Public License v. 2.0.
 
 
