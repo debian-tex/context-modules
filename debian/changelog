@@ -5,8 +5,9 @@ context-modules (20180404-1) experimental; urgency=medium
   * update copyright
   * bump standards version, no changes necessary
   * bump context deps to TL2018 version
+  * adjust vcs fields to salsa
 
- -- Norbert Preining <preining@debian.org>  Wed, 04 Apr 2018 12:29:39 +0900
+ -- Norbert Preining <preining@debian.org>  Wed, 04 Apr 2018 12:31:10 +0900
 
 context-modules (20170613-2) unstable; urgency=medium
 
