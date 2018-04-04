@@ -1,3 +1,13 @@
+context-modules (20180404-1) experimental; urgency=medium
+
+  * New upstream version 20180404
+  * update context modules
+  * update copyright
+  * bump standards version, no changes necessary
+  * bump context deps to TL2018 version
+
+ -- Norbert Preining <preining@debian.org>  Wed, 04 Apr 2018 12:29:39 +0900
+
 context-modules (20170613-2) unstable; urgency=medium
 
   * upload to unstable
