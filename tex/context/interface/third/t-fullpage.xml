@@ -2,10 +2,10 @@
 
 <cd:interface xmlns:cd="http://www.pragma-ade.com/commands" name="context" language="en" version="2010.12.27">
 
-<cd:command name="setupfullpage" generated="yes" file="t-fullpage.tex">
+<cd:command name="setupfullpage" file="t-fullpage.tex">
     <cd:sequence>
         <cd:string value="setupfullpage"/>
-    </cd:dequence>
+    </cd:sequence>
     <cd:arguments>
         <cd:assignments n="1" list="yes">
             <cd:parameter name="style" list="yes">

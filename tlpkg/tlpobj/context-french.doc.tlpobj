@@ -1,8 +1,9 @@
 name context-french.doc
 category ConTeXt
-revision 24582
+revision 47085
 shortdesc doc files of context-french
 relocated 1
-docfiles size=112
+docfiles size=113
+ RELOC/doc/context/third/french/VERSION
  RELOC/doc/context/third/french/french-demo.pdf
  RELOC/doc/context/third/french/french-doc.pdf

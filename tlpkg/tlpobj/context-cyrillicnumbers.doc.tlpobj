@@ -1,10 +1,11 @@
 name context-cyrillicnumbers.doc
 category ConTeXt
-revision 29905
+revision 47085
 shortdesc doc files of context-cyrillicnumbers
 relocated 1
-docfiles size=57
+docfiles size=58
  RELOC/doc/context/third/cyrillicnumbers/COPYING
  RELOC/doc/context/third/cyrillicnumbers/README.rst
+ RELOC/doc/context/third/cyrillicnumbers/VERSION
  RELOC/doc/context/third/cyrillicnumbers/cyrillicnumbers.pdf
  RELOC/doc/context/third/cyrillicnumbers/cyrillicnumbers.tex

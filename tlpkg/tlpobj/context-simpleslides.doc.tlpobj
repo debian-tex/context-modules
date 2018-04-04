@@ -1,9 +1,10 @@
 name context-simpleslides.doc
 category ConTeXt
-revision 34438
+revision 47085
 shortdesc doc files of context-simpleslides
 relocated 1
-docfiles size=2064
+docfiles size=2065
+ RELOC/doc/context/third/simpleslides/VERSION
  RELOC/doc/context/third/simpleslides/example.pdf
  RELOC/doc/context/third/simpleslides/example.tex
  RELOC/doc/context/third/simpleslides/simpleslides.pdf

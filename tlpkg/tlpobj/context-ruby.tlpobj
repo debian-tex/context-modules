@@ -1,6 +1,6 @@
 name context-ruby
 category ConTeXt
-revision 28434
+revision 47085
 shortdesc Ruby annotations in ConTeXt
 relocated 1
 longdesc Ruby markup (aka furigana in Japan) are inline annotations

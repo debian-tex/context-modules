@@ -1,7 +1,8 @@
 name context-vim.doc
 category ConTeXt
-revision 37413
+revision 47085
 shortdesc doc files of context-vim
 relocated 1
-docfiles size=5
+docfiles size=6
+ RELOC/doc/context/third/vim/VERSION
  RELOC/doc/context/third/vim/vim.txt

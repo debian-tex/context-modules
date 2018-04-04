@@ -1,6 +1,6 @@
 name context-inifile
 category ConTeXt
-revision 42329
+revision 47085
 shortdesc An ini-file pretty-printer, using ConTeXt
 relocated 1
 longdesc The module parses an ini-file and prints the contents with a

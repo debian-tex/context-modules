@@ -1,6 +1,6 @@
 name context-french
 category ConTeXt
-revision 24582
+revision 47085
 shortdesc Support for writing French in ConTeXt
 relocated 1
 longdesc Deals with spacing around French punctuation; the package is

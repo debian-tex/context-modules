@@ -1,7 +1,8 @@
 name context-typescripts.doc
 category ConTeXt
-revision 25411
+revision 47085
 shortdesc doc files of context-typescripts
 relocated 1
-docfiles size=1
+docfiles size=2
  RELOC/doc/context/third/typescripts/README
+ RELOC/doc/context/third/typescripts/VERSION

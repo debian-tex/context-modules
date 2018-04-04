@@ -1,6 +1,6 @@
 name context-algorithmic
 category ConTeXt
-revision 31026
+revision 47085
 shortdesc Algorithm handling in ConTeXt
 relocated 1
 longdesc Support for typesetting algorithms (a port of the LaTeX package

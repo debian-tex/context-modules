@@ -1,6 +1,6 @@
 name context-transliterator
 category ConTeXt
-revision 29801
+revision 47085
 shortdesc Transliterate text from 'other' alphabets
 relocated 1
 longdesc The package will read text in one alphabet, and provide a

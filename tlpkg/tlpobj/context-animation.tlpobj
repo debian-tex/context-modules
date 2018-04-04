@@ -1,6 +1,6 @@
 name context-animation
 category ConTeXt
-revision 36188
+revision 47085
 shortdesc Generate fieldstack based animation with ConTeXt
 relocated 1
 longdesc The package is a port, to Context (mkvi), of the corresponding

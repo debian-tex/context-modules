@@ -1,6 +1,6 @@
 name context-filter
 category ConTeXt
-revision 42326
+revision 47085
 shortdesc Run external programs on the contents of a start-stop environment
 relocated 1
 longdesc The filter module provides a simple interface to run external
@@ -16,6 +16,6 @@ runfiles size=11
  RELOC/tex/context/third/filter/t-filter.mkiv
  RELOC/tex/context/third/filter/t-module-catcodes.tex
 catalogue-ctan /macros/context/contrib/context-filter
-catalogue-date 2016-06-24 19:18:15 +0200
-catalogue-license other-free
+catalogue-date 2017-04-26 20:41:30 +0200
+catalogue-license bsd2
 catalogue-topics ext-code

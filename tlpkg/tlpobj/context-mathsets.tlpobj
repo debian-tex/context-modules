@@ -1,6 +1,6 @@
 name context-mathsets
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc Set notation in ConTeXt
 relocated 1
 longdesc Typeset good-looking set notation (e.g., {x|x \in Y}), as well

@@ -175,7 +175,7 @@
             <cd:inherit name="setupframe" n="2"/>
         </cd:assignments>
     </cd:arguments>
-</cd:interface>
+</cd:command>
 
 <cd:command name="setupletterlayer" file="s-cor-01.mkvi">
     <cd:sequence>

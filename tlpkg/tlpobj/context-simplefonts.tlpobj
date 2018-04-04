@@ -1,6 +1,6 @@
 name context-simplefonts
 category ConTeXt
-revision 29229
+revision 47085
 shortdesc Simplified font usage for ConTeXt
 relocated 1
 longdesc The package defines a set of commands for loading and using

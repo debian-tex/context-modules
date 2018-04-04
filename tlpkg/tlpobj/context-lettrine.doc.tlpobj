@@ -1,9 +1,10 @@
 name context-lettrine.doc
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc doc files of context-lettrine
 relocated 1
-docfiles size=31
+docfiles size=32
+ RELOC/doc/context/third/lettrine/VERSION
  RELOC/doc/context/third/lettrine/W.pdf
  RELOC/doc/context/third/lettrine/lettrine-doc.pdf
  RELOC/doc/context/third/lettrine/lettrine-doc.tex

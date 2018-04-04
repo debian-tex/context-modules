@@ -1,6 +1,6 @@
 name context-lettrine
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc A ConTeXt implementation of lettrines
 relocated 1
 longdesc This is a re-implementation of the LaTeX package lettrine.

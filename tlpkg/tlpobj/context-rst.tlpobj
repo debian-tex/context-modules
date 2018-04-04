@@ -1,6 +1,6 @@
 name context-rst
 category ConTeXt
-revision 33092
+revision 47085
 shortdesc Process reStructuredText with ConTeXt
 relocated 1
 longdesc The package provides a converter and module for typesetting

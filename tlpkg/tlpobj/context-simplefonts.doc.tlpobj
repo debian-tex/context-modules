@@ -1,7 +1,8 @@
 name context-simplefonts.doc
 category ConTeXt
-revision 29229
+revision 47085
 shortdesc doc files of context-simplefonts
 relocated 1
-docfiles size=1
+docfiles size=2
  RELOC/doc/context/third/simplefonts/README
+ RELOC/doc/context/third/simplefonts/VERSION

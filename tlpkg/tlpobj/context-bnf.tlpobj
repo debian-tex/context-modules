@@ -1,11 +1,11 @@
 name context-bnf
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc A BNF module for ConTeXt
 relocated 1
-longdesc The module provides a simple way to write good-looking BNF-
-longdesc style grammars in ConTeXt. Grammars are written using the BNF
-longdesc syntax right in your ConTeXt documents, so there is a clear
+longdesc The module provides a simple way to write good-looking
+longdesc BNF-style grammars in ConTeXt. Grammars are written using the
+longdesc BNF syntax right in your ConTeXt documents, so there is a clear
 longdesc separation between content and layout. This allows the user to
 longdesc decide exactly how the grammar is to be displayed, while also
 longdesc allowing the gist of the grammar to be understood from simply

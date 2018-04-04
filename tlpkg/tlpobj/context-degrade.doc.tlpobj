@@ -1,8 +1,9 @@
 name context-degrade.doc
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc doc files of context-degrade
 relocated 1
-docfiles size=48
+docfiles size=49
+ RELOC/doc/context/third/degrade/VERSION
  RELOC/doc/context/third/degrade/degrade-demo.pdf
  RELOC/doc/context/third/degrade/degrade-doc.pdf

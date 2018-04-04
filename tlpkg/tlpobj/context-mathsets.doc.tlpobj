@@ -1,7 +1,8 @@
 name context-mathsets.doc
 category ConTeXt
-revision 23167
+revision 47085
 shortdesc doc files of context-mathsets
 relocated 1
-docfiles size=101
+docfiles size=102
+ RELOC/doc/context/third/mathsets/VERSION
  RELOC/doc/context/third/mathsets/mathsets-doc.pdf

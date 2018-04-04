@@ -1,9 +1,10 @@
 name context-transliterator.doc
 category ConTeXt
-revision 29801
+revision 47085
 shortdesc doc files of context-transliterator
 relocated 1
-docfiles size=54
+docfiles size=55
  RELOC/doc/context/third/transliterator/COPYING
+ RELOC/doc/context/third/transliterator/VERSION
  RELOC/doc/context/third/transliterator/transliterator.pdf
  RELOC/doc/context/third/transliterator/transliterator.tex
