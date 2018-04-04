@@ -18,19 +18,19 @@ if [ -r $basedir ] ; then
 fi
 mkdir $basedir
 for i in `cat debian/included-ctx-modules`; do
-  if [ -r $tlnetloc/context-$i.tar.xz ] ; then
-    echo context-$i.tar.xz
-    tar -C $basedir -xf $tlnetloc/context-$i.tar.xz
+  if [ -r $tlnetloc/$i.tar.xz ] ; then
+    echo $i.tar.xz
+    tar -C $basedir -xf $tlnetloc/$i.tar.xz
   else
-    echo "WARNING: missing $tlnetloc/context-$i.tar.xz!"
+    echo "WARNING: missing $tlnetloc/$i.tar.xz!"
   fi
-  if [ -r $tlnetloc/context-$i.source.tar.xz ] ; then
-    echo context-$i.source.tar.xz
-    tar -C $basedir -xf $tlnetloc/context-$i.source.tar.xz
+  if [ -r $tlnetloc/$i.source.tar.xz ] ; then
+    echo $i.source.tar.xz
+    tar -C $basedir -xf $tlnetloc/$i.source.tar.xz
   fi
-  if [ -r $tlnetloc/context-$i.doc.tar.xz ] ; then
-    echo context-$i.doc.tar.xz
-    tar -C $basedir -xf $tlnetloc/context-$i.doc.tar.xz
+  if [ -r $tlnetloc/$i.doc.tar.xz ] ; then
+    echo $i.doc.tar.xz
+    tar -C $basedir -xf $tlnetloc/$i.doc.tar.xz
   fi
 done
 if [ -r ${package}_$vers.orig.tar.gz ] ; then
