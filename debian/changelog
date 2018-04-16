@@ -1,3 +1,9 @@
+context-modules (20180404-2) unstable; urgency=medium
+
+  * TeX Live 2018 release
+
+ -- Norbert Preining <preining@debian.org>  Mon, 16 Apr 2018 13:29:35 +0900
+
 context-modules (20180404-1) experimental; urgency=medium
 
   * New upstream version 20180404
