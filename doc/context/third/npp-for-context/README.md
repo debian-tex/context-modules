@@ -180,4 +180,3 @@ a future release this will be simplified or streamlined.
 
 This package is released under the GPL: see the file LICENSE for the full
 text.
-
