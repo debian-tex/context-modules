@@ -1,9 +1,9 @@
 name npp-for-context.doc
 category Package
-revision 47170
+revision 47282
 shortdesc doc files of npp-for-context
 relocated 1
-docfiles size=691
+docfiles size=690
  RELOC/doc/context/third/npp-for-context/LICENSE
  RELOC/doc/context/third/npp-for-context/Npp-for-ConTeXt.sha256sum
  RELOC/doc/context/third/npp-for-context/Npp-for-ConTeXt.zip
