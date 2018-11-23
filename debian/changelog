@@ -1,3 +1,10 @@
+context-modules (20181123-1) unstable; urgency=medium
+
+  * New upstream version 20181123
+  * bump standards version, no changes necessary
+
+ -- Norbert Preining <preining@debian.org>  Fri, 23 Nov 2018 14:18:59 +0900
+
 context-modules (20180404-2) unstable; urgency=medium
 
   * TeX Live 2018 release
