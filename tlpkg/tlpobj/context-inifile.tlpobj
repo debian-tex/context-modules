@@ -13,6 +13,6 @@ depend context
 runfiles size=2
  RELOC/tex/context/third/inifile/t-inifile.tex
 catalogue-ctan /macros/context/contrib/context-inifile
-catalogue-date 2016-10-24 06:20:57 +0200
+catalogue-date 2018-08-11 07:01:12 +0200
 catalogue-license gpl
 catalogue-topics data-disp

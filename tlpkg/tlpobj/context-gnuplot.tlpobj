@@ -13,6 +13,7 @@ runfiles size=27
  RELOC/tex/context/third/gnuplot/t-gnuplot.mkii
  RELOC/tex/context/third/gnuplot/t-gnuplot.mkiv
 catalogue-also gnuplottex
+catalogue-contact-home http://wiki.contextgarden.net/Gnuplot
 catalogue-ctan /macros/context/contrib/context-gnuplot
 catalogue-date 2017-04-18 05:31:40 +0200
 catalogue-license gpl
