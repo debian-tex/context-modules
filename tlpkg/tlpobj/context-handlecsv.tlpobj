@@ -1,6 +1,6 @@
 name context-handlecsv
 category ConTeXt
-revision 48761
+revision 50709
 shortdesc Data merging for automatic document creation
 relocated 1
 longdesc The package handles csv data merging for automatic document

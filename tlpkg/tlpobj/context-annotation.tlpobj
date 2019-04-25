@@ -11,7 +11,6 @@ runfiles size=13
  RELOC/tex/context/third/annotation/t-annotation.lua
  RELOC/tex/context/third/annotation/t-annotation.mkvi
 catalogue-ctan /macros/context/contrib/context-annotation
-catalogue-date 2018-01-07 14:49:11 +0100
+catalogue-date 2018-08-11 15:25:05 +0200
 catalogue-license gpl
 catalogue-topics context
-catalogue-version 2013.05.27

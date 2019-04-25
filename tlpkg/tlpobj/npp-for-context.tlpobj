@@ -11,8 +11,9 @@ longdesc in columns); tagging and insertion of markup and templates,
 longdesc with support for mnemonic keys. A color scheme and two
 longdesc complementary Notepad++ themes: "Silver Twilight Hi" and
 longdesc "Silver Twilight Lo".
+catalogue-contact-repository https://github.com/luigiScarso/context-npp
 catalogue-ctan /support/npp-for-context
-catalogue-date 2018-03-22 20:09:47 +0100
+catalogue-date 2018-04-29 07:15:59 +0200
 catalogue-license noinfo
 catalogue-topics editor-extn
 catalogue-version 0.98

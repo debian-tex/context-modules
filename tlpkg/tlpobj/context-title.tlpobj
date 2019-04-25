@@ -12,7 +12,6 @@ runfiles size=2
  RELOC/tex/context/interface/third/t-title.xml
  RELOC/tex/context/third/title/t-title.mkvi
 catalogue-ctan /macros/context/contrib/context-title
-catalogue-date 2018-01-07 14:49:11 +0100
+catalogue-date 2018-08-11 15:27:37 +0200
 catalogue-license gpl
 catalogue-topics context
-catalogue-version 2012.04.11
