@@ -1,9 +1,9 @@
 name context-handlecsv.doc
 category ConTeXt
-revision 50709
+revision 51306
 shortdesc doc files of context-handlecsv
 relocated 1
-docfiles size=252
+docfiles size=249
  RELOC/doc/context/third/handlecsv/VERSION
  RELOC/doc/context/third/handlecsv/handlecsv.epub
  RELOC/doc/context/third/handlecsv/handlecsv.pdf

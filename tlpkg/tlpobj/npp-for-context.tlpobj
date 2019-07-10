@@ -1,6 +1,6 @@
 name npp-for-context
 category Package
-revision 47282
+revision 51389
 shortdesc ConTeXt plugin for Notepad++
 relocated 1
 longdesc This package provides A plugin for Notepad++ that implements,
