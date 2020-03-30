@@ -85,7 +85,7 @@ end
 function correspondence.file(environment,name)
     local environment = environment
     local name        = name
-    commands.uselibrary {
+    resolvers.uselibrary {
         name     = name,
         patterns = patterns[environment],
         action   = action,
