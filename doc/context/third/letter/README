@@ -17,5 +17,17 @@ Usage
 Letters
 -------
 
+\usemodule[letter]
+
+\startletter
+...
+\stopletter
+
 Memos
 -----
+
+\usemodule[memo]
+
+\startmemo
+...
+\stopmemo

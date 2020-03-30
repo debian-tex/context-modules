@@ -1,6 +1,6 @@
 name context-letter
 category ConTeXt
-revision 47085
+revision 53499
 shortdesc ConTeXt package for writing letters
 relocated 1
 longdesc A means of writing 'vanilla' letters and memos is provided,
@@ -77,6 +77,5 @@ runfiles size=120
  RELOC/tex/context/third/letter/style/resume-imp-classic.mkiv
  RELOC/tex/context/third/letter/style/resume-imp-default.mkiv
 catalogue-ctan /macros/context/contrib/context-letter
-catalogue-date 2018-08-11 15:29:10 +0200
 catalogue-license gpl
 catalogue-topics letter
