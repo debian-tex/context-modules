@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian TeX maintainers <debian-tex-maint@lists.debian.org>
 Uploaders: Norbert Preining <norbert@preining.info>
 Build-Depends: debhelper-compat (= 12), tex-common
-Build-Depends-Indep: tex-common (>= 2.10)
+Build-Depends-Indep: tex-common
 Standards-Version: 4.2.1
 Vcs-Git: https://github.com/debian-tex/context-modules.git
 Vcs-Browser: https://github.com/debian-tex/context-modules
@@ -13,7 +13,6 @@ Package: context-modules
 Section: tex
 Architecture: all
 Depends: context (>= 2018.04), ${misc:Depends}
-Replaces: context (<< 2014)
 Description: additional ConTeXt modules
  ConTeXt is a document-production system based, like LaTeX, on the TeX
  typesetting system.  Whereas LaTeX insulates the writer from
