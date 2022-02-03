@@ -10,7 +10,6 @@ Vcs-Git: https://github.com/debian-tex/context-modules.git
 Vcs-Browser: https://github.com/debian-tex/context-modules
 
 Package: context-modules
-Section: tex
 Architecture: all
 Depends: context, ${misc:Depends}
 Description: additional ConTeXt modules
