@@ -3,14 +3,13 @@ Section: tex
 Priority: optional
 Maintainer: Debian TeX maintainers <debian-tex-maint@lists.debian.org>
 Uploaders: Norbert Preining <norbert@preining.info>
-Build-Depends: debhelper-compat (= 12), tex-common
+Build-Depends: debhelper-compat (= 13), tex-common
 Build-Depends-Indep: tex-common
 Standards-Version: 4.2.1
 Vcs-Git: https://github.com/debian-tex/context-modules.git
 Vcs-Browser: https://github.com/debian-tex/context-modules
 
 Package: context-modules
-Section: tex
 Architecture: all
 Depends: context, ${misc:Depends}
 Description: additional ConTeXt modules
