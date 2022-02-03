@@ -3,6 +3,7 @@ context-modules (20200331-2) UNRELEASED; urgency=medium
   [ Debian Janitor ]
   * Add missing build dependency on dh addon.
   * context-modules: Drop versioned constraint on context in Depends.
+  * Lintian fixes.
 
  -- Debian Janitor <janitor@jelmer.uk>  Wed, 06 May 2020 08:57:00 +0000
 
