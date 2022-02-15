@@ -19,7 +19,8 @@ binary-indep: build-indep
 	dh_testdir
 	dh_testroot
 	dh_clean
-	dh_installdirs usr/share/texmf usr/share/doc/$(package)
+	#dh_installdirs usr/share/texmf usr/share/doc/$(package)
+	dh_installdirs
 	cp -a tex $(instbase)/usr/share/texmf
 	cp -a scripts $(instbase)/usr/share/texmf
 	cp -a metapost $(instbase)/usr/share/texmf
