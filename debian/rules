@@ -3,24 +3,16 @@
 package        := context-modules
 instbase       := debian/$(package)
 
-build: build-indep build-arch
-build-arch: build-indep-stamp
-build-indep: build-indep-stamp
+%:
+	dh $@ --with tex
 
-build-indep-stamp:
-	touch build-indep-stamp
+override_dh_auto_build:
+	: there is nothing for build
 
-clean:
-	dh_testroot
-	rm -f build-indep-stamp
-	dh_clean
+override_dh_auto_test:
+	: do nothing here, otherwise test suite is run.
 
-binary-indep: build-indep
-	dh_testdir
-	dh_testroot
-	dh_clean
-	#dh_installdirs usr/share/texmf usr/share/doc/$(package)
-	dh_installdirs
+override_dh_auto_install:
 	cp -a tex $(instbase)/usr/share/texmf
 	cp -a scripts $(instbase)/usr/share/texmf
 	cp -a metapost $(instbase)/usr/share/texmf
@@ -28,24 +20,5 @@ binary-indep: build-indep
 	# remove unnecessary stuff
 	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
 
-	# install override file
-	#install -D --mode=644 debian/override $(instbase)/usr/share/lintian/overrides/$(package)
-
-	dh_installtex
-	dh_lintian
-	dh_installdocs
-	dh_installchangelogs
-	dh_compress
-	dh_fixperms
-	dh_installdeb
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-binary-arch:
-# We have nothing to do here but the Debian Policy says this target must
-# exist.
-
-binary: binary-indep binary-arch
-
-.PHONY: clean build build-indep binary binary-indep binary-arch
+override_dh_strip_nondeterminism:
+	: modifies files in unwanted manner
