@@ -1,8 +1,9 @@
 Source: context-modules
 Section: tex
 Priority: optional
-Maintainer: Debian TeX maintainers <debian-tex-maint@lists.debian.org>
-Uploaders: Norbert Preining <norbert@preining.info>
+Maintainer: Debian TeX Task Force <debian-tex-maint@lists.debian.org>
+Uploaders: Norbert Preining <norbert@preining.info>,
+	   Hilmar Preusse <hille42@web.de>
 Build-Depends: debhelper-compat (= 13), tex-common
 Build-Depends-Indep: tex-common
 Standards-Version: 4.2.1
