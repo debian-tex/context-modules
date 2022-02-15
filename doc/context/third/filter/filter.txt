@@ -4,9 +4,6 @@
 The filter module
 =================
 
-History
--------
-
 This module started with a simple idea. I wanted an environment
     
     \startmarkdown
@@ -31,6 +28,38 @@ program would be a waste of effort. Each new program requires only a few changes
 in the R-module; what I needed was a R-module _template_ so that I could fill in
 the blanks with the appropriate values. And so, the filter module was born.
 
+Table of Contents
+=================
+
+* [Compatibility](#compatibility)
+* [Installation](#installation)
+* [Basic Usage](#basic-usage)
+* [Inheriting setup from other commands](#inheriting-setup-from-other-commands)
+* [Dealing with slow filters](#dealing-with-slow-filters)
+* [Reading the input](#reading-the-input)
+* [Space around the environment](#space-around-the-environment)
+* [Stripping leading whitespace (MkIV only)](#stripping-leading-whitespace-mkiv-only)
+* [Names of temporary files](#names-of-temporary-files)
+* [Output Directory](#output-directory)
+* [Disabling filters](#disabling-filters)
+* [Deleting temporary files](#deleting-temporary-files)
+* [Standard options](#standard-options)
+* [Options to a specific environment](#options-to-a-specific-environment)
+* [A setup to control them all](#a-setup-to-control-them-all)
+* [Passing options to filters](#passing-options-to-filters)
+* [Macro variant](#macro-variant)
+* [Processing existing Files](#processing-existing-files)
+* [Processing remote files](#processing-remote-files)
+* [Processing existing buffers](#processing-existing-buffers)
+* [Prepend and append text](#prepend-and-append-text)
+* [XML export](#xml-export)
+* [Special use case:  \write18 with caching](#special-use-case--write18-with-caching)
+* [Dealing with expansion](#dealing-with-expansion)
+* [Limitations](#limitations)
+* [Messages and Tracing](#messages-and-tracing)
+* [Version History](#version-history)
+
+
 Compatibility
 ------------
 
@@ -47,7 +76,7 @@ standalone, you can install the module using
 Depending on your TeX distribution, you may already have the module.
 To verify, check if
 
-    kpsewhich t-filter.mkii
+    luatools t-filter.mkiv
 
 returns a meaningful path. If not, you have to manually install the module.
 
@@ -55,22 +84,22 @@ Download the latest version of the module from
 [http://modules.contextgarden.net/filter](http://modules.contextgarden.net/filter)
 and unzip it either `$TEXMFHOME` or `$TEXMFLOCAL`. Run
 
-    mktexlsr
+    mtxrun --generate
 
 and
 
-    mtxrun --generate
+    mktexlsr
 
-to refresh the TeX file database (for MkII and MkIV, respectively). If
+to refresh the TeX file database (for MkIV and MkII, respectively). If
 everything went well
 
-    kpsewhich t-filter.mkii
+    luatools t-filter.mkiv
 
 will return the path where you stored the file.
 
 Unfortunately, that is not enough. For the module to work, TeX must be able to
 call an external program. This feature is a potential security risk and is
-disabled by default on most TeX distributions. To enable this feature, set
+disabled by default on most TeX distributions. To enable this feature in MkII, set
 
     shell_escape=t
 
@@ -726,6 +755,43 @@ Then you can use
 
 to get a chess board.
 
+XML export
+----------
+
+The filter module provides a basic support for XML export. If the
+user-document contains
+
+    \setupbackend[export=yes]
+
+or other valid options to `export` such as `export=xml`, then the filter
+environment is exported as well. For example, both
+
+    \startmarkdown
+      ...
+    \stopmarkdown
+
+and
+    \processmarkdownfile{...}
+
+are exported (in `\jobname-export/\jobname.xml`) as
+
+    <externalfilter detail="markdown">
+      ...
+    </externalfilter>
+
+Moreover, 
+
+    \inlinemarkdown{...}
+
+is exported as 
+
+    <inlineexternalfilter detail="markdown">....</inlineexternalfilter>
+
+
+Note that it is the responsibility of the filter to generate properly tagged
+content. For example, `pandoc` used in the `markdown` examples in this
+document converts `**bold**` to `{\bf bold}`, which is not exported. 
+
 Special use case:  `\write18` with caching
 ------------------------------------------
 
@@ -1003,3 +1069,5 @@ Version History
     - Support for `left` and `right`
 - **2018-04-17**
     - Support for `strip=yes` (which is now default). 
+- **2020-04-25**
+    - Bugfix for MkIV (Replace `\@EA` by `\expandafter`)

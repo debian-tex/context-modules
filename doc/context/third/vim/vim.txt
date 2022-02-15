@@ -11,6 +11,37 @@ editors, and many other syntax highlighting programs, already syntax highlight
 many programming languages. Why not just leverage these external programs to
 generate syntax highlighting? This module does exactly that.
 
+Table of Contents
+=================
+
+* [Compatibility](#compatibility)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Start and stop lines](#start-and-stop-lines)
+* [Changing tab skip](#changing-tab-skip)
+* [Avoid clutter](#avoid-clutter)
+* [Before and after](#before-and-after)
+* [Changing the color scheme](#changing-the-color-scheme)
+* [Line numbering](#line-numbering)
+* [Number of the first line](#number-of-the-first-line)
+* [Standard options for line numbering](#standard-options-for-line-numbering)
+* [Spaces](#spaces)
+* [Removing leading spaces](#removing-leading-spaces)
+* [Adding left margin](#adding-left-margin)
+* [Wrapping lines](#wrapping-lines)
+* [Highlighting lines](#highlighting-lines)
+* [Using TeX code in Comments](#using-tex-code-in-comments)
+* [Tuning color schemes](#tuning-color-schemes)
+* [Messages and Tracing](#messages-and-tracing)
+* [Yes, on, whatever](#yes-on-whatever)
+* [Name (and location) of the VIM executable](#name-and-location-of-the-vim-executable)
+* [Defining a new colorscheme](#defining-a-new-colorscheme)
+* [Modifying an existing color scheme](#modifying-an-existing-color-scheme)
+* [XML export](#xml-export)
+* [A bit of a history](#a-bit-of-a-history)
+
+
+
 Compatibility
 ------------
 
@@ -39,30 +70,30 @@ standalone, you can install the module using
 Depending on your TeX distribution, you may already have the module.
 To verify, check if
 
-    kpsewhich t-vim.tex
+    luatools t-vim.tex
 
 returns a meaningful path. If not, you have to manually install the module.
 Download the latest version of the `filter` and `vim` modules from
 [http://github.com/adityam/filter/downloads](http://github.com/adityam/filter/downloads)
 and unzip them either `$TEXMFHOME` or `$TEXMFLOCAL`. Run
 
-    mktexlsr
+    mtxrun --generate
 
 and
 
-    mtxrun --generate
+    mktexlsr
 
-to refresh the TeX file database (for MkII and MkIV, respectively). If
+to refresh the TeX file database (for MkIV and MkII, respectively). If
 everything went well
 
-    kpsewhich t-vim
+    luatools t-vim
 
 will return the path where you stored the file.
 
 Unfortunately, that is not enough. For the module to work, TeX must be able to
 call an external program. This feature is a potential security risk and is
-disabled by default on most TeX distributions. To enable this feature, you must
-set
+disabled by default on most TeX distributions. To enable this feature in MkII,
+you must set
 
     shell_escape=t
 
@@ -73,6 +104,9 @@ on the ConTeXt wiki for detailed instructions.
 
 Usage
 -----
+Include the module
+
+    \usemodule[vim]
 
 Suppose you want to syntax highlight Ruby. In particular, you want
 
@@ -112,7 +146,7 @@ defines three things:
 
         \inlineRUBY{...}
 
-    The contents of this environment are processed by a vim script
+    The contents of this macro are processed by a vim script
     (`2context.vim`) and the result is read back in ConTeXt.
 
 3. A macro
@@ -125,7 +159,15 @@ defines three things:
     processing a url, see the _Processing remote files_ section of the
     `t-filter` manual.
 
-In all the three cases, the `t-filter` module takes care of writing to external
+4. A macro
+
+        \processRUBYbuffer[...]
+
+     The argument to the macro is the name of a buffer, which is written to an
+     external file, processesd by `2context.vim` and the result is read back in
+     ConTeXt.
+
+In all the four cases, the `t-filter` module takes care of writing to external
 file, processing by `2context.vim`, and reading the contents back to ConTeXt.
 The `t-vim` module simply defines the macros that are used by `2context.vim`.
 
@@ -198,7 +240,8 @@ A particular color scheme may be chosen using the options:
        alternative=pscolor,
        ...]
 
-The default color scheme is `pscolor`.
+The default color scheme is `pscolor`. See below for instructions on how to
+define a new colorscheme. 
 
 Line numbering
 ---------------
@@ -255,9 +298,12 @@ If you want every fifth line to be numbered, use
 Standard options for line numbering
 -----------------------------------
 
-**Note**: These options can only be set using `\definevimtyping[...][...]` or
-`\setupvimtyping[...][...]`. They do not work when used with
-`\start<vimtyping>`.
+**Note**: Linenumbering options can only be set using `\definevimtyping[...][...]` 
+or `\setupvimtyping[...][...]`. They do not work when used with
+`\start<vimtyping>`. All the line numbers on a given page have the same
+properties. So, if you change these properties in the middle of the page, it
+will effect all the listings on that page, _even those defined earlier!_
+
 
 - To change the color or style of the numbers, use the `numbercolor=...` and
   `numberstyle=...` options. By default `numbercolor` is not set, while
@@ -460,21 +506,27 @@ the bar starts from the first non-blank character.
 Using TeX code in Comments
 --------------------------
 
-Sometimes one wants to use TeX code in comments, especially for math. To
-enable this use
+Sometimes one wants to use TeX command in code. There are two different
+methods to do so.
+
+The first method is primarily aimed towards writing math in comments. To
+enable this, use
 
     \definevimtyping
         [...]
         [...
-         escape=on,
+         escape=comment,
         ]
       
-When `escape=on`, the `2context.vim` script passes the `Comment` syntax
-region (as identified by `vim`) verbatim to TeX. So, we may use TeX
-commands inside the comment region and they will be interpreted by TeX.
-For example
+For backward compatibility, this feature can also be enabled using
+`escape=on`.
 
-    \definevimtyping[C][syntax=c, escape=on]
+When `escape=comment` is enabled, the `2context.vim` script passes the
+`Comment` syntax region (as identified by `vim`) verbatim to TeX. So, we may
+use TeX commands inside the comment region and they will be interpreted by
+TeX. For example
+
+    \definevimtyping[C][syntax=c, escape=comment]
 
     \startC
     /* The following function computes the roots of \m{ax^2+bx+c=0}
@@ -484,9 +536,80 @@ For example
     \stopC
 
 **Note** that only `\ { }` have their usual meaning inside the `Comment`
-region when `escape=on` is set. Thus, to enter a math expression, use
+region when `escape=comment` is set. Thus, to enter a math expression, use
 `\m{...}` instead of `$...$`. Moreover, spaces are active inside the
 math mode, so, as in the above example, avoid spaces in the math expressions.
+
+The second method is to imitate the behavior of `\starttyping` environment,
+where one can write arbitrary TeX commands in code inside `/BTEX ... /ETEX`
+delimiters. To enable this, use
+
+    \definevimtyping
+        [...]
+        [...
+         escape=command,
+        ]
+
+When `escape=command` is enabled, the `2context.vim` script defines a new
+syntax region using
+
+    syntax region ... start="/BTEX" end="/ETEX" transparent oneline containedin=ALL contains=NONE
+      
+and passes content of this region verbatim to TeX. So, any TeX commands used
+inside this region are interpreted by TeX. For example,
+
+    \definevimtyping[C][syntax=c, escape=command]
+
+    \startC
+       /* Here is a comment describing a complicated function */
+       /BTEX\startframedtext[width=\textwidth,corner=round]/ETEX
+        double complicated (...) 
+        {
+          ....
+        }
+      /BTEX\stopframedtext/ETEX
+    \stopC
+
+**Note** that as in the case for `escape=comment`, only `\ { }` have their
+usual meaning inside `/BTEX ... /ETEX`. Moreover, spaces are active
+characters. So, using a space between `\startframedtext` and `[` or between
+after the comma in the options to `\startframedtext` will result in an error.
+
+Clearly, `/BTEX ... /ETEX` is not a valid syntax in any language, so if these
+tags are used outside of a comment region (as is the case in the above
+example), the code will not compile. So, if the code also needs to run, then
+these annotations have to be restricted to the comment region of the code or
+the output typeset by ConTeXt has to be manually tested for correctness prior
+to the release of your document.
+
+Although, in practice, the use of both escape mechanisms is restricted to
+comments, the two mechanism have subtle differences. When using
+`escape=comment`, the `2context.vim` script simply passes the content of the
+comment region to TeX. This content is still typeset inside a
+`\SYN[Comment]{...}` group. While when using `escape=command`, the
+`2context.vim` script identifies the content of `/BTEX .. /ETEX` and passes it
+to TeX _without wrapping it insider any `\SYN[..]{...}` group_. This has an
+advantage when we want to use commands that cannot be used inside a group
+(e.g., `\inmargin`). For example, if we want to define a `\callout` macro that
+displays a note in the margin which we can refer to later, we can use:
+
+
+    \define[1]\callout{\inmargin{\rm #1}}
+    \definevimtyping[C][syntax=c, escape=command]
+
+    \startC
+       /* Here is a comment describing a complicated function */
+       double complicated (...) 
+       {
+          ... // /BTEX\callout{Fancy trick!}/ETEX
+       }
+    \stopC
+
+Finally, note that the value of `escape` set using `\definevimtyping` is not
+used to `\inline<vim>typing`. If for some reason, you do need the escape
+mechanism for inline code, use
+
+     \inline<vim>typing[escape=command]{...}
 
 Tuning color schemes
 --------------------
@@ -523,7 +646,7 @@ To disable loading of `vimrc` file, use
      \definevimtyping
         [...]
         [...
-         vimrc=none,
+         vimrc=,
          ...]
     
 
@@ -590,6 +713,343 @@ The core commands freely switch between the two. In some cases, `option=yes` has
 a different meaning than `option=on`. To avoid confusion, I have made these
 synonyms. Thus, whenever the documentation says `option=yes`, you may use
 `option=on`. And vice-versa. One less thing to worry about!
+
+Name (and location) of the VIM executable
+-----------------------------------------
+
+By default, the `t-vim` module calls the program `vim` to do syntax
+highlighting. If the `vim` program is not in the `$PATH`, the `vimcommand`
+option may be used to specify the compete path of `vim`:
+
+    \setupvimtyping[vimcommand=/path/to/vim]
+
+This option may also be used to call [Neovim] instead of `vim` to do syntax
+highlighting, by either using
+
+    \setupvimtyping[vimcommand=nvim]
+
+or, if `nvim` is not in the `$PATH`, using
+
+    \setupvimtyping[vimcommand=/path/to/nvim]
+
+[Neovim]: https://neovim.io/
+
+As of 2020.04.29, `nvim` is about 10% faster than `vim`.
+
+Defining a new colorscheme
+--------------------------
+
+Vim recommends the following names for syntax highlighting groups (information
+copied from `:help group-name`):
+
+> ```
+> 	*Comment	any comment
+> 
+> 	*Constant	any constant
+> 	 String		a string constant: "this is a string"
+> 	 Character	a character constant: 'c', '\n'
+> 	 Number		a number constant: 234, 0xff
+> 	 Boolean	a boolean constant: TRUE, false
+> 	 Float		a floating point constant: 2.3e10
+> 
+> 	*Identifier	any variable name
+> 	 Function	function name (also: methods for classes)
+> 
+> 	*Statement	any statement
+> 	 Conditional	if, then, else, endif, switch, etc.
+> 	 Repeat		for, do, while, etc.
+> 	 Label		case, default, etc.
+> 	 Operator	"sizeof", "+", "*", etc.
+> 	 Keyword	any other keyword
+> 	 Exception	try, catch, throw
+> 
+> 	*PreProc	generic Preprocessor
+> 	 Include	preprocessor #include
+> 	 Define		preprocessor #define
+> 	 Macro		same as Define
+> 	 PreCondit	preprocessor #if, #else, #endif, etc.
+> 
+> 	*Type		int, long, char, etc.
+> 	 StorageClass	static, register, volatile, etc.
+> 	 Structure	struct, union, enum, etc.
+> 	 Typedef	A typedef
+> 
+> 	*Special	any special symbol
+> 	 SpecialChar	special character in a constant
+> 	 Tag		you can use CTRL-] on this
+> 	 Delimiter	character that needs attention
+> 	 SpecialComment	special things inside a comment
+> 	 Debug		debugging statements
+> 
+> 	*Underlined	text that stands out, HTML links
+> 
+> 	*Ignore		left blank, hidden  |hl-Ignore|
+> 
+> 	*Error		any erroneous construct
+> 
+> 	*Todo		anything that needs extra attention; mostly the
+> 			keywords TODO FIXME and XXX
+>``` 
+>
+> The names marked with * are the preferred groups; the others are minor groups.
+> For the preferred groups, the "syntax.vim" file contains default highlighting.
+> The minor groups are linked to the preferred groups, so they get the same
+> highlighting.  You can override these defaults by using ":highlight" commands
+> after sourcing the "syntax.vim" file.
+
+The syntax highlighting files for almost all languages define other highlight
+groups most of which get mapped to these basic groups. To define a new
+colorscheme, we need to define color mappings for each of these groups. 
+
+The basic syntax for defining a new color scheme is:
+
+```
+\startcolorscheme[name-of-scheme]
+...
+\stopcolorscheme
+```
+
+where the `name-of-scheme` is whatever name you want to call your colorscheme.
+This name has to be used as the value for `alternative` key in
+`\definevimtyping` or `setupvimtyping`. 
+
+The bare-minimum setup needed to define a new colorscheme is as follows:
+
+```
+\startcolorscheme[name-of-scheme]
+    % Vim Preferred groups
+    \definesyntaxgroup
+        [Constant]
+        [...]
+
+    \definesyntaxgroup
+        [Identifier]
+        [...]
+
+    \definesyntaxgroup
+        [Statement]
+        [...]
+
+    \definesyntaxgroup
+        [PreProc]
+        [...]
+
+    \definesyntaxgroup
+        [Type]
+        [...]
+
+    \definesyntaxgroup
+        [Special]
+        [...]
+
+    \definesyntaxgroup
+        [Comment]
+        [...]
+
+    \definesyntaxgroup
+         [Ignore]
+         [...]
+
+    \definesyntaxgroup
+        [Todo]
+        [...]
+
+
+    \definesyntaxgroup
+        [Error]
+        [...]
+
+    \definesyntaxgroup
+        [Underlined]
+        [...]
+
+    \definesyntaxgroup
+        [Todo]
+        [...]
+
+    \setups{vim-minor-groups}
+
+\stopcolorscheme
+```
+
+The detailed syntax of `\definesyntaxgroup` will be explained in a bit. 
+The `\setups{vim-minor-groups}` line at the end maps the minor color groups to
+the preferred color groups, as per the default mappings in vim. Suppose you
+want to override the default mappings for `Number` and `Function`, then you
+define those mappings after `\setups{vim-minor-groups}`.
+
+```
+\startcolorscheme[name-of-scheme]
+    % Vim Preferred groups
+    \definesyntaxgroup
+        [Constant]
+        [...]
+
+    ....
+
+    \setups{vim-minor-groups}
+
+    \definesyntaxgroup
+        [Number]
+        [...]
+
+    \definesyntaxgroup
+        [Function]
+        [...]
+
+\stopcolorscheme
+```
+
+A full setup for defining a new color scheme will be add `\definesyntaxgroup`
+for all the basic vim syntax highlighting groups listed from the vim help
+above. If you define the mappings for *all* groups, then you can omit the
+`\setups{vim-minor-groups}` line above. 
+
+The `\definesyntaxgroup` command has the following syntax:
+
+```
+\definesyntaxgroup
+    [name-of-group]
+    [
+      color=...,
+      style=...,
+      command=...,
+    ]
+```
+where `color` is the name of any predefined color in ConTeXt, `style` can be
+any predefined [style alternative][style] (such as `bold`, `italic`, etc.) or
+an explicit style formatting command (such as `\bf`, `\it`, etc.), and
+`command` can be any ConTeXt macro which takes one argument. 
+
+[style]: https://wiki.contextgarden.net/Style_Alternatives
+
+For example, if you want to highlight `Todo` with a frame, use can use:
+
+```
+\definesyntaxgroup
+    [Todo]
+    [command=\inframed]
+```
+
+_A convinience interface for `color`:_ A colorscheme uses a lot of colors and
+defining all of them just for the purpose of defining a new colorscheme can be
+cumbersome. So, the `\definesyntaxgroup` macro provides a shorthand:
+
+```
+\definesyntaxgroup
+    [...]
+    [
+      color={r=..., g=..., b=...},
+    ]
+```
+
+where `r`, `g`, `b`, values are the red, green, and blue values (between 0 and
+1) of the color, or
+
+```
+\definesyntaxgroup
+    [...]
+    [
+      color={h=...},
+    ]
+```
+
+where the `h` value is the hex value of the color.
+
+Modifying an existing color scheme
+----------------------------------
+
+It is possible to modify an existing color scheme by simply redefining
+some of the syntax highlighting groups. For example, if we want to update
+`pscolor` so that `Identifier` group is typeset in red color and `Function` is
+typeset in bold red, we can use:
+
+```
+\startcolorscheme[pscolor]
+  \definesyntaxgroup
+      [Identifier]
+      [color=red]
+
+  \definesyntaxgroup
+      [Function]
+      [color=red, style=bold]
+\stopcolorscheme
+```
+XML Export
+----------
+
+The vim module provides a basic support for XML export. If the user-document
+contains
+
+    \setupbackend[export=yes]
+
+or other valid options to `export` such as `export=xml`, then the vim typing
+environments are exported as well. For example, 
+
+    \definevimtyping[PYTHON][syntax=python]
+    \startPYTHON
+    # Python program listing
+    def foobar
+        print("Hello World")
+    \stopPYTHON
+
+
+is exported as
+
+    <vimtyping detail="pscolor">
+     <verbatimline><syntaxgroup detail="vimComment"># Python program listing</syntaxgroup></verbatimline>
+     <verbatimline><syntaxgroup detail="vimStatement">def</syntaxgroup> <syntaxgroup detail="vimFunction">foobar</syntaxgroup></verbatimline>
+     <verbatimline>    <syntaxgroup detail="vimFunction">print</syntaxgroup>(<syntaxgroup detail="vimString">"</syntaxgroup><syntaxgroup detail="vimString">Hello World</syntaxgroup><syntaxgroup detail="vimString">"</syntaxgroup>)</verbatimline>
+    </vimtyping>
+
+The name of the exported envionment is `vimtyping`. 
+
+Inline environments such as
+
+    \definevimtyping[PYTHON][syntax=python]
+    \inlinePYTHON{print("Hello World")}
+    
+is exported as
+
+    <inlinevimtyping detail="pscolor"><verbatimline><syntaxgroup detail="vimFunction">print</syntaxgroup>(<syntaxgroup detail="vimString">"</syntaxgroup><syntaxgroup detail="vimString">Hello World</syntaxgroup><syntaxgroup detail="vimString">"</syntaxgroup>)</verbatimline></inlinevimtyping>
+
+The name of the exported envionment is `inlinevimtyping`. 
+
+In both the display and inline environments, the name of the programming
+language (value of the `syntax` key) is
+not exported since it is not needed to display the parse output.
+Instead the name of the colorscheme (value of the `alternative` key) is
+exported as the parameter `detail` of `vimtyping`. Each line is exported as a
+`verbatimline`. Each syntaxgroup is exported as `<syntaxgroup detail="...">`.
+The value of `defail` equals to the name of the syntax highlighting group
+_prepended with `vim`_. The name is prepended with `vim` to avoid name clashes
+with other elements in the exported XML. Strictly speaking this is not
+necessary, but it does make it easier to write CSS selectors.
+
+The module comes with a CSS file with default mappings for the two
+colorschemes that are provided with the module (`pscolor` and
+`blackandwhite`). This is meant as a simple solution which gives approximately
+the same output as the PDF file. To use this CSS file, add
+
+    \setupexport[cssfile=\vimtypingcssfile]
+
+If you already have other values for `cssfile`, then use:
+
+    \setupexport[cssfile={...,...,\vimtypingcssfile}]
+
+Note that the macro `\vimtypingcssfile` is defined in the vim module, so the
+above line has to come after the `vim` module has been loaded.
+
+If you make changes to the default colorschemes, define colorschemes of your
+own, or want to tweak the visual appearance of the output, you need to tweak
+the default CSS file to suit your needs. It is suggested that you copy the
+default css file and tweak it. You can find the location of the default CSS
+file using
+
+    luatools vimtyping-default.css
+
+Copy it under a different name and tweak it as desired.
+
 
 A bit of a history
 ------------------
