@@ -11,7 +11,7 @@ context-modules (20200331-2) UNRELEASED; urgency=medium
   * Introduce dh sequencer for debian/rules file.
   * We are "Debian TeX Task Force".
 
- -- Debian Janitor <janitor@jelmer.uk>  Wed, 06 May 2020 08:57:00 +0000
+ -- Hilmar Preusse <hille42@web.de>  Wed, 06 May 2020 08:57:00 +0000
 
 context-modules (20200331-1) unstable; urgency=medium
 
