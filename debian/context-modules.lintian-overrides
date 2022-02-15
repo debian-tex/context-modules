@@ -5,3 +5,5 @@ context-modules: extra-license-file usr/share/texmf/doc/context/third/transliter
 context-modules: package-contains-documentation-outside-usr-share-doc
 context-modules: repeated-path-segment
 context-modules: national-encoding
+# Is a name of upstream package, not name of language.
+context-modules: capitalization-error-in-description french French
