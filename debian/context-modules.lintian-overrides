@@ -1,6 +1,4 @@
 context-modules: script-not-executable
-context-modules: extra-license-file usr/share/doc/context-modules/transliterator/COPYING
-context-modules: extra-license-file usr/share/doc/context-modules/cyrillicnumbers/COPYING
 context-modules: extra-license-file usr/share/texmf/doc/context/third/cyrillicnumbers/COPYING
 context-modules: extra-license-file usr/share/texmf/doc/context/third/transliterator/COPYING
 # We are in TeX world:

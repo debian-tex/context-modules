@@ -5,10 +5,11 @@ Maintainer: Debian TeX Task Force <debian-tex-maint@lists.debian.org>
 Uploaders: Norbert Preining <norbert@preining.info>,
 	   Hilmar Preusse <hille42@web.de>
 Build-Depends: debhelper-compat (= 13), tex-common
-Build-Depends-Indep: tex-common
 Standards-Version: 4.2.1
+Rules-Requires-Root: no
 Vcs-Git: https://github.com/debian-tex/context-modules.git
 Vcs-Browser: https://github.com/debian-tex/context-modules
+Homepage: https://wiki.contextgarden.net/Modules
 
 Package: context-modules
 Architecture: all
