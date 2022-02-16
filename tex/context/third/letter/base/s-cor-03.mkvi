@@ -8,7 +8,7 @@
 %D    copyright=Wolfgang Schuster,
 %D      license=GNU General Public License]
 
-%C Copyright (C) 2011  Wolfgang Schuster
+%C Copyright (C) 2011 Wolfgang Schuster
 %C
 %C This program is free software: you can redistribute it and/or modify
 %C it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 %C GNU General Public License for more details.
 %C
 %C You should have received a copy of the GNU General Public License
-%C along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%C along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 \unprotect
 
@@ -246,7 +246,8 @@
 
 \startsetups[\????resumesectionrenderings:\v!head:\v!casual]
   \hbox to\hsize\bgroup
-    \framed[\c!offset=2\points,\c!strut=\v!no,\c!framecolor=resume:forename]{\correspondenceparameter{image}}
+    \doifsomething{\correspondenceparameter{image}}
+      {\framed[\c!offset=2\points,\c!strut=\v!no,\c!framecolor=resume:forename]{\correspondenceparameter{image}}}
     \hfill
     \hbox\bgroup
       \formattedcorrespondenceparameter{firstname}
@@ -282,8 +283,9 @@
       \doifsomething{\correspondenceparameter {email}}{\formattedcorrespondenceparameter {email}\\}
       \doifsomething{\correspondenceparameter  {info}}{\formattedcorrespondenceparameter  {info}\\}
     \stopframed
-    \quad
-    \framed[\c!offset=2\points,\c!strut=\v!no]{\correspondenceparameter{image}}
+    \doifsomething{\correspondenceparameter{image}}
+      {\quad
+       \framed[\c!offset=2\points,\c!strut=\v!no]{\correspondenceparameter{image}}}
   \egroup
 \stopsetups
 

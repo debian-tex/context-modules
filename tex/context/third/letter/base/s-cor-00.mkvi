@@ -8,7 +8,7 @@
 %D    copyright=Wolfgang Schuster,
 %D      license=GNU General Public License]
 
-%C Copyright (C) 2011  Wolfgang Schuster
+%C Copyright (C) 2011 Wolfgang Schuster
 %C
 %C This program is free software: you can redistribute it and/or modify
 %C it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 %C GNU General Public License for more details.
 %C
 %C You should have received a copy of the GNU General Public License
-%C along with this program.  If not, see <http://www.gnu.org/licenses/>.
+%C along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 \unprotect
 
@@ -666,12 +666,23 @@
   {\setuevalue{\e!start#element}{\correspondence_paragraph_start[#environment][#element]}%
    \setuevalue{\e!stop #element}{\correspondence_paragraph_stop [#environment][#element]}}
 
+% \unexpanded\def\correspondence_paragraph_start[#environment][#element]%
+%   {\begingroup
+%    \correspondence_parameters{#environment}{#element}%
+%    \dodoubleempty\correspondence_paragraph_start_parameters}%
+% 
+% \unexpanded\def\correspondence_paragraph_start_parameters[#parameters][#dummy]% #dummy removes the linebreak before the first line
+%   {\iffirstargument
+%      \setupcurrentcorrespondenceparagraph[#parameters]%
+%    \fi
+%    \grabbufferdatadirect{\????correspondenceparagraphbuffer\currentcorrespondenceparagraph}{\e!start\currentcorrespondenceelement}{\e!stop\currentcorrespondenceelement}}
+
 \unexpanded\def\correspondence_paragraph_start[#environment][#element]%
   {\begingroup
    \correspondence_parameters{#environment}{#element}%
-   \dodoubleempty\correspondence_paragraph_start_parameters}%
+   \dosingleempty\correspondence_paragraph_start_parameters}%
 
-\unexpanded\def\correspondence_paragraph_start_parameters[#parameters][#dummy]% #dummy removes the linebreak before the first line
+\unexpanded\def\correspondence_paragraph_start_parameters[#parameters]%
   {\iffirstargument
      \setupcurrentcorrespondenceparagraph[#parameters]%
    \fi

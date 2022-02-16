@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-syntax-groups,
-%D      version=2012.05.06,
+%D      version=2020.06.25,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Syntax highlighting support,
 %D       author=Aditya Mahajan,
@@ -9,7 +9,7 @@
 %D        email=adityam <at> ieee <dot> org,
 %D      license=Simplified BSD License]
 
-\writestatus{loading}{Syntax highlighting groups (ver: 2012.05.06)}
+\writestatus{loading}{Syntax highlighting groups (ver: 2020.06.25)}
 
 \startmodule [syntax-group]
 \usemodule   [module-catcodes]
@@ -32,8 +32,6 @@
 
 \installparameterhandler  \syntaxgroup@namespace \syntaxgroup@id
 \installsetuphandler      \syntaxgroup@namespace \syntaxgroup@id
-\doifmode{\s!mkiv}
-  {\installstyleandcolorhandler      \syntaxgroup@namespace \syntaxgroup@id}
 
 \def\m!syntaxgroup{t-syntax-group}
 
@@ -52,9 +50,9 @@
                           [\s!parent=\syntaxgroup@namespace,\c!color=,\c!style=,\c!command=,#2]
          \doifsomething{\syntaxgroupparameter\c!color}
           {
-             \expanded{\definecolor[\syntaxgroup@namespace-##1-color]
+             \expanded{\definecolor[\syntaxgroup@namespace-\syntaxgroup@name-color]
                                    [\syntaxgroupparameter\c!color]}
-             \setupsyntaxgroup[\syntaxgroup@name][\s!parent=\syntaxgroup@namespace,\c!color=\syntaxgroup@namespace-##1-color]
+             \expanded{\setupsyntaxgroup[\syntaxgroup@name][\s!parent=\syntaxgroup@namespace,\c!color=\syntaxgroup@namespace-\syntaxgroup@name-color]}
           }
     }
   }{
@@ -99,14 +97,12 @@
       \iftracesyntaxgroups
           \syntaxgroup@show_values
       \fi
-      \doifmode{\s!mkiv}{\dostarttagged\t!syntaxgroup{#1}}
       \syntaxgroupparameter\c!command
       {
         \externalfilter@attributes_start\syntaxgroup@id\c!style\c!color
             #2
         \externalfilter@attributes_stop
       }
-      \doifmode{\s!mkiv}{\dostoptagged}
       \syntaxgroupparameter\c!after
       \endgroup
 \stoptexdefinition
