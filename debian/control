@@ -9,7 +9,7 @@ Standards-Version: 4.6.0
 Rules-Requires-Root: no
 Vcs-Git: https://github.com/debian-tex/context-modules.git
 Vcs-Browser: https://github.com/debian-tex/context-modules
-Homepage: https://wiki.contextgarden.net/Modules
+Homepage: https://modules.contextgarden.net
 
 Package: context-modules
 Architecture: all
