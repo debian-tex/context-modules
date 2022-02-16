@@ -5,6 +5,10 @@ context-modules (20200331-2) UNRELEASED; urgency=medium
   * context-modules: Drop versioned constraint on context in Depends.
   * Lintian fixes.
 
+  [ Adam Reviczky ]
+  * Bump standards version, no changes necessary
+    (https://github.com/debian-tex/context-modules/pull/8)
+
   [ Hilmar Preusse ]
   * Add me to Uploaders field.
   * Add Lintian fixes & Overrides.
