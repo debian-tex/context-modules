@@ -1,4 +1,4 @@
-context-modules (20200331-2) UNRELEASED; urgency=medium
+context-modules (20210301-1) UNRELEASED; urgency=medium
 
   [ Debian Janitor ]
   * Add missing build dependency on dh addon.
@@ -10,6 +10,8 @@ context-modules (20200331-2) UNRELEASED; urgency=medium
     (https://github.com/debian-tex/context-modules/pull/8)
 
   [ Hilmar Preusse ]
+  * New upstream version. Thanks to Adam for notification and providing the
+    zip files: https://github.com/debian-tex/context-modules/pull/6
   * Add me to Uploaders field.
   * Add Lintian fixes & Overrides.
   * Introduce dh sequencer for debian/rules file.
