@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-vim,
-%D      version=2020.06.29,
+%D      version=2022.02.17,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Vim syntax highlighting,
 %D       author=Aditya Mahajan,
@@ -9,18 +9,19 @@
 %D        email=adityam <at> ieee <dot> org,
 %D      license=Simplified BSD License]
 
-\writestatus{loading}{Vim syntax highlighting (ver: 2020.06.29)}
+\writestatus{loading}{Vim syntax highlighting (ver: 2022.02.17)}
 
 \startmodule [vim]
 \usemodule   [filter]           % loads module catcodes
 \usemodule   [syntax-highlight] % loads syntax-groups and filter module
+
+\unprotectmodulecatcodes
 
 \startinterface all
     \setinterfaceconstant {vimrc}           {vimrc}
     \setinterfaceconstant {vimcommand}      {vim\c!command}
 \stopinterface
 
-\unprotectmodulecatcodes
 
 \def\vimtyping@id          {vimtyping}
 \def\vimtyping@namespace   {@@@@\vimtyping@id}
@@ -68,7 +69,6 @@
        -X % dont connect to X server
        -i NONE % dont use viminfo file
        --noplugin % dont load plugins
-       --clean % dont load scada file (nvim)
        -es % run in ex mode in silent
        % -C % set compatible
        -n % no swap file
@@ -123,6 +123,15 @@
    % \c!highlightcolor=lightgray,
    \c!filtercommand=\vimtyping@filter_command,
    % \c!continue=yes,
+   % All options that effect the call to vim. When syntax highlighting
+   % external files, changing any one of these options will result in a new
+   % call to vim and the result will be saved in a different file
+   \c!cache\c!option={\externalfilterparameter\c!start
+                      \externalfilterparameter\c!stop
+                      \externalfilterparameter\c!syntax
+                      \externalfilterparameter\c!strip
+                      \externalfilterparameter\c!escape
+                      \externalfilterparameter\c!highlight},
    % \c!read=\v!yes,
    % \c!readcommand=\syntaxhighlighting@read_command,
    \c!output=\externalfilterbasefile.vimout,
@@ -216,12 +225,12 @@
         [Identifier]
 
     \definesyntaxgroup
-        [Condition,Repeat,Label,Operator,Keyword,Exception]
+        [Conditional,Repeat,Label,Operator,Keyword,Exception]
         [Statement]
 
     \definesyntaxgroup
         [Include,Define,Macro,PreCondit]
-        [Preproc]
+        [PreProc]
 
     \definesyntaxgroup
         [StorageClass,Structure,Typedef]

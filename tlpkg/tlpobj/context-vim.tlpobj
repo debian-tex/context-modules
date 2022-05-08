@@ -1,6 +1,6 @@
 name context-vim
 category ConTeXt
-revision 48391
+revision 62071
 shortdesc Generate ConTeXt syntax highlighting code from vim
 relocated 1
 longdesc ConTeXt has excellent pretty printing capabilities for many
@@ -12,16 +12,18 @@ longdesc language. This module takes the onus of defining syntax
 longdesc highlighting rules away from the user and uses ViM editor to
 longdesc generate the syntax highlighting. There is a helper
 longdesc 2context.vim script to do the syntax parsing in ViM.
-depend context-filter
 depend context
-runfiles size=11
+depend context-filter
+runfiles size=21
  RELOC/tex/context/third/vim/2context.vim
- RELOC/tex/context/third/vim/t-syntax-groups.tex
+ RELOC/tex/context/third/vim/t-syntax-groups.mkii
+ RELOC/tex/context/third/vim/t-syntax-groups.mkiv
  RELOC/tex/context/third/vim/t-syntax-highlight.mkii
  RELOC/tex/context/third/vim/t-syntax-highlight.mkiv
+ RELOC/tex/context/third/vim/t-syntax-highlight.mkxl
  RELOC/tex/context/third/vim/t-vim.tex
+ RELOC/tex/context/third/vim/vimtyping-default.css
 catalogue-also context-filter
 catalogue-ctan /macros/context/contrib/context-vim
-catalogue-date 2018-08-11 06:19:01 +0200
 catalogue-license bsd
 catalogue-topics synt-hlt ext-code context

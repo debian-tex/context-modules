@@ -130,7 +130,10 @@ if not translit.done_serbian then
     }
 
     local P = lpeg.P
-    local sub, upper = unicode.utf8.sub, unicode.utf8.upper
+    local utf8      = unicode and unicode.utf8 or utf or utf8
+    local sub       = utf8.sub
+    local toupper   = lpeg.patterns.toupper
+    local upper     = function (s) return lpegmatch (toupper, s) end
 
     local p_tocy, p_i_tocy, p_tolt, p_i_tolt
 

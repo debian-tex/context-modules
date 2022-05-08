@@ -60,7 +60,6 @@
 \def\setupmemodescription         {\dotripleargument\correspondence_description_setup          [\v!memo]}
 \def\setupmemohead                {\dotripleargument\correspondence_head_setup                 [\v!memo]}
 \def\setupmemooptions             {\dodoubleargument\correspondence_option_setup               [\v!memo]}
-\def\setupmemo                    {\dodoubleargument\correspondence_setup                      [\v!memo]}
 
 \def\setupmemolayeralternative    {\dotripleargument\correspondence_layer_alternative_setup    [\v!memo]}
 \def\setupmemosectionalternative  {\dotripleargument\correspondence_section_alternative_setup  [\v!memo]}
@@ -186,7 +185,7 @@
   \correspondenceparameter\c!fromaddress
 \stopsetups
 
-\startsetups[\???memosectionrenderings\v!head:\v!memo]
+\startsetups[\????memosectionrenderings:\v!head:\v!memo]
   \def\\{\correspondencesectionparameter\c!separator}
   \startpacked
   \doifsomething{\correspondenceparameter\c!fromname}{\memotext\c!fromname \correspondenceparameter\c!fromname \par}
@@ -341,7 +340,7 @@
 % for backwards compatibility
 
 \startsetups[\v!memo:\v!place]
-\correspondence_place[\v!memo]
+\placecorrespondence[\v!memo]
 \stopsetups
 
 % Extras
