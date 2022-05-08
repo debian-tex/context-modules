@@ -43,26 +43,6 @@ local v_text           = variables.text
 local v_start          = variables.start
 local v_list           = variables.list
 
--- list for the elements to be shown
-
-correspondence.data = { }
-
-function correspondence.elements_define(environment,name,list)
-    local index = concat({environment,name},":")
-    local list  = settings_to_array(list)
-    correspondence.data[index] = list
-end
-
-function correspondence.elements_access(environment,name)
-    local index = concat({environment,name},":")
-    local list    = correspondence.data[index]
-    local entries = ""
-    if list and list ~= "" then
-        entries = concat(list,",")
-    end
-    context(entries)
-end
-
 -- create synonyms for the default styles
 
 local patterns = {
@@ -90,69 +70,6 @@ function correspondence.file(environment,name)
         patterns = patterns[environment],
         action   = action,
     }
-end
-
--- moved from TeX to Lua because it’s easier with the lists for the sections and layers
-
-function correspondence.place(environment,settings)
-    local bodyfont         = settings.bodyfont
-    local whitespace       = settings.whitespace
-    local interlinespace   = settings.interlinespace
-    local language         = settings.language
-    local backgroundcolor  = settings.backgroundcolor
-    context.unprotect()
-    context(toks.t_correspondence_before)
-    context.page()
-    -- page layout is controlled with the \setup…layout commands
-    context.setuplayout{ method = v_correspondence }
-    -- disable headers and footers
-    context.setupheader{ state = v_stop }
-    context.setupfooter{ state = v_stop }
-    -- required for the manual, manual changes for the elements can be done with the “style” key
-    if bodyfont ~= "" then
-        context.setupbodyfont{bodyfont}
-    end
-    -- can be moved to the section elements because it’s only usefull for the content
-    if whitespace ~= "" then
-        context.setupwhitespace{whitespace}
-    end
-    -- feature
-    if interlinespace ~= "" then
-        context.setupinterlinespace{interlinespace}
-    end
-    -- I prefer to set this with \setup…options
-    if language ~= "" then
-        context.mainlanguage{language}
-    end
-    -- colored background is behind all other layers
-    if backgroundcolor ~= "" then
-        context.setupbackgrounds({ v_paper },{ background = v_color, backgroundcolor = backgroundcolor })
-    end
-    -- layers
-    local layer = { }
-	for index, element in next, correspondence.data[concat({environment,v_layer},":")] or { } do
-		layer[index] = concat({environment,element},":")
-	end
-	local overlays = {
-	   "correspondence:backgroundimage",
-	   "correspondence:background",
-	   concat(layer,","),
-	}
-    context.setupbackgrounds({ v_page },{ background = concat(overlays,",") })
-    -- letters are always singlesided because the layout controlled by the module
-    context.setuppagenumbering{ alternative = v_singlesided, location = "" }
-    context.setupsubpagenumber{ way = v_text, state = v_start }
-    context.resetsubpagenumber()
-    -- sections
-	for _, element in next, correspondence.data[concat({environment,v_section},":")] or { } do
-    	context.correspondence_section_place({environment},{element})
-	end
-    context.page()
-    context.resetsubpagenumber()
-    -- make sure the normal layout is restored
-    context.setuplayout{v_reset}
-    context(toks.t_correspondence_after)
-    context.protect()
 end
 
 correspondence.letter = { }

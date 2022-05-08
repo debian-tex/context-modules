@@ -62,7 +62,6 @@
 \def\setupletterdescription         {\dotripleargument\correspondence_description_setup          [\v!letter]}
 \def\setupletterhead                {\dotripleargument\correspondence_head_setup                 [\v!letter]}
 \def\setupletteroptions             {\dodoubleargument\correspondence_option_setup               [\v!letter]}
-\def\setupletter                    {\dodoubleargument\correspondence_setup                      [\v!letter]}
 
 \def\setupletterlayeralternative    {\dotripleargument\correspondence_layer_alternative_setup    [\v!letter]}
 \def\setuplettersectionalternative  {\dotripleargument\correspondence_section_alternative_setup  [\v!letter]}
@@ -574,7 +573,7 @@
 % for backwards compatibility
 
 \startsetups[\v!letter:\v!place]
-\correspondence_place[\v!letter]
+\placecorrespondence[\v!letter]
 \stopsetups
 
 % Extras
@@ -916,4 +915,10 @@
 
 \stopmodule
 
-\protect \endinput
+\protect
+
+\continueifinputfile{s-cor-01.mkvi}
+
+\startletter
+\input lorem
+\stopletter

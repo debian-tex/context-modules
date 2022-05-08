@@ -17,7 +17,7 @@ translit.methods        = translit.methods or { }
 translit.deficient_font = "no"
 translit.parser_cache   = { }
 
-local utf8     = unicode.utf8
+local utf8     = unicode and unicode.utf8 or utf8
 local utf8byte = utf8.byte
 local utf8len  = utf8.len
 

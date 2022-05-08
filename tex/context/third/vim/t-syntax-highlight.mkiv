@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-syntax-highlight,
-%D      version=2020.06.29,
+%D      version=2021.12.13,
 %D        title=\CONTEXT\ User Module,
 %D     subtitle=Code syntax highlighting,
 %D       author=Aditya Mahajan,
@@ -9,13 +9,13 @@
 %D        email=adityam <at> ieee <dot> org,
 %D      license=Simplified BSD License]
 
-\writestatus{loading}{Code syntax highlighting (ver: 2020.06.29)}
+\writestatus{loading}{Code syntax highlighting (ver: 2021.12.13)}
 
 \startmodule    [syntax-highlight]
 \usemodule      [syntax-groups]
 \usemodule      [filter] % loads module-catcodes
 
-\unprotect
+\unprotectmodulecatcodes
 
 \startinterface all
   \setinterfaceconstant {syntax}          {syntax}
@@ -91,18 +91,19 @@
       {\dorecurse{##1}{\obeyedspace}}%
 
   \forgetall
+  \the\everyinitializeverbatim
   \usealignparameter\externalfilterparameter
   \doifinset{\v!packed}{\externalfilterparameter\c!option}
       {\setupwhitespace[\v!none,\v!flexible]}%
 
   \doadaptleftskip{\externalfilterparameter\c!margin}%
 
-  \setbreakpoints[compound]% Only works is `option=hyphenated` is set.
-  \doifnotinset{\v!hyphenated}{\externalfilterparameter\c!option}
+  \doifinsetelse{\v!hyphenated}{\externalfilterparameter\c!option}
+      {\setbreakpoints[compound]}
       {\language\minusone
        \resetbreakpoints}%
 
-  \def\obeyedline{\strut\par}
+  \def\obeyedline{\strut\par}%
   \activatespacehandler{\????syntaxhighlighting\externalfilterparameter\c!space:\externalfilterparameter\c!lines}
   \setcatcodetable\externalfilter@minimal_catcodes%
   \letcharcode\endoflineasciicode\obeyedline
@@ -255,7 +256,7 @@
 \def\syntaxhighlighting@namespace {\????syntaxhighlighting}
 \def\syntaxhighlighting@name      {\currentsyntaxhighlighting}
 
-\protect
+\protectmodulecatcodes
 
 \stopmodule
 

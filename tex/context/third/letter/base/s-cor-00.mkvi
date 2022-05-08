@@ -169,6 +169,7 @@
 \installnamespace {correspondencedescriptionformat}
 \installnamespace {correspondencestyle}
 \installnamespace {correspondenceelement}
+\installnamespace {correspondenceelements}
 \installnamespace {correspondencelayout}
 \installnamespace {correspondencehead}
 \installnamespace {correspondenceheadbuffer}
@@ -253,19 +254,6 @@
 \newtoks\t_correspondence_before
 \newtoks\t_correspondence_between
 \newtoks\t_correspondence_after
-
-% \unexpanded\def\correspondence_place[#environment]%
-%   {\begingroup
-%    \edef\currentcorrespondence{#environment}%
-%    \let \currentcorrespondenceoption\currentcorrespondence
-%    \ctxlua{thirddata.correspondence.place("\currentcorrespondence", {
-%         bodyfont        = "\correspondenceoptionparameter\c!bodyfont",
-%         whitespace      = "\correspondenceoptionparameter\c!whitespace",
-%         interlinespace  = "\correspondenceoptionparameter\c!interlinespace",
-%         language        = "\correspondenceoptionparameter\c!language",
-%         backgroundcolor = "\correspondenceoptionparameter\c!backgroundcolor",
-%     } )}%
-%    \endgroup}
 
 \unexpanded\def\correspondence_place[#environment]%
   {\begingroup
@@ -1058,10 +1046,10 @@
 % Lists
 
 \def\correspondence_elements_define[#environment][#name][#list]%
-  {\ctxlua{thirddata.correspondence.elements_define("#environment","#name","#list")}}
+  {\setvalue{\????correspondenceelements#environment:#name}{#list}}
 
 \def\correspondence_elements_access#environment#name%
-  {\ctxlua{thirddata.correspondence.elements_access("#environment","#name")}}
+  {\begcsname\????correspondenceelements#environment:#name\endcsname}
 
 % Extras
 

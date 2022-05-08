@@ -1,8 +1,8 @@
 name context-filter.doc
 category ConTeXt
-revision 48390
+revision 62070
 shortdesc doc files of context-filter
 relocated 1
-docfiles size=9
+docfiles size=10
  RELOC/doc/context/third/filter/VERSION
  RELOC/doc/context/third/filter/filter.txt
