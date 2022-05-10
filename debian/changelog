@@ -1,3 +1,10 @@
+context-modules (20220508-1) experimental; urgency=medium
+
+  * New upstream version for TL 2022.
+    - Install jmn fonts too.
+
+ -- Hilmar Preusse <hille42@web.de>  Sun, 08 May 2022 23:14:18 +0200
+
 context-modules (20210301-1) unstable; urgency=medium
 
   [ Debian Janitor ]

@@ -131,6 +131,10 @@ simpleslides:
 %C Copyright 2007-2018 Aditya Mahajan and Thomas A. Schmitz
 %C This file may be distributed under the GNU General Public License v. 2.0.
 
+jmn:
+%D	subtitle=special fonts for ConTeXt,
+%D	author=Design by Janusz M. Nowacki, 2004
+%D	copyright=Public Domain
 
 On Debian systems the text of the GNU General Public License can be found
 in /usr/share/common-licenses/GPL-2, and the GNU Free Documentation
