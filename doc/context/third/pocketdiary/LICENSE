@@ -1,0 +1,7 @@
+The module contains files which are under different licensing regimes:
+
+t-pocketdiary.tex : Public Domain
+t-pocketdiary.lua : Public Domain
+t-calendar.lua    : Public Domain
+t-solar.lua       : CCO "http://creativecommons.org/about/cc0"
+t-moonphase.lua   : Public Domain

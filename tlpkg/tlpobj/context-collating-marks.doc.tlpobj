@@ -1,0 +1,11 @@
+name context-collating-marks.doc
+category ConTeXt
+revision 66956
+shortdesc doc files of context-collating-marks
+relocated 1
+docfiles size=39
+ RELOC/doc/context/third/collating-marks/LICENSE
+ RELOC/doc/context/third/collating-marks/README.md
+ RELOC/doc/context/third/collating-marks/VERSION
+ RELOC/doc/context/third/collating-marks/t-collatingmarks-module-doc.pdf
+ RELOC/doc/context/third/collating-marks/t-collatingmarks-module-doc.tex

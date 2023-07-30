@@ -1,0 +1,24 @@
+name context-pocketdiary
+category ConTeXt
+revision 66953
+shortdesc A personal organiser
+relocated 1
+longdesc PocketDiary is a calendar module, enabling to prepare various
+longdesc calendars from day- to week, month- and year-calendars based on
+longdesc the ideas contained in PocketMods, having 8 pages arranged on a
+longdesc A4 single-sided printed sheet of paper. The module comes with
+longdesc different templates for notes etc. The module provides sun and
+longdesc moon data calculations
+depend context
+runfiles size=30
+ RELOC/tex/context/third/pocketdiary/Moonphase/moons-MP.mkiv
+ RELOC/tex/context/third/pocketdiary/Moonphase/t-moonphase.lua
+ RELOC/tex/context/third/pocketdiary/PocketDiary.mkiv
+ RELOC/tex/context/third/pocketdiary/Solar/sun-MP.mkiv
+ RELOC/tex/context/third/pocketdiary/Solar/t-solar.lua
+ RELOC/tex/context/third/pocketdiary/t-calendar.lua
+ RELOC/tex/context/third/pocketdiary/t-pocketdiary.lua
+ RELOC/tex/context/third/pocketdiary/t-pocketdiary.mkiv
+catalogue-ctan /macros/context/contrib/context-pocketdiary
+catalogue-license pd
+catalogue-topics calendar calculation context

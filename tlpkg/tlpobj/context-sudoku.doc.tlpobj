@@ -1,0 +1,9 @@
+name context-sudoku.doc
+category ConTeXt
+revision 67289
+shortdesc doc files of context-sudoku
+relocated 1
+docfiles size=3
+ RELOC/doc/context/third/sudoku/LICENSE
+ RELOC/doc/context/third/sudoku/README.md
+ RELOC/doc/context/third/sudoku/VERSION

@@ -1,0 +1,21 @@
+name context-calendar-examples
+category ConTeXt
+revision 66947
+shortdesc Collection of calendars based on the PocketDiary-module
+relocated 1
+longdesc The module contains examples for creating calendars based on
+longdesc the PocketDiary-module in various page sizes. In this
+longdesc collection there are the following examples: Year calendar with
+longdesc 1 day per page Year calendar with 1 week per two facing pages
+longdesc Menu-Calendar for each week of the year Sun data and moon data
+longdesc calendar for the whole year Photo calendar
+depend context
+runfiles size=15
+ RELOC/tex/context/third/calendar-examples/A5-day_per_page.mkiv
+ RELOC/tex/context/third/calendar-examples/A6-1week_per_2pages.mkiv
+ RELOC/tex/context/third/calendar-examples/Menu-calendar.mkiv
+ RELOC/tex/context/third/calendar-examples/Photocalendar.mkiv
+ RELOC/tex/context/third/calendar-examples/Sundata-calendar.mkiv
+catalogue-ctan /macros/context/contrib/context-calendar-examples
+catalogue-license pd
+catalogue-topics calendar calculation context

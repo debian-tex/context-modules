@@ -1,0 +1,207 @@
+\chapter{一字不差}
+
+在这个信息时代，文档出现一些计算机程序源码片段，是很常见的事。这些代码需要以等宽字体原样显示，像是过去的打字机的输出，故而名曰文本抄录（Verbatim text）。为了让代码更为易读，通常需要根据相应语法对其进行着色渲染。有时，还需要在代码中插入一些其他排版元素。
+
+\section{抄录}
+
+抄录有两种形式，一种是位于一行文字之内，用 \type{\type{...}} 排版，另一种是位于段落之间，用 \type{\starttyping ... \stoptyping} 排版。例如
+
+\startsample
+\startframedtext[width=\textwidth]
+用 C 语言写一个程序，让它在屏幕上显示「\type{Hello world!}」，代码如下
+\starttyping
+#include <stdio.h>
+int main(void)
+{
+    printf("Hello world!\n");
+    return 0;
+}
+\stoptyping
+\stopframedtext
+\stopsample
+\typesample
+
+\noindent 结果为
+
+\start
+\setuptyping[before={\blank[line]},after={\blank[line]}]
+\getsample
+\stop
+
+上述示例，不仅演示了抄录命令的基本用法，你应该也学会了如何使用 \type{framedtext} 环境给一些内容添加朴素的边框。
+
+\section{外框}
+
+也许你也想要一个像本文档中有着巨大的淡蓝色方括号的 \type{typing} 环境，但是需要事先对第 \in[metapost] 章中介绍的 \METAPOST\ 语言的基本用法有所了解方可。给 \type{typing} 环境添加朴素的外框很容易做到，而且它也是实现巨大淡蓝色方括号的基础，方法是
+
+\startsample
+\setuptyping
+  [before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+
+\starttyping
+带外框的 \starttyping ... \stoptyping
+\stoptyping
+\stopsample
+\typesample
+\start
+\getsample
+\stop
+
+在 \type{\setuptyping} 的 \type{before} 和 \type{after} 参数中，也可以根据自己的需求，添加其他排版命令或你自己定义的宏。\CONTEXT\ 很多命令带有 \type{before} 和 \type{after} 参数。
+
+\section{行号}
+
+\type{\setuptyping} 的 \type{line} 参数可用于设定代码行号。通过 \type{\setuplinenumbering} 可调整行号样式。以下示例开启代码行号，并将行号到 \type{typing} 环境的距离设为 0.5 em：
+
+\startsample
+\setuplinenumbering[typing][distance=.5em]
+\setuptyping
+  [numbering=line,
+   before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+
+\starttyping
+#include <stdio.h>
+int main(void)
+{
+    printf("Hello world!\n");
+    return 0;
+}
+\stoptyping
+\stopsample
+\typesample
+\start
+\getsample
+\stop
+
+\section{着色}
+
+\CONTEXT\ 提供了代码语法着色功能，例如对 \TEX\ 代码进行着色，
+
+\startsample
+\starttyping[option=TEX]
+\starttext
+Hello \CONTEXT!
+\stoptext
+\stoptyping
+\stopsample
+\typesample
+\start
+\setuplinenumbering[typing][distance=.5em]
+\setuptyping
+  [numbering=line,
+   before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+\getsample
+\stop
+
+不幸的是，目前 \CONTEXT\ 仅实现了 \TEX，\METAPOST，Lua，XML 等代码的着色。不过，对于 \CONTEXT\ 尚不支持的语言，\CONTEXT\ 提供了扩展机制，若你对 Lua 语言及其 Lpeg 库有所了解，可自己动手，丰衣足食\cite[code-render]。
+
+\section{逃逸}
+
+即使不懂  Lua 和 Lpeg，倘若你不嫌麻烦，利用 \type{\type} 和 \type{typing} 环境的逃逸（Escape）机制，也能实现代码着色。例如
+
+\starttyping[escape=no,option=TEX]
+\starttyping[escape=yes]
+/BTEX\darkgreen \#include/ETEX <stdio.h>
+/BTEX\darkblue int/ETEX main(/BTEX\darkblue void/ETEX)
+{
+    printf("/BTEX\darkred Hello world!\n/ETEX");
+    /BTEX\darkblue return/ETEX 0;
+}
+\stoptyping
+\stoptyping
+
+\noindent 结果为
+
+\start
+\setuptyping
+  [before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+\starttyping[escape=yes]
+/BTEX\darkgreen \#include/ETEX <stdio.h>
+/BTEX\darkblue int/ETEX main(/BTEX\darkblue void/ETEX)
+{
+    printf("/BTEX\darkred Hello world!\n/ETEX");
+    /BTEX\darkblue return/ETEX 0;
+}
+\stoptyping
+\stop
+
+我应该一直都没有告诉你，\CONTEXT\ 该如何给文字着色。\CONTEXT\ 预定义了一些标准颜色，可直接使用这些颜色的名字对文字进行着色，例如「\type{{\magenta 紫色}}」，结果为「{\magenta 紫色}」，也可以使用 \type{\color} 命令，例如「\type{\color[lightmagenta]{浅紫色}}」，结果为「\color[lightmagenta]{浅紫色}」。以下代码可用于查看 \CONTEXT\ 预定义颜色，
+
+\starttyping[option=TEX]
+\startTEXpage[offset=4pt]
+\showcolor[rgb]
+\stopTEXpage
+\stoptyping
+
+使用 \type{\definecolor} 可以通过设定红（r）、绿（g）、蓝（b）分量定义颜色。例如
+
+\startsample
+\definecolor[myred][r=.8,g=.2,b=.2]
+\framed{\myred 给你点 color see see！}
+\stopsample
+\simplesample[option=TEX]{\getsample}
+
+\noindent 上述代码中可以让你你顺便又学会了另一种给文字增加外框的方法。
+
+亦可使用 \type{\colored} 直接设定 rgb 颜色对文字着色，以下代码与上例等效：
+
+\startsample
+\framed{\colored[r=.8,g=.2,b=.2]{给你点 color see see！}}
+\stopsample
+\typesample[option=TEX]
+
+\section{显示空格}
+
+\starttyping[escape=no,option=TEX]
+\starttyping[space=on]
+H E  L   L    L     O
+\stoptyping
+\stoptyping
+\start
+\setuptyping
+  [before={\startframedtext[width=\textwidth]},
+   after={\stopframedtext}]
+\starttyping[space=on]
+H E  L   L    L     O
+\stoptyping
+\stop
+
+注意，\CONTEXT\ 中文断行需要 \type{\setscript[hanzi]}，但该命令会吞噬汉字之间的空白字符，从而导致一个问题，在 \type{\type} 和 \type{typing} 环境中，汉字之间若存在空白字符，它们不会被输出到排版结果，此时，只有 \type{space=on} 可以救急。
+
+例如，以下 \type{typing} 环境未开启空格显示：
+
+\starttyping
+本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on ！
+\stoptyping
+\noindent 以下 \type{typing} 环境开启了空格显示：
+\starttyping[space=on]
+本 行 每 个 汉 字 之 后 都 有 空 格， 但 是 你 看 不 见 它， 除 非 space=on ！
+\stoptyping
+
+\section{定义}
+
+使用 \type{\definetype} 和 \type{\definetyping} 可定义专用的抄录环境。例如
+
+\starttyping[option=TEX]
+\starttyping[escape=yes,space=on,option=TEX]
+Hello /BTEX\darkred\CONTEXT/ETEX!    
+\stoptyping
+\stoptyping
+
+\noindent 倘若每次使用该 \type{typing} 环境，可能会让你觉得繁琐，且增加了输入出错的风险，采用以下方法可予以简化：
+
+\starttyping[option=TEX]
+\definetyping[foo][escape=yes,space=on,option=TEX]
+\startfoo
+Hello /BTEX\darkred\CONTEXT/ETEX!
+\stopfoo
+\stoptyping
+
+
+\section{小结}
+
+五色使人目盲。即使 \CONTEXT\ 的代码着色功能未能支持你的程序代码，也许并不值得遗憾。也许真正值得遗憾的是，它未能激发你对 Lua 语言和 Lpeg 库的兴趣，而这正是 \CONTEXT\ 的代码着色功能支持的编程语言过少最重要的原因。

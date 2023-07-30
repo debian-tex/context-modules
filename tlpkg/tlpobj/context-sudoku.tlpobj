@@ -1,0 +1,19 @@
+name context-sudoku
+category ConTeXt
+revision 67289
+shortdesc Sudokus for ConTeXt
+relocated 1
+longdesc A port of Peter Norvig's sudoku solver to Lua/ConTeXt. It
+longdesc provides four basic commands for typesettings sudokus, as well
+longdesc as a command handler.
+depend context
+runfiles size=15
+ RELOC/tex/context/third/sudoku/t-sudoku-test-01.txt
+ RELOC/tex/context/third/sudoku/t-sudoku-test-02.txt
+ RELOC/tex/context/third/sudoku/t-sudoku-test-03.txt
+ RELOC/tex/context/third/sudoku/t-sudoku.lua
+ RELOC/tex/context/third/sudoku/t-sudoku.mkvi
+catalogue-contact-repository https://github.com/JairoAdelRio6/context-sudoku
+catalogue-ctan /macros/context/contrib/context-sudoku
+catalogue-license mit
+catalogue-topics context games
