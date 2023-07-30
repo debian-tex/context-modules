@@ -1,153 +1,223 @@
 \startenvironment doc-env
-
 \usemodule[zhfonts]
+\definefont[kaiti][name:kaiti]
 
-\usemodule[chart]
-\usemodule[t][layout]
-
-\setupcolor[hex]
-\definecolor [BackgroundColor] [h=cccccc]
-\definecolor [OrnamentColor]   [h=99ccff]
-\definecolor [TitleColor] [h=336699]
-
-\setupinteraction
-        [state=start,
-		 focus=standard,
-		 color=darkblue,
-         title={ConTeXt 学习笔记},
-         subtitle={Using MkIV},
-         author={Li Yanrui},
-         keyword={TeX, ConTeXt, MkIV, LuaTeX}]
-
-%\setupinteractionscreen[option=max]
-
-\setuppapersize[A4][A4]
-\setuplayout[width=fit,height=middle,
-             leftmargin=2cm,rightmargin=2cm,
-             backspace=2.5cm,topspace=2cm,
-             headerdistance=.5cm,footerdistance=.5cm,
-	         leftmargindistance=.5cm,rightmargindistance=.5cm,
-             header=1cm,footer=1cm]
-\setuppagenumbering[style=\tfx,location=]
-
-\setuptolerance[horizontal, stretch]
-
-% 图片目录
-\setupexternalfigures[directory={./figures}]
-
-%-------- 标题设置 --------
-\setupheads[indentnext=yes]
-
-\setuphead[title][style=\bfb,align={broad,middle},header=empty,foote=empty]
-\setuphead[chapter][style=\bfb,header=empty,footer=empty]
-\setuphead[section][style=\bfa]
-\setuphead[subsubject][style=\bf]
-
-% 代码环境
-\setuplinenumbering[color=darkgray,style=small]
-\setuptyping[option=color,palet=graypretty,
-	     before={\blank[.5em]\setupinterlinespace[line=1.2em]},
-             after={\blank[.5em]}]
-
-\definetyping[niceTEX][option=TEX]
-
-%-------- 中文化 --------
-\setuplabeltext [en] [chapter={第\;,\;章}]
-\setuplabeltext [en] [figure=图\;]
-\setuplabeltext [en] [table=表\;]
-\setupheadtext[en][pubs={\bfc 参考文献}]
-\setupheadtext[en][content={\bfc 目录}]
-
-%% 目录 %%
-\def\ChapterNumber#1{\doiftext{#1}{第\;#1\;章\quad}}
-\setuplist
-    [chapter]
-    [alternative=a,
-     before=\blank,
-     after=\blank,
-     style=\bf,
-     width=fit,
-     pagestyle=boldslanted,
-     pagenumber=no,
-     numbercommand=\ChapterNumber]
-
-\def\PageNumber#1{\underbars{#1}.}
-\setuplist
-    [section]
-    [alternative=d,
-     style=normal,
-     pagecommand=\PageNumber,
-     pagestyle=\itx]
-
-% 页眉页脚
-\startsetups HeaderFooter
-        \def\CurrentChapter{%
-                第 \headnumber[chapter]\ 章%
-                \hbox to 2em{}%
-                \getmarking[chapter]%
-                }
-        \def\CurrentSection{%
-                \headnumber[section]%
-                \hbox to 2em{}%
-                \getmarking[section]%
-                }
-        \setupheadertexts
-                [\CurrentChapter][pagenumber]
-                [pagenumber][\CurrentSection]
-        \setupheader[style=\bfx,color=darkgray]
-\stopsetups
-
+\usecolors[svg]
+%\showgrid
+\setupinteraction[state=start,
+  focus=standard,
+  color=darkblue,
+  title={ConTeXt 蹊径},
+  author={李延瑞 (lyr.m2@live.cn)},
+  keyword={TeX, ConTeXt MkIV, ConTeXt LMTX, LuaTeX, LuaMetaTeX}]
 % 书签
 \setupinteractionscreen[option=bookmark]
-\placebookmarks[chapter,section][chapter]
+\placebookmarks[title,chapter,section][chapter]
+% 版式
+\setuppapersize[A4][A4]
+\setuplayout[backspace=2.5cm,width=16.5cm,
+             topspace=1.5cm,header=1.5cm,
+             height=27.2cm,footer=1cm]
+%\showframe
+% 段落首行缩进、行间距
+\setupindenting[first,always,2em]
+\setupinterlinespace[line=3.7ex] 
+% 关闭页码，后面会在页眉设置页码
+\setuppagenumbering[location=]
+% 丑度
+%\setuptolerance[horizontal,stretch]
+% 图片目录
+\setupexternalfigures[directory={./figures}]
+% 标题设置
+\setupheads[indentnext=yes]
+\setuphead[title][incrementnumber=list]
+\setuphead
+  [title,chapter]
+  [style=\bfb,header=empty,footer=empty,before=,after={\blank[2*line]},align=center]
+\setuphead[chapter][alternative=inmargin]
+\setuphead[subject,section][style=\bfa,before={\blank},after={\blank}]
+\setuphead[subsubject,subsection][style=\bf,before={\blank},after={\blank}]
+\definehead[TOC][title]
+\setuphead[TOC][before={\blank[quarterline]},after={\blank[quarterline]}]
+% 目录列表
+\setupcombinedlist[content][list={title,chapter,section},criterium=text]
+\def\PageNumber#1{\underbars{#1}.}  % 给页码增加下划线
+\setuplist
+  [title]
+  [alternative=a,
+   before={\blank[halfline]},
+   after={\blank[halfline]},
+   style=bold,
+   pagecommand=\PageNumber,
+   pagestyle=smallbold,
+   width=fit]
+\def\ChapterNumber#1{\doiftext{#1}{第 #1 章\quad}}  % 若 #1 是存在，则将其中文化
+\setuplist
+  [chapter]
+  [alternative=a,
+   before={\blank[halfline]},
+   after={\blank[halfline]},
+   style=bold,
+   width=fit,
+   pagenumber=no,
+   numbercommand=\ChapterNumber]
+\def\PageNumber#1{\underbars{#1}.}
+\setuplist
+  [section]
+  [alternative=d,
+   style=normal,
+   numberstyle=bold, 
+   pagecommand=\PageNumber,
+   pagestyle=smallitalic]
 
-% 参考文献
-\setupbibtex[database=bibliography]
-\setuppublications[alternative=lyr]
+% 页眉：通用
+\startsetups HeaderFooter
+\setupheadertexts[][pagenumber][pagenumber][]
+\setupheader[style=\tfx]
+\stopsetups
+% 页眉：body 部分
+\startsetups BodyHeaderFooter
+\def\CurrentChapter{%
+  第 \headnumber[chapter]\ 章\kern 1em\getmarking[chapter]%
+}
+\def\CurrentSection{%
+  \headnumber[section]%
+  \hbox to 2em{}%
+  \getmarking[section]%
+}
+\setupheadertexts[\CurrentChapter][pagenumber][pagenumber][\CurrentSection]
+\setupheader[style=\tfx]
+\stopsetups
 
-%---- 其它一些零碎设置 ----
-\setupinterlinespace[line=1.5em]
-\setupwhitespace[big]
+% 脚注里的中文断行
+\startsetups footnote:hanzi
+\setscript[hanzi]
+\stopsetups
+\setupnote[footnote][textstyle=\bold,setups={footnote:hanzi}]
+\setupnotation[footnote][way=bypage] % 来自 wolfgang 的 tip
 
+% 汉化
+\setuplabeltext[en][chapter={第 , 章\kern.5em}]
+\setuplabeltext[en][figure={图 }]
+\setuplabeltext[en][table={表 }]
+\setupheadtext[en][pubs={\bfc 参考文献}]
+\setupheadtext[en][content={\bfc 目录}]
+%---- 列表 ----
 \setupfloats[indentnext=yes] 
-\setupcaptions[style=\tfx, headstyle=\normal]
-
-\setupitemize[each][packed,serried,inmargin][margin=2em]
-
-\setupfootnotes[way=bychapter]
-
+\setupcaptions[style=\tfx, headstyle=\normal, align=center]
+%\setupitemize[each][packed,serried,inmargin][margin=2em]
+\setupitemize[each][distance=.4em]
 \setupinmargin[left,right][style=\tfx]
+\definedescription
+  [definition]
+  [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
+% 表格标题
+\setupcaption
+  [table]
+  [headstyle=normal,style=small,location=top]
 
-\definedescription[definition]
-        [location=top,hang=20,width=broad,indenting=always,style=\ss,headstyle=\bf]
-
-\def\mycite#1{\cite[#1]}
-
-%% 阴影盒
-
-\startuniqueMPgraphic{shade box}
-    path p;
-    u := 1cm; w := \overlaywidth; h := \overlayheight;
-    roundcorner := 8pt; offset := 12pt;
-    
-    color shade;
-    shade := (.6,.6,.6);
-
-    for i = 0 step .02 until 1:
-        fill unitsquare xyscaled (w-i*u,h-i*u) squeezed (8pt,6pt) 
-             shifted (offset+i*u/2,-offset+i*u/2)
-             withcolor transparent (1,.1,shade);
-    endfor;
-
-    p := unitsquare xyscaled (w, h);
-    draw p withcolor transparent (1,0,white);
-
-    p := p shifted (offset/2, -offset/2) squeezed (8pt,6pt);
-    fill p withcolor \MPcolor{darkgray};
-    draw p withcolor \MPcolor{OrnamentColor};
+% 抄录
+\setuplinenumbering[style=small]
+%\setuptyping[option=color,palet=graypretty,
+%	     before={\blank[.5em]\setupinterlinespace[line=1.2em]},
+%             after={\blank[.5em]}]
+\startuniqueMPgraphic{blue box}
+path p, q;
+w := \overlaywidth; h := \overlayheight;
+p := (3mm, 0) -- (0, 0) -- (0, h) -- (3mm, h);
+q := (w - 3mm, 0) -- (w, 0) -- (w, h) -- (w - 3mm, h);
+pickup pencircle scaled 2pt;
+draw p withcolor \MPcolor{lightsteelblue};
+draw q withcolor \MPcolor{lightsteelblue};
 \stopuniqueMPgraphic
+\defineoverlay[blue box][\uniqueMPgraphic{blue box}]
+\defineframedtext
+  [blueframe]
+  [frame=off,background={blue box},
+    offset=0pt,loffset=.5em,roffset=.5em,before={\blank},after={\blank[.95em]}]
+\setuptyping
+  [before={\startblueframe[width=\textwidth]},after={\stopblueframe},escape=yes]
 
-\defineoverlay[shade box][\uniqueMPgraphic{shade box}]
-\setupframedtexts[frame=off,background={shade box}]
+\startuniqueMPgraphic{blue box2}
+path p;
+numeric s;
+w := \overlaywidth; h := \overlayheight;
+p := (0, 0) -- (0, h) -- (w, h) -- (w, 0) -- cycle;
+pickup pencircle scaled 2pt;
+s := .1 * h;
+if s < 2mm:
+  s := 2mm;
+fi
+draw p randomized s withcolor \MPcolor{lightsteelblue};
+\stopuniqueMPgraphic
+\defineoverlay[blue box2][\uniqueMPgraphic{blue box2}]
+\def\bluebox#1{%
+  \kern.25em%
+  \inframed[frame=off,background={blue box2},offset=0pt,loffset=.25em,roffset=.25em]{#1}%
+  \kern.25em%
+}
+\def\blueframed#1{%
+  \kern.25em%
+  \framed[frame=off,background={blue box2},offset=0pt,loffset=.25em,roffset=.25em]{#1}%
+  \kern.25em%
+}
+\defineframedtext[blueframedtext][offset=0pt,frame=off,background={blue box2},width=\textwidth]
 
+% 红色背景框
+\def\redbox#1{%
+  \inframed[frame=off,background=color,backgroundcolor=indianred,offset=4pt]{#1}%
+}
+
+% ---------- sample ----------------------
+\definebuffer[sample]
+\definefloat[Sample][Samples]
+\setuplabeltext[en][Sample={示例 }]
+
+% 参数为一个放在页面右侧的盒子，基于该盒子的宽度，计算其左侧空间宽度
+\def\defineLeftWidth#1{%
+  \newdimen\LeftWidth
+  \LeftWidth=\textwidth
+  \newdimen\RightObjectWidth
+  \RightObjectWidth=\wd#1
+  \ifdim\RightObjectWidth>0pt
+    \advance\LeftWidth by -\RightObjectWidth
+    \advance\LeftWidth by -1em
+  \fi
+}
+\def\sample[#1][#2]#3#4{%
+  \setbox\scratchbox\hbox{#4}%
+  \defineLeftWidth{\scratchbox}%
+  \placeSample[here][#2]{#3}{%
+    \hbox to \textwidth{%
+      \hbox{\typesample[#1,
+                        before={\startblueframe[width=\LeftWidth]},
+                        after={\stopblueframe}]}\hss\unhbox\scratchbox}%
+  }%
+}
+\def\simplesample[#1]#2{%
+  \setbox\scratchbox\hbox{#2}%
+  \defineLeftWidth{\scratchbox}%
+  \placeSample[here,none][]{}{%
+    \hbox to \textwidth{%
+      \hbox{\typesample[#1,
+                        before={\startblueframe[width=\LeftWidth]},
+                        after={\stopblueframe}]}\hss\unhbox\scratchbox}%
+  }%
+  \blank[back]
+}
+
+% 修改 MPcode 代码部分高亮颜色
+\definestartstop
+    [MetapostSnippetName]
+    [color=darkblue,
+     style=boldface]
+\definestartstop
+    [MetapostSnippetNamePrimitive]
+    [color=darkgreen,
+      style=boldface]
+
+\def\BibTeX{B\scale[height=.5em]{IB}\TeX}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 参考文献 GB
+\input bib-style
 \stopenvironment

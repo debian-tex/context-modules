@@ -1,6 +1,6 @@
 name context-simpleslides
 category ConTeXt
-revision 47085
+revision 67070
 shortdesc A module for preparing presentations
 relocated 1
 longdesc This ConTeXt module provides an easy-to-use interface for
@@ -41,6 +41,5 @@ runfiles size=65
  RELOC/tex/context/third/simpleslides/s-simpleslides-fontsdefault.mkiv
  RELOC/tex/context/third/simpleslides/t-simpleslides.mkiv
 catalogue-ctan /macros/context/contrib/context-simpleslides
-catalogue-date 2018-08-11 15:28:08 +0200
 catalogue-license gpl
 catalogue-topics context
