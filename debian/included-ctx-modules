@@ -3,9 +3,11 @@ context-algorithmic
 context-animation
 context-annotation
 context-bnf
+context-calendar-examples
 context-chromato
 context-cmscbf
 context-cmttbf
+context-collating-marks
 context-construction-plan
 context-cyrillicnumbers
 context-degrade
@@ -16,16 +18,16 @@ context-fullpage
 context-gantt
 context-gnuplot
 context-handlecsv
-context-inifile
 context-layout
 context-letter
-context-lettrine
 context-mathsets
 context-notes-zh-cn
+context-pocketdiary
 context-rst
 context-ruby
 context-simplefonts
 context-simpleslides
+context-sudoku
 context-title
 context-transliterator
 context-typearea
@@ -33,4 +35,3 @@ context-typescripts
 context-vim
 context-visualcounter
 jmn
-npp-for-context
