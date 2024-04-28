@@ -1,8 +1,0 @@
-name context-ruby.doc
-category ConTeXt
-revision 47085
-shortdesc doc files of context-ruby
-relocated 1
-docfiles size=2
- RELOC/doc/context/third/ruby/README
- RELOC/doc/context/third/ruby/VERSION

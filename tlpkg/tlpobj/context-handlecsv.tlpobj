@@ -1,6 +1,6 @@
 name context-handlecsv
 category ConTeXt
-revision 67115
+revision 70065
 shortdesc Data merging for automatic document creation
 relocated 1
 longdesc The package handles csv data merging for automatic document
@@ -11,7 +11,6 @@ runfiles size=22
  RELOC/tex/context/third/handlecsv/t-handlecsv-tools.lua
  RELOC/tex/context/third/handlecsv/t-handlecsv.lua
  RELOC/tex/context/third/handlecsv/t-handlecsv.tex
-catalogue-contact-home http://www.handlecsv.tk
 catalogue-contact-repository https://github.com/ousia/handlecsv
 catalogue-contact-support https://github.com/ousia/handlecsv/issues
 catalogue-ctan /macros/context/contrib/context-handlecsv

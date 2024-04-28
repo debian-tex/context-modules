@@ -1,7 +1,6 @@
 name context-collating-marks
 category ConTeXt
-revision 66956
-catalogue context-collatingmarks
+revision 68696
 shortdesc Environment to place collating marks on the spine of a section
 relocated 1
 longdesc This module provides a possibility to place collating marks on
@@ -11,6 +10,6 @@ longdesc book block visible.
 depend context
 runfiles size=2
  RELOC/tex/context/third/collating-marks/t-collatingmarks.mkiv
-catalogue-ctan /macros/context/contrib/context-collatingmarks
+catalogue-ctan /macros/context/contrib/context-collating-marks
 catalogue-license pd
 catalogue-topics book-pub context

@@ -1,0 +1,37 @@
+% $Id: cont-sys.mkiv 66914 2023-04-22 14:46:05Z karl $
+% This TeX Live-specific file is a copy of its sibling cont-sys.mkxl;
+% see comments there.
+%
+\startluacode
+    local addsuffix = file.addsuffix
+    local attributes = lfs.attributes
+    local difftime = os.difftime
+    local file_join = file.join
+    local getfirstreadablefile = caches.getfirstreadablefile
+    local gethashes = resolvers.gethashes
+    local hashed = caches.hashed
+    local ipairs = ipairs
+    local resolve = resolvers.resolve
+
+    local stale = false
+    for _, tree in ipairs(gethashes()) do
+        local lsR_path = file_join(resolve(tree.name), "ls-R")
+        local lsR_time = attributes(lsR_path, "modification")
+
+        local hash = hashed(tree.name)
+        local hash_path = getfirstreadablefile(addsuffix(hash, "lua"), "trees")
+        local hash_time = attributes(hash_path, "modification")
+
+        if lsR_time and hash_time and difftime(lsR_time, hash_time) > 0 then
+            stale = true
+        end
+    end
+
+    if stale then
+        resolvers.renewcache()
+        resolvers.load()
+    end
+\stopluacode
+
+% % Set the default paper size
+\readsysfile{context-papersize.tex}{}{}
