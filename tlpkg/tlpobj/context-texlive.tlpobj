@@ -1,0 +1,28 @@
+name context-texlive
+category Package
+revision 70437
+shortdesc TL-specific helpers for ConTeXt (caches, papersize)
+longdesc TL distributes cont-sys.mkxl and cont-sys.mkiv files to update
+longdesc the ConTeXt filename cache if the system ls-R files are
+longdesc modified (typically by mktexlsr). It also sets the default
+longdesc paper size from the context-papersize.tex file which TeX Live
+longdesc creates/updates (in tlpkg/TLPaper.pm). TL also includes stubs
+longdesc to run the luatools, contextjit, and mtxrunjit scripts.
+depend context-texlive.ARCH
+runfiles size=16
+ texmf-dist/scripts/context-texlive/stubs-mkiv/unix/contextjit
+ texmf-dist/scripts/context-texlive/stubs-mkiv/unix/luatools
+ texmf-dist/scripts/context-texlive/stubs-mkiv/unix/mtxrunjit
+ texmf-dist/scripts/context-texlive/stubs-mkiv/win64/contextjit.cmd
+ texmf-dist/scripts/context-texlive/stubs-mkiv/win64/luatools.cmd
+ texmf-dist/scripts/context-texlive/stubs-mkiv/win64/mtxrunjit.cmd
+ texmf-dist/scripts/context-texlive/stubs/unix/ctxtools
+ texmf-dist/scripts/context-texlive/stubs/unix/pstopdf
+ texmf-dist/scripts/context-texlive/stubs/unix/texexec
+ texmf-dist/scripts/context-texlive/stubs/unix/texmfstart
+ texmf-dist/scripts/context-texlive/stubs/win64/ctxtools.cmd
+ texmf-dist/scripts/context-texlive/stubs/win64/pstopdf.cmd
+ texmf-dist/scripts/context-texlive/stubs/win64/texexec.cmd
+ texmf-dist/scripts/context-texlive/stubs/win64/texmfstart.cmd
+ texmf-dist/tex/context/texlive/cont-sys.mkiv
+ texmf-dist/tex/context/texlive/cont-sys.mkxl

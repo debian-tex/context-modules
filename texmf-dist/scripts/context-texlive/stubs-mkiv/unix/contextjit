@@ -1,0 +1,3 @@
+#!/bin/sh
+
+luajittex --luaonly `kpsewhich mtxrun.lua` --script context "$@"

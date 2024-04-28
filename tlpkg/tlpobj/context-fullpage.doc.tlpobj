@@ -1,9 +1,0 @@
-name context-fullpage.doc
-category ConTeXt
-revision 47085
-shortdesc doc files of context-fullpage
-relocated 1
-docfiles size=41
- RELOC/doc/context/third/fullpage/README
- RELOC/doc/context/third/fullpage/VERSION
- RELOC/doc/context/third/fullpage/fullpage-doc.pdf

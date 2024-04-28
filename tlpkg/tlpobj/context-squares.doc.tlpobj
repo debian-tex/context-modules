@@ -1,0 +1,10 @@
+name context-squares.doc
+category ConTeXt
+revision 70128
+shortdesc doc files of context-squares
+relocated 1
+docfiles size=4
+ RELOC/doc/context/third/squares/CHANGELOG.md
+ RELOC/doc/context/third/squares/LICENSE
+ RELOC/doc/context/third/squares/README.md
+ RELOC/doc/context/third/squares/VERSION
