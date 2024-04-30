@@ -18,6 +18,7 @@ override_dh_auto_install:
 	cp -a metapost $(instbase)/usr/share/texmf
 	cp -a doc $(instbase)/usr/share/texmf
 	cp -a fonts $(instbase)/usr/share/texmf
+	cp -a texmf-dist $(instbase)/usr/share/texlive
 	# remove unnecessary stuff
 	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
 
