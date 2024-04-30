@@ -19,6 +19,8 @@ override_dh_auto_install:
 	cp -a doc $(instbase)/usr/share/texmf
 	cp -a fonts $(instbase)/usr/share/texmf
 	cp -a texmf-dist $(instbase)/usr/share/texlive
+	rm -rf $(instbase)/usr/share/texlive/texmf-dist/scripts/context-texlive/stubs-mkiv/win64
+	rm -rf $(instbase)/usr/share/texlive/texmf-dist/scripts/context-texlive/stubs/win64
 	# remove unnecessary stuff
 	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
 
