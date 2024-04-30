@@ -2,3 +2,7 @@
 context-modules source: debian-watch-file-is-missing
 # No upstream tracker, one could track.
 context-modules source: upstream-metadata-file-is-missing
+# What is the source code of HTML files?
+context-modules source: source-is-missing
+# Mostly for stuff like font files.
+context-modules source: very-long-line-length-in-source-file
