@@ -21,6 +21,9 @@ override_dh_auto_install:
 	cp -a texmf-dist $(instbase)/usr/share/texlive
 	rm -rf $(instbase)/usr/share/texlive/texmf-dist/scripts/context-texlive/stubs-mkiv/win64
 	rm -rf $(instbase)/usr/share/texlive/texmf-dist/scripts/context-texlive/stubs/win64
+#	Remove legacy (mkii) documentation to get rid of file conflicts
+#	https://piuparts.debian.org/experimental/fail/context-modules_20240428-2.log
+	rm -rf $(instbase)/usr/share/texlive/texmf-dist/doc
 	# remove unnecessary stuff
 	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
 
