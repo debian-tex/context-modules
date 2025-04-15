@@ -13,6 +13,7 @@ Homepage: https://modules.contextgarden.net
 
 Package: context-modules
 Architecture: all
+Breaks: context (<< 2024.04.01.20240428)
 Depends: context, ${misc:Depends}
 Description: additional ConTeXt modules
  ConTeXt is a document-production system based, like LaTeX, on the TeX
