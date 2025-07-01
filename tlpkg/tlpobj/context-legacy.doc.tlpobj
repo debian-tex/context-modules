@@ -1,8 +1,8 @@
 name context-legacy.doc
 category Package
-revision 70191
+revision 74403
 shortdesc doc files of context-legacy
-docfiles size=58
+docfiles size=59
  texmf-dist/doc/context/scripts/mkii/ctxtools.html
  texmf-dist/doc/context/scripts/mkii/ctxtools.man
  texmf-dist/doc/context/scripts/mkii/ctxtools.xml
