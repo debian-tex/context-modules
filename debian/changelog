@@ -1,3 +1,9 @@
+context-modules (20250324-1) experimental; urgency=medium
+
+  * New upstream version, for TL 2025.
+
+ -- Hilmar Preuße <hille42@debian.org>  Tue, 01 Jul 2025 23:33:10 +0200
+
 context-modules (20240428-5) unstable; urgency=medium
 
   * Make sure that context is upgraded, before new context-modules is
