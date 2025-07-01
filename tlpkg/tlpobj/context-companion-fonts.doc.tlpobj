@@ -1,0 +1,7 @@
+name context-companion-fonts.doc
+category Package
+revision 72732
+shortdesc doc files of context-companion-fonts
+relocated 1
+docfiles size=1
+ RELOC/doc/fonts/context-companion-fonts/readme.txt

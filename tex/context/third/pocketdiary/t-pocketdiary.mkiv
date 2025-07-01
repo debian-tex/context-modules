@@ -1,6 +1,6 @@
 %D \module
 %D   [     file=t-pocketdiary,
-%D      version="2023-04-15",
+%D      version=2023-04-15,
 %D        title=PocketDiary \CONTEXT\ User Module,
 %D     subtitle=PocketDiary,
 %D       author=Willi Egger,
@@ -283,7 +283,7 @@
 \setuplabeltext[nl][sun=Zo]
 
 \setuplabeltext[nl][january=Januari]
-\setuplabeltext[nl][february=Febrari]
+\setuplabeltext[nl][february=Februari]
 \setuplabeltext[nl][march=Maart]
 \setuplabeltext[nl][april=April]
 \setuplabeltext[nl][may=Mei]
@@ -555,7 +555,7 @@
 %D In the templates a light gray color for (grid)lines is used. Separator 
 %D lines can have 
 %D an  individual color too. We define the two colors with arbitrary values.
-%D These preset colors can be adjusted in the user file \type{PocketDiary.tex}.
+%D These preset colors can be adjusted in the user file \type{PocketDiary.mkiv}.
 
 \definecolor[Grid][s=.75]
 \definecolor[Separatorline][blue]
@@ -661,14 +661,14 @@
 %D The return value of the moon phase calculation can be either a number,
 %D representing the day number in the lunar month, or a command to put a
 %D \METAFUN -graphic (New moon, growing moon, full moon, waning moon).
-%D These little graphics are stored in the file \type{moons-MP.tex}. 
+%D These little graphics are stored in the file \type{moons-MP.mkiv}. 
 
-\input moons-MP
+\input moons-MP.mkiv
 
 %D In this file 4 overlays are defined which are used in a dedicated
 %D \type{\framed[]{}} to typeset the pictograms.
 %D
-%M \input ./Moonphase/moons-MP
+%M \input ./Moonphase/moons-MP.mkiv
 %M \defineoverlay[waningmoon][\useMPgraphic{Moon::Waning_moon}]
 %M \defineoverlay[growingmoon][\useMPgraphic{Moon::Growing_moon}]
 %M \defineoverlay[newmoon][\useMPgraphic{Moon::Newmoon}]
@@ -711,13 +711,13 @@
 %D
 %D For sunrise, sunset and light hours exist three \METAFUN\ drawings. 
 %D These are included in the directory \type{Solar} in the file
-%D \type{sun-MP.tex}. 
+%D \type{sun-MP.mkiv}. 
 
-\input sun-MP
+\input sun-MP.mkiv
 
 %D In this file 3 overlays are defined which can then be used as a 
 %D background in a dedicated framed environment.
-%M \input ./solar/sun-MP
+%M \input ./solar/sun-MP.mkiv
 %M \defineoverlay[Sunrise][\useMPgraphic{Sun::Sunrise}]
 %M \defineoverlay[Sunset][\useMPgraphic{Sun::Sunset}]
 %M \defineoverlay[Light][\useMPgraphic{Sun::Light}]
@@ -995,7 +995,7 @@
 
 \define[8]\Dayplan{\ctxlua{thirddata.diary.dayplan(#1,#2,#3,#4,#5,#6,#7,#8)}}
 
-%D The Dayplan-command with the collected parameters is placed in a buffer. This buffer is later called from the user-file  \type{PocketDiary.tex} .
+%D The Dayplan-command with the collected parameters is placed in a buffer. This buffer is later called from the user-file  \type{PocketDiary.mkiv} .
  
 \startbuffer[Dayplan]
   \Dayplan %Weekday,Week,Month,Year,lat,lon,timeoffset,continent
@@ -1029,7 +1029,7 @@
 
 \define[8]\Weekendplan{\ctxlua{thirddata.diary.weekendplan(#1,#2,#3,#4,#5,#6,#7,#8)}}
 
-%D Again this command with the collected information of the 8 parameters is placed in a buffer which is called then from the user-file \type{PocketDiary.tex} .
+%D Again this command with the collected information of the 8 parameters is placed in a buffer which is called then from the user-file \type{PocketDiary.mkiv} .
 
 \startbuffer[Weekendplan]
   \Weekendplan %Weekday,Week,Month,Year,lat,lon,timeoffset,continent
@@ -1075,7 +1075,7 @@
 
 \define[8]\Weekcurrentplan{\ctxlua{thirddata.diary.weekplan(#1,#2,#3,#4,#5,#6,#7,#8)}}
 
-%D And the command together with the gathered parameters is stored in a buffer, which will be used by the user-file \type{PocketDiary.tex} .
+%D And the command together with the gathered parameters is stored in a buffer, which will be used by the user-file \type{PocketDiary.mkiv} .
 
 \startbuffer[Weekcurrentplan]
   \Weekcurrentplan %Weekday,Week,Month,Year,lat,lon,timeoffset,continent
@@ -1135,7 +1135,7 @@
 \define[2]\Monthcurrentplan{\ctxlua{thirddata.diary.monthcurrentplan(#1,#2)}}
 
 %D The command is kept together with the gathered parameters in a buffer again.
-%D This will be called from the user-file \type{PocketDiary.tex} .
+%D This will be called from the user-file \type{PocketDiary.mkiv} .
 
 \startbuffer[Monthcurrentplan]
   \Monthcurrentplan
@@ -1168,7 +1168,7 @@
 %D \stopplacefigure
 %D The year table(s) are prepared as the week tables with a table-setup
 %D sequence, a custom command which resides with the parameters assigned in a
-%D buffer, which will again be called from the user-file \type{PocketDiary.tex} 
+%D buffer, which will again be called from the user-file \type{PocketDiary.mkiv} 
 
 \startsetups table:year
   \setupTABLE[column]
@@ -1204,7 +1204,7 @@
 
 \define[8]\Daybyday{\ctxlua{thirddata.diary.daybydayplan(#1,#2,#3,#4,#5,#6,#7,#8)}}
 
-%D A buffer contains the command just defined with the gathered information for the parameters. The buffer then is called from the user-file \type{PocketDiary.tex} .
+%D A buffer contains the command just defined with the gathered information for the parameters. The buffer then is called from the user-file \type{PocketDiary.mkiv} .
 
 \startbuffer[Daybyday]
   \Daybyday
@@ -1278,7 +1278,7 @@
   \setupbackgrounds[text][text][background=]  
 \stopsetups
 
-%D All templates for these pages are contained in buffers in order to call them from the user-file \type{PocketDiary.tex} 
+%D All templates for these pages are contained in buffers in order to call them from the user-file \type{PocketDiary.mkiv} 
 
 \startbuffer[Contact]
   \setupheadertexts[{\bf \labeltext{contact}\hfill}] 
@@ -1455,7 +1455,7 @@
 %D
 %D The arrangement of the 8 pages is not switched on in this file. For the
 %D purpose of experimenting it is better to keep this command in the user file
-%D \type{\type{PocketDiary.tex} }
+%D \type{\type{PocketDiary.mkiv} }
 %D
 %D \stopsubject
 

@@ -1,8 +1,8 @@
 name context-texlive.doc
 category Package
-revision 70437
+revision 74241
 shortdesc doc files of context-texlive
-docfiles size=20
+docfiles size=22
  texmf-dist/doc/man/man1/contextjit.1
  texmf-dist/doc/man/man1/contextjit.man1.pdf
  texmf-dist/doc/man/man1/luatools.1

@@ -1,6 +1,6 @@
 name context-legacy
 category Package
-revision 70191
+revision 74403
 shortdesc The ConTeXt macro package, MkII
 longdesc In TeX Live, ConTeXt MkII is split from current ConTeXt (MkIV
 longdesc and newer.) See https://contextgarden.net and
@@ -13,7 +13,7 @@ depend pdftex
 depend xetex
 execute AddFormat name=cont-en engine=pdftex options="-8bit *cont-en.mkii"
 execute AddFormat name=cont-en engine=xetex options="-8bit *cont-en.mkii"
-runfiles size=4397
+runfiles size=3603
  texmf-dist/bibtex/bst/context/mkii/cont-ab.bst
  texmf-dist/bibtex/bst/context/mkii/cont-au.bst
  texmf-dist/bibtex/bst/context/mkii/cont-no.bst
@@ -536,22 +536,6 @@ runfiles size=4397
  texmf-dist/tex/context/fonts/mkii/type-pre.mkii
  texmf-dist/tex/context/fonts/mkii/type-win.mkii
  texmf-dist/tex/context/fonts/mkii/type-xtx.mkii
- texmf-dist/tex/context/interface/mkii/cont-cs.xml
- texmf-dist/tex/context/interface/mkii/cont-de.xml
- texmf-dist/tex/context/interface/mkii/cont-fr.xml
- texmf-dist/tex/context/interface/mkii/cont-it.xml
- texmf-dist/tex/context/interface/mkii/cont-nl.xml
- texmf-dist/tex/context/interface/mkii/cont-pe.xml
- texmf-dist/tex/context/interface/mkii/cont-ro.xml
- texmf-dist/tex/context/interface/mkii/keys-cs.xml
- texmf-dist/tex/context/interface/mkii/keys-cz.xml
- texmf-dist/tex/context/interface/mkii/keys-de.xml
- texmf-dist/tex/context/interface/mkii/keys-en.xml
- texmf-dist/tex/context/interface/mkii/keys-fr.xml
- texmf-dist/tex/context/interface/mkii/keys-it.xml
- texmf-dist/tex/context/interface/mkii/keys-nl.xml
- texmf-dist/tex/context/interface/mkii/keys-pe.xml
- texmf-dist/tex/context/interface/mkii/keys-ro.xml
  texmf-dist/tex/context/modules/mkii/m-arabtex.mkii
  texmf-dist/tex/context/modules/mkii/m-chart.mkii
  texmf-dist/tex/context/modules/mkii/m-chemic.mkii

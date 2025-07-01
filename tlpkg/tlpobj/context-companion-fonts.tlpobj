@@ -1,15 +1,15 @@
 name context-companion-fonts
 category Package
-revision 70149
+revision 72732
 shortdesc companion fonts with fixes for ConTeXt
 relocated 1
 longdesc From
 longdesc https://github.com/contextgarden/context-distribution-fonts/tre
 longdesc e/main/fonts/data/cms/companion Should be on CTAN eventually.
-runfiles size=12
- RELOC/fonts/opentype/public/context-companion-fonts/LatinModernMath-Companion.otf
- RELOC/fonts/opentype/public/context-companion-fonts/RalphSmithsFormalScript-Companion.otf
- RELOC/fonts/opentype/public/context-companion-fonts/TeXGyreBonumMath-Companion.otf
- RELOC/fonts/opentype/public/context-companion-fonts/TeXGyrePagellaMath-Companion.otf
- RELOC/fonts/opentype/public/context-companion-fonts/TeXGyreTermesMath-Companion.otf
- RELOC/fonts/opentype/public/context-companion-fonts/XITSMath-Companion.otf
+runfiles size=55
+ RELOC/fonts/opentype/public/context-companion-fonts/LatinModernMathCompanion-Regular.otf
+ RELOC/fonts/opentype/public/context-companion-fonts/RalphSmithsFormalScriptCompanion-Regular.otf
+ RELOC/fonts/opentype/public/context-companion-fonts/TeXGyreBonumMathCompanion-Regular.otf
+ RELOC/fonts/opentype/public/context-companion-fonts/TeXGyrePagellaMathCompanion-Regular.otf
+ RELOC/fonts/opentype/public/context-companion-fonts/TeXGyreTermesMathCompanion-Regular.otf
+ RELOC/fonts/opentype/public/context-companion-fonts/XITSMathCompanion-Regular.otf
