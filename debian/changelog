@@ -1,3 +1,9 @@
+context-modules (20250324-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Hilmar Preuße <hille42@debian.org>  Thu, 14 Aug 2025 22:33:30 +0200
+
 context-modules (20250324-1) experimental; urgency=medium
 
   * New upstream version, for TL 2025.
