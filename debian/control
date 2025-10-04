@@ -27,9 +27,5 @@ Description: additional ConTeXt modules
  ConTeXt's unified design averts the package clashes that can happen
  with LaTeX.
  .
- This package includes the following additional ConTeXt modules:
- account, algorithmic, animation, annotation, bnf, chromato, cmscbf,
- cmttbf, construction-plan, cyrillicnumbers, degrade, fancybreak,
- filter, french, fullpage, gantt, gnuplot, inifile, layout, letter,
- lettrine, mathsets, notes-zh-cn, rst, ruby, simplefonts, simpleslides,
- title, transliterator, typearea, typescripts, vim, visualcounter.
+ This package includes additional ConTeXt modules, plus the code
+ for the obsolete MKII engine.
