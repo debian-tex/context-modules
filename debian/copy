@@ -1,0 +1,504 @@
+name context-calendar-examples.doc
+ doc/context/third/calendar-examples/*
+ tex/context/third/calendar-examples/*
+Copyright: Willi Egger
+
+License: PD
+
+Willi Egger
+context-collating-marks
+Environment to place collating marks on the spine of a section.
+context-interval-calendar
+Date driven lists or lists driven by date-intervals.
+context-pocketdiary
+
+---
+
+catalogue-topics calendar calculation context
+name context-collating-marks.doc
+category ConTeXt
+revision 68696
+shortdesc doc files of context-collating-marks
+relocated 1
+docfiles size=39
+ RELOC/doc/context/third/collating-marks/*
+name context-collating-marks
+category ConTeXt
+revision 68696
+shortdesc Environment to place collating marks on the spine of a section
+relocated 1
+longdesc This module provides a possibility to place collating marks on
+longdesc the spines of sections when using imposition. Placing collating
+longdesc marks is a method to make the correct sequence of sections of a
+longdesc book block visible.
+depend context
+runfiles size=2
+ RELOC/tex/context/third/collating-marks/*
+catalogue-ctan /macros/context/contrib/context-collating-marks
+catalogue-license pd
+catalogue-topics book-pub context
+
+name context-companion-fonts.doc
+category Package
+revision 72732
+shortdesc doc files of context-companion-fonts
+relocated 1
+docfiles size=1
+ RELOC/doc/fonts/context-companion-fonts/*
+name context-companion-fonts
+category Package
+revision 72732
+shortdesc companion fonts with fixes for ConTeXt
+relocated 1
+longdesc From
+longdesc https://github.com/contextgarden/context-distribution-fonts/tre
+longdesc e/main/fonts/data/cms/companion Should be on CTAN eventually.
+runfiles size=55
+ RELOC/fonts/opentype/public/context-companion-fonts/*
+
+name context-cyrillicnumbers.doc
+category ConTeXt
+revision 47085
+shortdesc doc files of context-cyrillicnumbers
+relocated 1
+docfiles size=58
+ RELOC/doc/context/third/cyrillicnumbers/*
+name context-cyrillicnumbers
+category ConTeXt
+revision 47085
+shortdesc Write numbers as cyrillic glyphs
+relocated 1
+longdesc The package extends ConTeXt's system of number conversion, by
+longdesc adding numeration using cyrillic letters.
+depend context
+runfiles size=10
+ RELOC/tex/context/interface/third/t-cyrillicnumbers.xml
+ RELOC/tex/context/third/cyrillicnumbers/*
+catalogue-ctan /macros/context/contrib/context-cyrillicnumbers
+catalogue-date 2016-06-24 19:18:15 +0200
+catalogue-license bsd
+catalogue-topics cyrillic numbers
+
+name context-filter.doc
+category ConTeXt
+revision 62070
+shortdesc doc files of context-filter
+relocated 1
+docfiles size=10
+ RELOC/doc/context/third/filter/*
+name context-filter
+category ConTeXt
+revision 62070
+shortdesc Run external programs on the contents of a start-stop environment
+relocated 1
+longdesc The filter module provides a simple interface to run external
+longdesc programs on the contents of a start-stop environment. Options
+longdesc are available to run the external program only if the content
+longdesc of the environment has changed, to specify how the program
+longdesc output should be read back, and to choose the name of the
+longdesc temporary files that are created. The module is compatible with
+longdesc both MkII and MkIV.
+depend context
+runfiles size=18
+ RELOC/tex/context/third/filter/*
+catalogue-ctan /macros/context/contrib/context-filter
+catalogue-license bsd2
+catalogue-topics ext-code
+
+name context-gnuplot.doc
+category ConTeXt
+revision 47085
+shortdesc doc files of context-gnuplot
+relocated 1
+docfiles size=120
+ RELOC/doc/context/third/gnuplot/*
+name context-gnuplot
+category ConTeXt
+revision 47085
+shortdesc Inclusion of Gnuplot graphs in ConTeXt
+relocated 1
+longdesc Enables simple creation and inclusion of graphs with Gnuplot.
+longdesc The package writes a script into temporary file, runs Gnuplot
+longdesc and includes the resulting graphic directly into the document.
+longdesc See the ConTeXt Garden package page for further details.
+depend context
+runfiles size=27
+ RELOC/metapost/context/third/gnuplot/mp-gnuplot.mp
+ RELOC/tex/context/third/gnuplot/*
+catalogue-also gnuplottex
+catalogue-contact-home http://wiki.contextgarden.net/Gnuplot
+catalogue-ctan /macros/context/contrib/context-gnuplot
+catalogue-date 2017-04-18 05:31:40 +0200
+catalogue-license gpl
+catalogue-topics graphics-inline
+
+name context-handlecsv.doc
+category ConTeXt
+revision 70065
+shortdesc doc files of context-handlecsv
+relocated 1
+docfiles size=244
+ RELOC/doc/context/third/handlecsv/*
+name context-handlecsv
+category ConTeXt
+revision 70065
+shortdesc Data merging for automatic document creation
+relocated 1
+longdesc The package handles csv data merging for automatic document
+longdesc creation.
+depend context
+runfiles size=22
+ RELOC/tex/context/third/handlecsv/*
+catalogue-contact-repository https://github.com/ousia/handlecsv
+catalogue-contact-support https://github.com/ousia/handlecsv/issues
+catalogue-ctan /macros/context/contrib/context-handlecsv
+catalogue-license gpl3
+catalogue-topics context csv-support
+
+name context-legacy.doc
+category Package
+revision 74403
+shortdesc doc files of context-legacy
+docfiles size=59
+ texmf-dist/doc/context/scripts/mkii/*
+ texmf-dist/doc/man/man1/texexec.*
+ texmf-dist/doc/man/man1/texmfstart.*
+name context-legacy
+category Package
+revision 74403
+shortdesc The ConTeXt macro package, MkII
+longdesc In TeX Live, ConTeXt MkII is split from current ConTeXt (MkIV
+longdesc and newer.) See https://contextgarden.net and
+longdesc https://pragma-ade.com for information about ConTeXt.
+depend context
+depend context-legacy.ARCH
+depend metapost
+depend mptopdf
+depend pdftex
+depend xetex
+execute AddFormat name=cont-en engine=pdftex options="-8bit *cont-en.mkii"
+execute AddFormat name=cont-en engine=xetex options="-8bit *cont-en.mkii"
+runfiles size=3603
+ texmf-dist/bibtex/bst/context/mkii/*
+ texmf-dist/context/data/texfont/*
+ texmf-dist/metapost/*
+ texmf-dist/scripts/context/ruby/*
+ texmf-dist/tex/context/base/mkii/*
+ texmf-dist/tex/context/bib/common/sample.bib
+ texmf-dist/tex/context/bib/mkii/*
+ texmf-dist/tex/context/fonts/mkii/*
+ texmf-dist/tex/context/modules/mkii/*
+ texmf-dist/tex/context/patterns/mkii/*
+ texmf-dist/tex/context/user/mkii/cont-sys.rme
+
+name context-letter.doc
+category ConTeXt
+revision 60787
+shortdesc doc files of context-letter
+relocated 1
+docfiles size=2
+ RELOC/doc/context/third/letter/*
+name context-letter
+category ConTeXt
+revision 60787
+shortdesc ConTeXt package for writing letters
+relocated 1
+longdesc A means of writing 'vanilla' letters and memos is provided,
+longdesc with support covering ConTeXt Mkii and Mkiv. The design of
+longdesc letters may be amended by a wide range of style specifications.
+depend context
+runfiles size=77
+ RELOC/tex/context/interface/third/t-letter.xml
+ RELOC/tex/context/interface/third/t-memo.xml
+ RELOC/tex/context/third/letter/base/*
+ RELOC/tex/context/third/letter/style/*
+catalogue-ctan /macros/context/contrib/context-letter
+catalogue-license gpl
+catalogue-topics letter
+
+name context-mathsets.doc
+category ConTeXt
+revision 47085
+shortdesc doc files of context-mathsets
+relocated 1
+docfiles size=102
+ RELOC/doc/context/third/mathsets/*
+name context-mathsets
+category ConTeXt
+revision 47085
+shortdesc Set notation in ConTeXt
+relocated 1
+longdesc Typeset good-looking set notation (e.g., {x|x \in Y}), as well
+longdesc as similar things such as Dirac bra-ket notation, conditional
+longdesc probabilities, etc. The package is at least inspired by braket.
+depend context
+runfiles size=4
+ RELOC/tex/context/interface/third/t-mathsets.xml
+ RELOC/tex/context/third/mathsets/t-mathsets.tex
+catalogue-ctan /macros/context/contrib/context-mathsets
+catalogue-date 2016-06-24 19:18:15 +0200
+catalogue-license other-free
+catalogue-topics maths
+
+name context-notes-zh-cn.doc
+category Package
+revision 66725
+shortdesc doc files of context-notes-zh-cn
+relocated 1
+docfiles size=1064
+ RELOC/doc/context/third/context-notes-zh-cn/*
+name context-notes-zh-cn
+category Package
+revision 66725
+shortdesc Notes on using ConTeXt MkIV
+relocated 1
+longdesc An introductory tutorial on ConTeXt, in Chinese. The document
+longdesc covers ConTeXt installation, fonts, layout design,
+longdesc cross-reference, project structure, metafun and presentation
+longdesc design.
+depend context
+catalogue-contact-bugs https://github.com/liyanrui/ConTeXt-notes/issues
+catalogue-contact-home https://liyanrui.github.io
+catalogue-contact-repository https://github.com/liyanrui/ConTeXt-notes
+catalogue-ctan /info/context-notes-zh-cn
+catalogue-license gpl3
+catalogue-topics chinese-doc
+
+name context-pocketdiary.doc
+category ConTeXt
+revision 73164
+shortdesc doc files of context-pocketdiary
+relocated 1
+docfiles size=48
+ RELOC/doc/context/third/pocketdiary/*
+name context-pocketdiary
+category ConTeXt
+revision 73164
+shortdesc A personal organiser
+relocated 1
+longdesc PocketDiary is a calendar module, enabling to prepare various
+longdesc calendars from day- to week, month- and year-calendars based on
+longdesc the ideas contained in PocketMods, having 8 pages arranged on a
+longdesc A4 single-sided printed sheet of paper. The module comes with
+longdesc different templates for notes etc. The module provides sun and
+longdesc moon data calculations
+depend context
+runfiles size=30
+ RELOC/tex/context/third/pocketdiary/*
+catalogue-ctan /macros/context/contrib/context-pocketdiary
+catalogue-license pd
+catalogue-topics calendar calculation context
+
+name context-simpleslides.doc
+category ConTeXt
+revision 67070
+shortdesc doc files of context-simpleslides
+relocated 1
+docfiles size=2065
+ RELOC/doc/context/third/simpleslides/*
+name context-simpleslides
+category ConTeXt
+revision 67070
+shortdesc A module for preparing presentations
+relocated 1
+longdesc This ConTeXt module provides an easy-to-use interface for
+longdesc creating presentations for use with a digital projector. The
+longdesc presentations are not interactive (no buttons, hyperlinks or
+longdesc navigational tools such as tables of contents). Graphics may be
+longdesc mixed with the text of slides. The module provides several
+longdesc predefined styles, designed for academic presentation. Most
+longdesc styles are configurable, and it is easy to design new styles.
+depend context
+runfiles size=65
+ RELOC/scripts/context/lua/third/simpleslides/mtx-simpleslides.lua
+ RELOC/tex/context/interface/third/t-simpleslides.xml
+ RELOC/tex/context/third/simpleslides/*
+catalogue-ctan /macros/context/contrib/context-simpleslides
+catalogue-license gpl
+catalogue-topics context
+
+name context-squares.doc
+category ConTeXt
+revision 70128
+shortdesc doc files of context-squares
+relocated 1
+docfiles size=4
+ RELOC/doc/context/third/squares/*
+name context-squares
+category ConTeXt
+revision 70128
+shortdesc Typesetting Magic and Latin squares
+relocated 1
+longdesc The package provides typesetting of magic and latin squares.
+depend context
+runfiles size=4
+ RELOC/tex/context/third/squares/*
+catalogue-ctan /macros/context/contrib/context-squares
+catalogue-license mit
+catalogue-topics calculation
+
+name context-sudoku.doc
+category ConTeXt
+revision 67289
+shortdesc doc files of context-sudoku
+relocated 1
+docfiles size=3
+ RELOC/doc/context/third/sudoku/*
+name context-sudoku
+category ConTeXt
+revision 67289
+shortdesc Sudokus for ConTeXt
+relocated 1
+longdesc A port of Peter Norvig's sudoku solver to Lua/ConTeXt. It
+longdesc provides four basic commands for typesettings sudokus, as well
+longdesc as a command handler.
+depend context
+runfiles size=15
+ RELOC/tex/context/third/sudoku/*
+catalogue-contact-repository https://github.com/JairoAdelRio6/context-sudoku
+catalogue-ctan /macros/context/contrib/context-sudoku
+catalogue-license mit
+catalogue-topics context games
+
+name context-texlive.doc
+category Package
+revision 74241
+shortdesc doc files of context-texlive
+docfiles size=22
+ texmf-dist/doc/man/man1/contextjit.*
+ texmf-dist/doc/man/man1/luatools.*
+ texmf-dist/doc/man/man1/mtxrunjit.*
+name context-texlive
+category Package
+revision 74241
+shortdesc TL-specific helpers for ConTeXt (caches, papersize)
+longdesc TL distributes cont-sys.mkxl and cont-sys.mkiv files to update
+longdesc the ConTeXt filename cache if the system ls-R files are
+longdesc modified (typically by mktexlsr). It also sets the default
+longdesc paper size from the context-papersize.tex file which TeX Live
+longdesc creates/updates (in tlpkg/TLPaper.pm). TL also includes stubs
+longdesc to run the luatools, contextjit, and mtxrunjit scripts.
+depend context-texlive.ARCH
+runfiles size=16
+ texmf-dist/scripts/context-texlive/*
+ texmf-dist/tex/context/texlive/*
+
+name context-transliterator.doc
+category ConTeXt
+revision 61127
+shortdesc doc files of context-transliterator
+relocated 1
+docfiles size=56
+ RELOC/doc/context/third/transliterator/*
+name context-transliterator
+category ConTeXt
+revision 61127
+shortdesc Transliterate text from 'other' alphabets
+relocated 1
+longdesc The package will read text in one alphabet, and provide a
+longdesc transliterated version in another; this is useful for readers
+longdesc who cannot read the original alphabet. The package can make
+longdesc allowance for hyphenation.
+depend context
+runfiles size=32
+ RELOC/scripts/context/lua/third/transliterator/*
+ RELOC/tex/context/interface/third/t-transliterator.xml
+ RELOC/tex/context/third/transliterator/*
+catalogue-ctan /macros/context/contrib/context-transliterator
+catalogue-license bsd
+catalogue-topics enc-juggle
+
+name context-typescripts.doc
+category ConTeXt
+revision 60422
+shortdesc doc files of context-typescripts
+relocated 1
+docfiles size=2
+ RELOC/doc/context/third/typescripts/*
+name context-typescripts
+category ConTeXt
+revision 60422
+shortdesc Small modules to load various fonts for use in ConTeXt
+relocated 1
+longdesc The package provides files offering interfaces to 33 publicly
+longdesc available fonts (or collections of fonts from the same
+longdesc foundry); each is available in a .mkii and a .mkiv version.
+depend context
+runfiles size=35
+ RELOC/tex/context/third/typescripts/*
+catalogue-ctan /macros/context/contrib/context-typescripts
+catalogue-license gpl2
+catalogue-topics font-use context
+
+name context-vim.doc
+category ConTeXt
+revision 62071
+shortdesc doc files of context-vim
+relocated 1
+docfiles size=10
+ RELOC/doc/context/third/vim/*
+name context-vim
+category ConTeXt
+revision 62071
+shortdesc Generate ConTeXt syntax highlighting code from vim
+relocated 1
+longdesc ConTeXt has excellent pretty printing capabilities for many
+longdesc languages. The code for pretty printing is written in TeX, and
+longdesc due to catcode juggling, such verbatim typesetting is perhaps
+longdesc the trickiest part of TeX. This makes it difficult for a
+longdesc "normal" user to define syntax highlighting rules for a new
+longdesc language. This module takes the onus of defining syntax
+longdesc highlighting rules away from the user and uses ViM editor to
+longdesc generate the syntax highlighting. There is a helper
+longdesc 2context.vim script to do the syntax parsing in ViM.
+depend context
+depend context-filter
+runfiles size=21
+ RELOC/tex/context/third/vim/*
+catalogue-also context-filter
+catalogue-ctan /macros/context/contrib/context-vim
+catalogue-license bsd
+catalogue-topics synt-hlt ext-code context
+
+name context-visualcounter.doc
+category ConTeXt
+revision 47085
+shortdesc doc files of context-visualcounter
+relocated 1
+docfiles size=68
+ RELOC/doc/context/third/visualcounter/*
+name context-visualcounter.source
+category ConTeXt
+revision 47085
+shortdesc source files of context-visualcounter
+relocated 1
+srcfiles size=7
+ RELOC/source/context/third/visualcounter/*
+name context-visualcounter
+category ConTeXt
+revision 47085
+shortdesc Visual display of ConTeXt counters
+relocated 1
+longdesc A typical document usually contains many counters: page
+longdesc numbers, section numbers, itemizations, enumerations, theorems,
+longdesc and so on. This module provides a visual display for such
+longdesc counters.
+depend context
+runfiles size=4
+ RELOC/tex/context/third/visualcounter/t-visualcounter.mkvi
+catalogue-contact-repository https://github.com/adityam/visualcounter
+catalogue-ctan /macros/context/contrib/context-visualcounter
+catalogue-date 2018-08-11 15:25:56 +0200
+catalogue-license bsd2
+catalogue-topics context
+
+name jmn
+category Package
+revision 45751
+shortdesc special fonts for ConTeXt
+relocated 1
+runfiles size=22
+ RELOC/fonts/afm/jmn/hans/*
+ RELOC/fonts/enc/dvips/jmn/*
+ RELOC/fonts/tfm/jmn/hans/*
+ RELOC/fonts/type1/jmn/hans/hans*
