@@ -47,10 +47,14 @@ License: PD
 Mojca Miklavec 2013
 License: GPL+
 
- RELOC/doc/context/third/handlecsv/*
  RELOC/tex/context/third/handlecsv/*
-Pablo Rodríguez 2024
-License: GPL3
+  Pablo Rodríguez 2024
+  Copyright (C) 2019 Jaroslav Hajtmar
+License: GPL3+
+
+ RELOC/doc/context/third/handlecsv/
+  Pablo Rodríguez 2024
+License: Creative Commons Attribution–ShareAlike 4.0
 
  RELOC/texmf-dist/doc/context/scripts/mkii/*
  RELOC/texmf-dist/doc/man/man1/texexec.*
@@ -79,7 +83,7 @@ License: GPL3+
 
  RELOC/doc/context/third/context-notes-zh-cn/*
 Yanrui Li <lyr.m2@live.cn>
-License: GPL3
+License: GPL3+
 
  RELOC/doc/context/third/context-notes-zh-cn/ctxnotes.pdf
 Yanrui Li <lyr.m2@live.cn>
@@ -91,7 +95,7 @@ License: GFDL
  RELOC/tex/context/third/simpleslides/*
 Copyright: 2006 Thomas A. Schmitz
 Copyright: 2006 - 2022 Aditya Mahajan <aditya.mahajan@mcgill.ca>
-License: GPL
+License: GPL2
 
  RELOC/doc/context/third/squares/*
  RELOC/tex/context/third/squares/*
