@@ -1,6 +1,6 @@
 name context-calendar-examples.doc
- doc/context/third/calendar-examples/*
- tex/context/third/calendar-examples/*
+ RELOC/doc/context/third/calendar-examples/*
+ RELOC/tex/context/third/calendar-examples/*
 Copyright: Willi Egger
 
 License: PD
@@ -160,9 +160,9 @@ category Package
 revision 74403
 shortdesc doc files of context-legacy
 docfiles size=59
- texmf-dist/doc/context/scripts/mkii/*
- texmf-dist/doc/man/man1/texexec.*
- texmf-dist/doc/man/man1/texmfstart.*
+ RELOC/texmf-dist/doc/context/scripts/mkii/*
+ RELOC/texmf-dist/doc/man/man1/texexec.*
+ RELOC/texmf-dist/doc/man/man1/texmfstart.*
 name context-legacy
 category Package
 revision 74403
@@ -179,17 +179,17 @@ depend xetex
 execute AddFormat name=cont-en engine=pdftex options="-8bit *cont-en.mkii"
 execute AddFormat name=cont-en engine=xetex options="-8bit *cont-en.mkii"
 runfiles size=3603
- texmf-dist/bibtex/bst/context/mkii/*
- texmf-dist/context/data/texfont/*
- texmf-dist/metapost/*
- texmf-dist/scripts/context/ruby/*
- texmf-dist/tex/context/base/mkii/*
- texmf-dist/tex/context/bib/common/sample.bib
- texmf-dist/tex/context/bib/mkii/*
- texmf-dist/tex/context/fonts/mkii/*
- texmf-dist/tex/context/modules/mkii/*
- texmf-dist/tex/context/patterns/mkii/*
- texmf-dist/tex/context/user/mkii/cont-sys.rme
+ RELOC/texmf-dist/bibtex/bst/context/mkii/*
+ RELOC/texmf-dist/context/data/texfont/*
+ RELOC/texmf-dist/metapost/*
+ RELOC/texmf-dist/scripts/context/ruby/*
+ RELOC/texmf-dist/tex/context/base/mkii/*
+ RELOC/texmf-dist/tex/context/bib/common/sample.bib
+ RELOC/texmf-dist/tex/context/bib/mkii/*
+ RELOC/texmf-dist/tex/context/fonts/mkii/*
+ RELOC/texmf-dist/tex/context/modules/mkii/*
+ RELOC/texmf-dist/tex/context/patterns/mkii/*
+ RELOC/texmf-dist/tex/context/user/mkii/cont-sys.rme
 
 name context-letter.doc
 category ConTeXt
@@ -365,9 +365,9 @@ category Package
 revision 74241
 shortdesc doc files of context-texlive
 docfiles size=22
- texmf-dist/doc/man/man1/contextjit.*
- texmf-dist/doc/man/man1/luatools.*
- texmf-dist/doc/man/man1/mtxrunjit.*
+ RELOC/texmf-dist/doc/man/man1/contextjit.*
+ RELOC/texmf-dist/doc/man/man1/luatools.*
+ RELOC/texmf-dist/doc/man/man1/mtxrunjit.*
 name context-texlive
 category Package
 revision 74241
@@ -380,8 +380,8 @@ longdesc creates/updates (in tlpkg/TLPaper.pm). TL also includes stubs
 longdesc to run the luatools, contextjit, and mtxrunjit scripts.
 depend context-texlive.ARCH
 runfiles size=16
- texmf-dist/scripts/context-texlive/*
- texmf-dist/tex/context/texlive/*
+ RELOC/texmf-dist/scripts/context-texlive/*
+ RELOC/texmf-dist/tex/context/texlive/*
 
 name context-transliterator.doc
 category ConTeXt
