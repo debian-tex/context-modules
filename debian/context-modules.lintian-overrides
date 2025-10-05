@@ -1,11 +1,5 @@
 context-modules: script-not-executable
-context-modules: extra-license-file [usr/share/texmf/doc/context/third/cyrillicnumbers/COPYING]
-context-modules: extra-license-file [usr/share/texmf/doc/context/third/calendar-examples/LICENSE]
-context-modules: extra-license-file [usr/share/texmf/doc/context/third/collating-marks/LICENSE]
 context-modules: extra-license-file [usr/share/texmf/doc/context/third/context-notes-zh-cn/src/license.tex]
-context-modules: extra-license-file [usr/share/texmf/doc/context/third/pocketdiary/LICENSE]
-context-modules: extra-license-file [usr/share/texmf/doc/context/third/squares/LICENSE]
-context-modules: extra-license-file [usr/share/texmf/doc/context/third/sudoku/LICENSE]
 # We are in TeX world:
 context-modules: package-contains-documentation-outside-usr-share-doc
 context-modules: repeated-path-segment

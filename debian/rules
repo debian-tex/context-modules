@@ -25,7 +25,8 @@ override_dh_auto_install:
 #	https://piuparts.debian.org/experimental/fail/context-modules_20240428-2.log
 	rm -rf $(instbase)/usr/share/texlive/texmf-dist/doc
 	# remove unnecessary stuff
-	rm -f $(instbase)/usr/share/doc/context-modules/rst/COPYING
+	find $(instbase)/usr/share/texmf/doc/ -name COPYING | xargs rm
+	find $(instbase)/usr/share/texmf/doc/ -name LICENSE | xargs rm
 
 override_dh_strip_nondeterminism:
 	: modifies files in unwanted manner
