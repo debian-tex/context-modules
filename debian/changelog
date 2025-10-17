@@ -1,3 +1,12 @@
+context-modules (20250324-3) UNRELEASED; urgency=medium
+
+  * Bump Standards Version, no changes needed.
+  * Make d/copyright machine-readable
+  * Add "Apache 2 license" for Type 1 fonts (Closes: #1116019)
+  * Lintian stuff: Fixes & Overrides
+
+ -- Hilmar Preuße <hille42@debian.org>  Fri, 17 Oct 2025 23:42:59 +0200
+
 context-modules (20250324-2) unstable; urgency=medium
 
   * Upload to unstable.
