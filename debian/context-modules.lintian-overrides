@@ -6,8 +6,6 @@ context-modules: repeated-path-segment
 context-modules: national-encoding
 context-modules: font-in-non-font-package
 context-modules: font-outside-font-dir
-# Is a name of upstream package, not name of language.
-context-modules: capitalization-error-in-description french French
 # Override for now
 context-modules: license-problem-font-adobe-copyrighted-fragment [usr/share/texmf/fonts/type1/jmn/hans/hans-sh.pfb]
 context-modules: license-problem-font-adobe-copyrighted-fragment [usr/share/texmf/fonts/type1/jmn/hans/hans.pfb]
