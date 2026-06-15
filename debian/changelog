@@ -1,3 +1,10 @@
+context-modules (20250324-4) UNRELEASED; urgency=medium
+
+  * Replace full text of CC-BY-SA-4.0 in d/copyright by reference to
+    /usr/share/common-licenses/CC-BY-SA-4.0
+
+ -- Hilmar Preuße <hille42@debian.org>  Mon, 15 Jun 2026 23:35:51 +0200
+
 context-modules (20250324-3) unstable; urgency=medium
 
   * Bump Standards Version, no changes needed.
