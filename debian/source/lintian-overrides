@@ -6,3 +6,5 @@ context-modules source: upstream-metadata-file-is-missing
 context-modules source: source-is-missing
 # Mostly for stuff like font files.
 context-modules source: very-long-line-length-in-source-file
+# See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1139561
+context-modules source: incomplete-creative-commons-license
